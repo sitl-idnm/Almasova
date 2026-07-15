@@ -4,19 +4,16 @@ import { notFound } from "next/navigation";
 import {
   AboutSpecialist,
   ContactCard,
-  FaqList,
-  InlineFeatureList,
   JsonLd,
-  ReviewsGrid,
   Section,
   ServiceGrid,
   SiteFooter,
   SiteHeader,
-  Steps,
-  TileGrid,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { Hero } from "@/components/sections/Hero/Hero";
+import { PriceTable } from "@/components/sections/PriceTable/PriceTable";
+import { Faq, FeatureCards, Reviews, Steps } from "@/components/sections/blocks/Blocks";
 import { Certificate, ShieldCheck, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { cityHubCopy } from "@/content/city-copy";
 import { cityAlternates } from "@/lib/seo";
@@ -120,7 +117,7 @@ export default async function CityPage({
           title={cityHubCopy.fitSection.title}
           description={cityHubCopy.fitSection.description}
         >
-          <TileGrid items={content.problems} />
+          <FeatureCards items={content.problems} />
         </Section>
 
         <Section
@@ -152,33 +149,10 @@ export default async function CityPage({
           title={`${cityHubCopy.priceSection.titlePrefix}${cityIn}`}
           description={cityHubCopy.priceSection.description}
         >
-          <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="surface rounded-[2rem] p-6 sm:p-8">
-              <h3 className="text-3xl">{cityHubCopy.priceSection.leftTitle}</h3>
-              <div className="mt-5">
-                <InlineFeatureList items={[...cityHubCopy.priceSection.leftItems]} />
-              </div>
-            </div>
-
-            <div className="surface rounded-[2rem] p-6 sm:p-8">
-              <h3 className="text-3xl">{cityHubCopy.priceSection.rightTitle}</h3>
-              <div className="mt-5 grid gap-3">
-                {content.priceItems.map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-2xl border border-[var(--line)] bg-white/65 px-4 py-3"
-                  >
-                    <p className="text-sm font-semibold text-[var(--foreground)]">
-                      {item.title}
-                    </p>
-                    <p className="mt-1 text-sm leading-7 text-[var(--muted)]">
-                      {item.price} — {item.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <PriceTable
+            items={content.priceItems}
+            note={`${cityHubCopy.priceSection.leftTitle}: ${cityHubCopy.priceSection.leftItems.join(", ").toLowerCase()}.`}
+          />
         </Section>
 
         <Section
@@ -186,7 +160,7 @@ export default async function CityPage({
           title={cityHubCopy.reviewsSection.title}
           description={cityHubCopy.reviewsSection.description}
         >
-          <ReviewsGrid items={content.reviews} />
+          <Reviews items={content.reviews} />
         </Section>
 
         <Section
@@ -194,7 +168,7 @@ export default async function CityPage({
           title={cityHubCopy.faqSection.title}
           description={cityHubCopy.faqSection.description}
         >
-          <FaqList items={content.faqs} />
+          <Faq items={content.faqs} />
         </Section>
 
         <Section
@@ -202,7 +176,7 @@ export default async function CityPage({
           title={`${cityHubCopy.reasonsSection.titlePrefix}${cityIn}`}
           description={cityHubCopy.reasonsSection.description}
         >
-          <TileGrid items={content.reasons} />
+          <FeatureCards items={content.reasons} />
         </Section>
 
         <Section
@@ -210,7 +184,7 @@ export default async function CityPage({
           title={`Что важно учесть перед записью в ${cityIn}`}
           description={`Я собрала короткие ориентиры именно для пациентов в ${cityIn}, чтобы вам было проще понять формат консультации, стоимость и логику дальнейших шагов.`}
         >
-          <TileGrid items={content.localTrust} />
+          <FeatureCards items={content.localTrust} />
         </Section>
 
         <Section

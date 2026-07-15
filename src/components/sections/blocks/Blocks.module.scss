@@ -1,0 +1,223 @@
+@use "mixins" as *;
+
+// ── FeatureCards ──────────────────────────────────────────────────────
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.cardIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.cardText {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+// ── Steps ─────────────────────────────────────────────────────────────
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.stepNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.stepTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.stepText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+// ── Faq ───────────────────────────────────────────────────────────────
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq {
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+
+.faqQ {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+// Minimal +/- marker (two bars; vertical one collapses when open).
+.faqMark {
+  position: relative;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.16s ease;
+  }
+
+  &::before {
+    width: 14px;
+    height: 2px;
+  }
+
+  &::after {
+    width: 2px;
+    height: 14px;
+  }
+}
+
+.faq[open] .faqMark::after {
+  opacity: 0;
+}
+
+.faqA {
+  padding: 0 24px 22px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+// ── Reviews ───────────────────────────────────────────────────────────
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.reviewHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.reviewAvatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reviewName {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.reviewLabel {
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.reviewQuote {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
