@@ -7,7 +7,6 @@ import {
   FaqList,
   InlineFeatureList,
   JsonLd,
-  PageHero,
   ReviewsGrid,
   Section,
   ServiceGrid,
@@ -17,6 +16,8 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
+import { Hero } from "@/components/sections/Hero/Hero";
+import { Certificate, ShieldCheck, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { cityHubCopy } from "@/content/city-copy";
 import { cityAlternates } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
@@ -99,7 +100,7 @@ export default async function CityPage({
       <JsonLd data={schema} />
       <SiteHeader city={content} />
       <main className="pb-16">
-        <PageHero
+        <Hero
           eyebrow={copy.hero.eyebrow}
           title={copy.hero.title}
           subtitle={copy.hero.subtitle}
@@ -107,6 +108,11 @@ export default async function CityPage({
           primaryHref={`tel:${content.phoneHref}`}
           secondaryHref={`/${content.slug}/do-posle`}
           secondaryLabel="Посмотреть работы"
+          chips={[
+            { icon: ShieldCheck, label: "Врач, а не тату-мастер" },
+            { icon: Sparkle, label: "Естественный результат" },
+            { icon: Certificate, label: "Оценка показаний" },
+          ]}
         />
 
         <Section
