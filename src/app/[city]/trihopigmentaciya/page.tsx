@@ -18,6 +18,7 @@ import {
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { trichopigmentaciyaCopy } from "@/content/trichopigmentaciya-copy";
+import { cityAlternates } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -38,9 +39,7 @@ export function generateMetadata({
     return {
       title: trichopigmentaciyaCopy[content.slug].metadataTitle,
       description: trichopigmentaciyaCopy[content.slug].metadataDescription,
-      alternates: {
-        canonical: getBaseUrl(`/${content.slug}/trihopigmentaciya`),
-      },
+      alternates: cityAlternates(content.slug, "/trihopigmentaciya"),
     };
   });
 }

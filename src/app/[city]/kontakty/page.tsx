@@ -13,6 +13,7 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
+import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -30,7 +31,7 @@ export function generateMetadata({
     return {
       title: `Контакты в ${content.prepositionalName} - ${specialistName}`,
       description: `Контакты и запись в ${content.prepositionalName}. Телефон, режим работы, консультация по трихопигментации и камуфляжу рубцов у Алёны Алмасовой.`,
-      alternates: { canonical: getBaseUrl(`/${content.slug}/kontakty`) },
+      alternates: cityAlternates(content.slug, "/kontakty"),
     };
   });
 }

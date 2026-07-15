@@ -13,6 +13,7 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
+import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -30,7 +31,7 @@ export function generateMetadata({
     return {
       title: `Цены в ${content.prepositionalName} - трихопигментация и камуфляж`,
       description: `Стоимость трихопигментации и камуфляжа рубцов в ${content.prepositionalName}. Ориентиры по зонам, логика расчета и консультация по телефону.`,
-      alternates: { canonical: getBaseUrl(`/${content.slug}/ceny`) },
+      alternates: cityAlternates(content.slug, "/ceny"),
     };
   });
 }

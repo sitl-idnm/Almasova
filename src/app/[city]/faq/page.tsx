@@ -12,7 +12,8 @@ import {
   SiteHeader,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
-import { getBaseUrl, getCityContent } from "@/lib/site-data";
+import { cityAlternates } from "@/lib/seo";
+import { getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
   return [{ city: "moskva" }, { city: "almaty" }];
@@ -29,7 +30,7 @@ export function generateMetadata({
     return {
       title: `FAQ в ${content.prepositionalName} - частые вопросы`,
       description: `Частые вопросы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName} у Алёны Алмасовой. Больно ли, сколько держится, нужна ли коррекция, можно ли после пересадки волос.`,
-      alternates: { canonical: getBaseUrl(`/${content.slug}/faq`) },
+      alternates: cityAlternates(content.slug, "/faq"),
     };
   });
 }

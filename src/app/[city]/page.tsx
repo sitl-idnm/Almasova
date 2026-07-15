@@ -18,6 +18,7 @@ import {
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { cityHubCopy } from "@/content/city-copy";
+import { cityAlternates } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -38,9 +39,7 @@ export function generateMetadata({
     return {
       title: cityHubCopy[content.slug].metadataTitle,
       description: cityHubCopy[content.slug].metadataDescription,
-      alternates: {
-        canonical: getBaseUrl(`/${content.slug}`),
-      },
+      alternates: cityAlternates(content.slug),
     };
   });
 }

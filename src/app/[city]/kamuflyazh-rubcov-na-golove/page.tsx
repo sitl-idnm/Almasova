@@ -17,6 +17,7 @@ import {
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { scarCopy } from "@/content/scar-copy";
+import { cityAlternates } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -37,9 +38,7 @@ export function generateMetadata({
     return {
       title: scarCopy[content.slug].metadataTitle,
       description: scarCopy[content.slug].metadataDescription,
-      alternates: {
-        canonical: getBaseUrl(`/${content.slug}/kamuflyazh-rubcov-na-golove`),
-      },
+      alternates: cityAlternates(content.slug, "/kamuflyazh-rubcov-na-golove"),
     };
   });
 }

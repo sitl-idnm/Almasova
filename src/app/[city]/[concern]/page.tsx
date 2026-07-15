@@ -16,6 +16,7 @@ import {
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { concernCopy, type ConcernSlug } from "@/content/concern-copy";
+import { cityAlternates } from "@/lib/seo";
 import {
   brandSameAs,
   getBaseUrl,
@@ -84,9 +85,7 @@ export function generateMetadata({
         "{city}",
         cityContent.prepositionalName,
       ),
-      alternates: {
-        canonical: getBaseUrl(`/${cityContent.slug}/${concern}`),
-      },
+      alternates: cityAlternates(cityContent.slug, `/${concern}`),
     };
   });
 }

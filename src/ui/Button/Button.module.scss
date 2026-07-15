@@ -1,0 +1,64 @@
+@use "mixins" as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 54px;
+  padding: 16px 24px;
+  border: none;
+  border-radius: var(--r-md);
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    box-shadow 0.16s ease,
+    color 0.16s ease,
+    opacity 0.16s ease;
+
+  @include mobile {
+    font-size: 16px;
+    min-height: 50px;
+  }
+}
+
+// Primary: solid accent fill
+.accent {
+  background: var(--accent);
+  color: var(--accent-contrast);
+
+  &:hover {
+    background: var(--accent-strong);
+  }
+}
+
+// Secondary: surface fill, accent text
+.soft {
+  background: var(--surface);
+  color: var(--accent);
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+// Outline: inset accent border, no fill
+.bordered {
+  background: transparent;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--accent);
+    color: var(--accent);
+  }
+}
+
+.block {
+  width: 100%;
+}

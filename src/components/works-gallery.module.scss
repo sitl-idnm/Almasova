@@ -1,0 +1,299 @@
+@use "mixins" as *;
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2xl);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stage {
+  position: relative;
+  min-height: 460px;
+  overflow: hidden;
+  text-align: left;
+  background: var(--bg-strong);
+
+  @include mobile {
+    min-height: 340px;
+  }
+}
+
+.stageImg {
+  object-fit: cover;
+  transition: transform 300ms ease;
+
+  .stage:hover & {
+    transform: scale(1.02);
+  }
+}
+
+.stageOverlay {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.15) 60%, transparent);
+}
+
+.stageKicker {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.stageTitle {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.stageExpand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 32px;
+
+  @include mobile {
+    padding: 24px;
+  }
+}
+
+.panelKicker {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.panelTitle {
+  margin-top: 16px;
+  font-size: 32px;
+}
+
+.panelText {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.panelBadge {
+  display: inline-flex;
+  margin-top: 24px;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.panelNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.counter {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.navBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+  transition: background-color 160ms ease;
+
+  &:hover {
+    background: var(--accent-soft);
+  }
+}
+
+.thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.thumb {
+  position: relative;
+  aspect-ratio: 0.9;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  opacity: 0.8;
+  transition:
+    opacity 160ms ease,
+    border-color 160ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &[data-active="true"] {
+    opacity: 1;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-soft);
+  }
+}
+
+.thumbImg {
+  object-fit: cover;
+}
+
+// ── Lightbox ──────────────────────────────────────────────────────────
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  padding: 32px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+
+  @include mobile {
+    padding: 16px;
+  }
+}
+
+.lightboxInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.lightboxHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.lightboxKicker {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lightboxTitle {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.lightboxClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.lightboxStage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: var(--r-2xl);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lightboxImg {
+  object-fit: contain;
+}
+
+.lightboxArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.arrowLeft {
+  left: 16px;
+}
+
+.arrowRight {
+  right: 16px;
+}
+
+.lightboxFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.lightboxDetails {
+  max-width: 720px;
+  font-size: 14px;
+  line-height: 1.6;
+}
