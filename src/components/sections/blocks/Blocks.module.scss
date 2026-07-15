@@ -37,6 +37,64 @@
   color: var(--text);
 }
 
+// ── ServiceCards ──────────────────────────────────────────────────────
+.services {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.service {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow 0.16s ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+
+  @include mobile {
+    padding: 24px;
+  }
+}
+
+.serviceBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.serviceTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.serviceText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.serviceMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
 // ── Steps ─────────────────────────────────────────────────────────────
 .steps {
   display: grid;

@@ -6,14 +6,13 @@ import {
   ContactCard,
   JsonLd,
   Section,
-  ServiceGrid,
   SiteFooter,
   SiteHeader,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { Hero } from "@/components/sections/Hero/Hero";
 import { PriceTable } from "@/components/sections/PriceTable/PriceTable";
-import { Faq, FeatureCards, Reviews, Steps } from "@/components/sections/blocks/Blocks";
+import { Faq, FeatureCards, Reviews, ServiceCards, Steps } from "@/components/sections/blocks/Blocks";
 import { Certificate, ShieldCheck, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { cityHubCopy } from "@/content/city-copy";
 import { cityAlternates } from "@/lib/seo";
@@ -133,7 +132,7 @@ export default async function CityPage({
           title={`${cityHubCopy.servicesSection.title} в ${cityIn}`}
           description={cityHubCopy.servicesSection.description}
         >
-          <ServiceGrid services={content.services} />
+          <ServiceCards services={content.services} />
         </Section>
 
         <Section

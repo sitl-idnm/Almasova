@@ -1,8 +1,32 @@
 import Image from "next/image";
-import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
+import { ArrowUpRight, CheckCircle } from "@phosphor-icons/react/dist/ssr";
 
 import type { FaqItem, ReviewItem } from "@/lib/site-data";
 import styles from "./Blocks.module.scss";
+
+/** ServiceCards — de-neuralized ServiceGrid: link cards, hover reveals accent line. */
+export function ServiceCards({
+  services,
+}: {
+  services: readonly { title: string; href: string; description: string }[];
+}) {
+  return (
+    <div className={styles.services}>
+      {services.map((service) => (
+        <Link key={service.href} href={service.href} className={styles.service}>
+          <div className={styles.serviceBody}>
+            <h3 className={styles.serviceTitle}>{service.title}</h3>
+            <p className={styles.serviceText}>{service.description}</p>
+          </div>
+          <span className={styles.serviceMore}>
+            Подробнее <ArrowUpRight size={16} />
+          </span>
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 /** FeatureCards — de-neuralized TileGrid: surface + 1px inset line, no shadow. */
 export function FeatureCards({ items }: { items: readonly string[] }) {
