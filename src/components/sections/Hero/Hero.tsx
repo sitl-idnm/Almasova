@@ -5,7 +5,11 @@ import { ArrowUpRight, MapPin, Phone, ShieldCheck } from "@phosphor-icons/react/
 import { Button } from "@/ui/Button/Button";
 import styles from "./Hero.module.scss";
 
-type PhosphorIcon = ComponentType<{ size?: number; weight?: "fill" | "regular" | "bold" }>;
+type PhosphorIcon = ComponentType<{
+  size?: number;
+  weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
+  className?: string;
+}>;
 
 export type HeroChip = { icon: PhosphorIcon; label: string };
 export type HeroCityCard = { href: string; title: string; text: string };

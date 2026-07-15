@@ -36,6 +36,7 @@ import {
   specialistName,
 } from "@/lib/site-data";
 import { nbsp } from "@/shared/lib/typography";
+import { Hero } from "./sections/Hero/Hero";
 import styles from "./marketing.module.scss";
 
 export { SiteHeader } from "./layout/Header";
@@ -96,78 +97,20 @@ export function PageHero({
   cityCards?: { href: string; title: string; text: string }[];
   tags?: { icon: IconCmp; label: string }[];
 }) {
+  // Bridge: the monolith hero now delegates to the new de-neuralized Hero
+  // section, so every page still importing PageHero gets the new look.
   return (
-    <section className={`container ${styles.heroWrap}`}>
-      <div className={styles.hero}>
-        <span className={styles.heroGlow} aria-hidden="true" />
-        <div className={styles.heroMain}>
-          <span className={styles.eyebrow}>
-            <SparkleIcon size={14} weight="fill" />
-            {nbsp(eyebrow)}
-          </span>
-          <h1 className={styles.heroTitle}>{nbsp(title)}</h1>
-          <p className={styles.heroSubtitle}>{nbsp(subtitle)}</p>
-          {support ? <p className={styles.heroSupport}>{nbsp(support)}</p> : null}
-          <div className={styles.heroActions}>
-            <a className={styles.btnPrimary} href={primaryHref}>
-              <PhoneIcon size={18} weight="fill" />
-              Позвонить
-            </a>
-            {secondaryHref ? (
-              <Link className={styles.btnSecondary} href={secondaryHref}>
-                {nbsp(secondaryLabel)}
-                <ArrowUpRightIcon size={16} />
-              </Link>
-            ) : null}
-          </div>
-
-          <div className={styles.heroTags}>
-            {tags.map((tag) => {
-              const Ic = tag.icon;
-              return (
-                <span key={tag.label} className={styles.heroTag}>
-                  <Ic size={16} weight="fill" />
-                  {nbsp(tag.label)}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className={styles.heroSide}>
-          {cityCards?.length
-            ? cityCards.map((card) => (
-                <Link key={card.href} href={card.href} className={styles.heroCity}>
-                  <span className={styles.heroCityIcon}>
-                    <MapPinIcon size={20} weight="fill" />
-                  </span>
-                  <span className={styles.heroCityBody}>
-                    <span className={styles.heroCityTitle}>{nbsp(card.title)}</span>
-                    <span className={styles.heroCityText}>{nbsp(card.text)}</span>
-                  </span>
-                  <ArrowUpRightIcon size={20} className={styles.heroCityArrow} />
-                </Link>
-              ))
-            : (
-                <div className={styles.heroAside}>
-                  <span className={styles.heroAsideIcon}>
-                    <ShieldCheckIcon size={24} weight="fill" />
-                  </span>
-                  <p className={styles.heroAsideTitle}>{nbsp("Медицинский подход")}</p>
-                  <p className={styles.heroAsideText}>
-                    {nbsp(
-                      "Оцениваю показания и противопоказания, подбираю линию, плотность и оттенок под ваш случай — без шаблона и лишних обещаний.",
-                    )}
-                  </p>
-                  <a className={styles.heroAsideLink} href={primaryHref}>
-                    <PhoneIcon size={16} weight="fill" />
-                    Записаться на консультацию
-                  </a>
-                </div>
-              )}
-        </div>
-      </div>
-    </section>
+    <Hero
+      eyebrow={eyebrow}
+      title={title}
+      subtitle={subtitle}
+      support={support}
+      primaryHref={primaryHref}
+      secondaryHref={secondaryHref}
+      secondaryLabel={secondaryLabel}
+      chips={tags}
+      cityCards={cityCards}
+    />
   );
 }
 
