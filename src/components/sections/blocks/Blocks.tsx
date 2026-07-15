@@ -13,8 +13,8 @@ export function ServiceCards({
 }) {
   return (
     <div className={styles.services}>
-      {services.map((service) => (
-        <Link key={service.href} href={service.href} className={styles.service}>
+      {services.map((service, i) => (
+        <Link key={`${service.href}-${i}`} href={service.href} className={styles.service}>
           <div className={styles.serviceBody}>
             <h3 className={styles.serviceTitle}>{service.title}</h3>
             <p className={styles.serviceText}>{service.description}</p>

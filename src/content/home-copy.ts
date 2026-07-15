@@ -76,13 +76,13 @@ export const homeCopy = {
       },
       {
         title: "После пересадки волос",
-        href: "/moskva/trihopigmentaciya",
+        href: "/moskva/posle-peresadki-volos",
         description:
           "Используется, когда после пересадки все еще не хватает визуальной плотности или остались заметные рубцы.",
       },
       {
         title: "Женское поредение волос",
-        href: "/almaty/trihopigmentaciya",
+        href: "/moskva/trihopigmentaciya-dlya-zhenshchin",
         description:
           "Деликатный формат работы при поредении волос и визуальном загущении пробора.",
       },

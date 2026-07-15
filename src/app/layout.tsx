@@ -69,6 +69,7 @@ export default function RootLayout({
     <html
       lang="ru"
       data-gender="male"
+      suppressHydrationWarning
       className={`${fontUi.variable} ${fontAccent.variable}`}
     >
       <body>
