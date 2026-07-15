@@ -13,6 +13,7 @@ import { WorksGallery } from "@/components/works-gallery";
 import { Hero } from "@/components/sections/Hero/Hero";
 import { PriceTable } from "@/components/sections/PriceTable/PriceTable";
 import { Faq, FeatureCards, Reviews, ServiceCards, Steps } from "@/components/sections/blocks/Blocks";
+import { GenderAccent } from "@/components/theme/GenderAccent";
 import { Certificate, ShieldCheck, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { cityHubCopy } from "@/content/city-copy";
 import { cityAlternates } from "@/lib/seo";
@@ -116,6 +117,12 @@ export default async function CityPage({
           title={cityHubCopy.fitSection.title}
           description={cityHubCopy.fitSection.description}
         >
+          <p className="section-copy">
+            <GenderAccent
+              male="Чаще всего ко мне приходят мужчины: залысины в лобно-височной зоне, редеющая макушка, эффект бритых волос и рубцы после пересадки волос."
+              female="У женщин запрос обычно деликатнее: поредение в проборе, редкая макушка и естественная густота — так, чтобы коррекция оставалась незаметной."
+            />
+          </p>
           <FeatureCards items={content.problems} />
         </Section>
 
