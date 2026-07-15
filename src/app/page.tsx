@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import {
   AboutSpecialist,
@@ -148,37 +147,23 @@ export default function HomePage() {
           title={homeCopy.priceSection.title}
           description={homeCopy.priceSection.description}
         >
-          <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="surface rounded-[2rem] p-6 sm:p-8">
-              <InlineFeatureList items={[...homeCopy.priceSection.items]} />
-            </div>
-            <div className="grid gap-4">
-              <Link
-                href="/moskva/ceny"
-                className="surface rounded-[1.8rem] p-6 hover:-translate-y-0.5"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-                  Москва
-                </p>
-                <p className="mt-3 text-2xl">Цены в Москве</p>
-                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
-                  Есть стартовые ориентиры по зонам и понятная логика расчета стоимости.
-                </p>
-              </Link>
-              <Link
-                href="/almaty/ceny"
-                className="surface rounded-[1.8rem] p-6 hover:-translate-y-0.5"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-                  Алматы
-                </p>
-                <p className="mt-3 text-2xl">Цены в Алматы</p>
-                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
-                  Если случай сложный, стоимость обсуждается после оценки зоны и задачи.
-                </p>
-              </Link>
-            </div>
-          </div>
+          <InlineFeatureList items={[...homeCopy.priceSection.items]} />
+          <ServiceGrid
+            services={[
+              {
+                title: "Цены в Москве",
+                href: "/moskva/ceny",
+                description:
+                  "Стартовые ориентиры по зонам и понятная логика расчёта стоимости.",
+              },
+              {
+                title: "Цены в Алматы",
+                href: "/almaty/ceny",
+                description:
+                  "Если случай сложный, стоимость обсуждается после оценки зоны и задачи.",
+              },
+            ]}
+          />
         </Section>
 
         <Section

@@ -142,6 +142,22 @@ select {
   @include container;
 }
 
+// Page main gets bottom breathing room before the footer (replaces the dead
+// Tailwind `pb-16` left on <main> after Tailwind was removed).
+main {
+  padding-bottom: 64px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
 // ── Legacy utility classes ────────────────────────────────────────────
 // Used by inline page markup pending per-page migration to modules.
 .container-shell {
