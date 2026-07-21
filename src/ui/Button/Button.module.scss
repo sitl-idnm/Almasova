@@ -47,6 +47,16 @@
   }
 }
 
+// Light: white fill (for use over dark photos / scrims). Theme-independent.
+.light {
+  background: #ffffff;
+  color: #17191d;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
 // Outline: inset accent border, no fill
 .bordered {
   background: transparent;

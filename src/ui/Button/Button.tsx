@@ -2,7 +2,7 @@ import { ElementType, ComponentPropsWithoutRef, ReactNode } from "react";
 
 import styles from "./Button.module.scss";
 
-export type ButtonVariant = "accent" | "soft" | "bordered";
+export type ButtonVariant = "accent" | "soft" | "bordered" | "light";
 
 type ButtonOwnProps<E extends ElementType> = {
   variant?: ButtonVariant;
