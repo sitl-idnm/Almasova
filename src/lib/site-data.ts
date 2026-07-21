@@ -1,3 +1,5 @@
+import { allWorks } from "@/content/works";
+
 export type CitySlug = "moskva" | "almaty";
 
 export type FaqItem = {
@@ -30,6 +32,8 @@ export type ProofItem = {
   sessions: string;
   imageSrc: string;
   alt: string;
+  /** Кому релевантен кейс — для гендер-фильтра галереи. "both" виден всегда. */
+  gender?: "male" | "female" | "both";
 };
 
 export type CityContent = {
@@ -273,36 +277,7 @@ export const cityContent: Record<CitySlug, CityContent> = {
           "Реальные работы по залысинам, макушке, пересадке волос и рубцам.",
       },
     ],
-    proofItems: [
-      {
-        title: "Мужское облысение",
-        details: "Залысины, редеющая линия роста волос и более собранный вид",
-        sessions: "2-3 сеанса",
-        imageSrc: "/images/works/image1.png",
-        alt: "Трихопигментация при мужском облысении: до и после",
-      },
-      {
-        title: "Макушка",
-        details: "Макушка, через которую просвечивает кожа головы",
-        sessions: "2-3 сеанса",
-        imageSrc: "/images/works/image3.png",
-        alt: "Трихопигментация макушки: до и после",
-      },
-      {
-        title: "После пересадки волос",
-        details: "Когда после пересадки не хватает плотности или остались заметные рубцы",
-        sessions: "индивидуально",
-        imageSrc: "/images/works/image4.png",
-        alt: "Трихопигментация после пересадки волос: до и после",
-      },
-      {
-        title: "Рубцы на голове",
-        details: "Линейные и точечные рубцы, которые хочется скрыть при короткой стрижке",
-        sessions: "индивидуально",
-        imageSrc: "/images/works/image1.png",
-        alt: "Камуфляж рубцов на голове: до и после",
-      },
-    ],
+    proofItems: allWorks,
     priceItems: [
       {
         title: "Локальная зона",
@@ -389,36 +364,7 @@ export const cityContent: Record<CitySlug, CityContent> = {
           "Реальные работы, по которым проще оценить похожий случай.",
       },
     ],
-    proofItems: [
-      {
-        title: "Залысины",
-        details: "Линия роста волос и зоны, которые хочется сделать менее заметными",
-        sessions: "2-3 сеанса",
-        imageSrc: "/images/works/image1.png",
-        alt: "Трихопигментация залысин: до и после",
-      },
-      {
-        title: "Макушка",
-        details: "Макушка и зоны, где кожа головы слишком заметна",
-        sessions: "2-3 сеанса",
-        imageSrc: "/images/works/image3.png",
-        alt: "Трихопигментация макушки: до и после",
-      },
-      {
-        title: "После пересадки",
-        details: "Когда после пересадки нужно добавить плотность и доработать рубцовые зоны",
-        sessions: "индивидуально",
-        imageSrc: "/images/works/image4.png",
-        alt: "Работа после пересадки волос: до и после",
-      },
-      {
-        title: "Камуфляж рубцов",
-        details: "Рубцовые зоны на голове, которые хочется скрыть при короткой длине волос",
-        sessions: "индивидуально",
-        imageSrc: "/images/works/image2.png",
-        alt: "Камуфляж рубцов: до и после",
-      },
-    ],
+    proofItems: allWorks,
     priceItems: [
       {
         title: "Локальная зона",

@@ -14,6 +14,7 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
+import { allWorks } from "@/content/works";
 import { homeCopy } from "@/content/home-copy";
 import {
   brandSameAs,
@@ -32,12 +33,7 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  const featuredWorks = [
-    { ...cityContent.moskva.proofItems[0], title: "Москва · мужское облысение" },
-    { ...cityContent.almaty.proofItems[1], title: "Алматы · заметная макушка" },
-    { ...cityContent.moskva.proofItems[2], title: "Москва · после пересадки волос" },
-    { ...cityContent.almaty.proofItems[3], title: "Алматы · камуфляж рубцов" },
-  ];
+  const featuredWorks = allWorks;
 
   const featuredReviews = [
     { ...cityContent.moskva.reviews[0], label: `Москва · ${cityContent.moskva.reviews[0].label}` },
