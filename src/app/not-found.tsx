@@ -18,7 +18,7 @@ export default function NotFound() {
             <Link className="button-primary" href="/">
               На главную
             </Link>
-            <Link className="button-secondary" href="/moskva">
+            <Link className="button-secondary" href="/moskva/muzhchinam">
               К странице Москвы
             </Link>
           </div>

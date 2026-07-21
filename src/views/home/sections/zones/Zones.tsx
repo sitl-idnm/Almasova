@@ -58,7 +58,7 @@ export const Zones: FC = () => {
             <PhoneIcon size={18} weight="fill" />
             Узнать ориентировочную стоимость
           </Button>
-          <Button as={Link} href="/moskva/ceny" variant="bordered">
+          <Button as={Link} href="/moskva/muzhchinam/ceny" variant="bordered">
             Все цены
           </Button>
         </div>
@@ -76,7 +76,7 @@ export const Zones: FC = () => {
             </p>
             <Button
               as={Link}
-              href="/moskva/kamuflyazh-rubcov-na-golove"
+              href="/moskva/muzhchinam/kamuflyazh-rubcov-na-golove"
               variant="light"
               className={styles.highlightCta}
             >

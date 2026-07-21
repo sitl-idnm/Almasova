@@ -16,7 +16,7 @@ import {
 import { WorksGallery } from "@/components/works-gallery";
 import { ServiceCards } from "@/components/sections/blocks/Blocks";
 import { concernCopy, type ConcernSlug } from "@/content/concern-copy";
-import { genderSlugs } from "@/lib/gender";
+import { genderSlugs, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import { cityAlternates } from "@/lib/seo";
 import {
   brandSameAs,
@@ -72,23 +72,24 @@ export function generateStaticParams() {
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string; concern: string }>;
+  params: Promise<{ city: string; gender: string; concern: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city, concern }) => {
+  return params.then(({ city, gender, concern }) => {
     const cityContent = getCityContent(city);
-    if (!cityContent || !(concern in concernCopy)) {
+    const g = getGenderMeta(gender);
+    if (!cityContent || !g || !(concern in concernCopy)) {
       return {};
     }
 
     const copy = concernCopy[concern as ConcernSlug];
 
     return {
-      title: copy.metadataTitleTemplate.replace("{city}", cityContent.prepositionalName),
+      title: `${copy.metadataTitleTemplate.replace("{city}", cityContent.prepositionalName)} — ${g.forWhom}`,
       description: copy.metadataDescriptionTemplate.replace(
         "{city}",
         cityContent.prepositionalName,
       ),
-      alternates: cityAlternates(cityContent.slug, `/${concern}`),
+      alternates: cityAlternates(cityContent.slug, gender as GenderSlug, `/${concern}`),
     };
   });
 }
@@ -96,12 +97,12 @@ export function generateMetadata({
 export default async function ConcernPage({
   params,
 }: {
-  params: Promise<{ city: string; concern: string }>;
+  params: Promise<{ city: string; gender: string; concern: string }>;
 }) {
-  const { city, concern } = await params;
+  const { city, gender, concern } = await params;
   const cityContent = getCityContent(city);
 
-  if (!cityContent || !(concern in concernCopy)) {
+  if (!cityContent || !getGenderMeta(gender) || !(concern in concernCopy)) {
     notFound();
   }
 
@@ -110,8 +111,8 @@ export default async function ConcernPage({
   const galleryItems = getConcernGalleryItems(concern as ConcernSlug, cityContent.proofItems);
   const serviceHref =
     copy.service === "scar"
-      ? `/${cityContent.slug}/kamuflyazh-rubcov-na-golove`
-      : `/${cityContent.slug}/trihopigmentaciya`;
+      ? `/${cityContent.slug}/${gender}/kamuflyazh-rubcov-na-golove`
+      : `/${cityContent.slug}/${gender}/trihopigmentaciya`;
   const serviceLabel =
     copy.service === "scar" ? "Камуфляж рубцов на голове" : "Трихопигментация";
   const pageTitle = copy.heroTitleTemplate.replace("{city}", cityIn);
@@ -122,7 +123,7 @@ export default async function ConcernPage({
       {
         "@type": "WebPage",
         name: pageTitle,
-        url: getBaseUrl(`/${cityContent.slug}/${concern}`),
+        url: getBaseUrl(`/${cityContent.slug}/${gender}/${concern}`),
       },
       {
         "@type": "Service",
@@ -152,11 +153,11 @@ export default async function ConcernPage({
   return (
     <>
       <JsonLd data={schema} />
-      <SiteHeader city={cityContent} />
+      <SiteHeader city={cityContent} gender={gender} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${cityContent.slug}`, label: cityContent.name },
+          { href: `/${cityContent.slug}/${gender}`, label: cityContent.name },
           { href: serviceHref, label: serviceLabel },
           { label: pageTitle },
         ]}
@@ -220,7 +221,7 @@ export default async function ConcernPage({
           </div>
         </Section>
       </main>
-      <SiteFooter city={cityContent} />
+      <SiteFooter city={cityContent} gender={gender} />
     </>
   );
 }

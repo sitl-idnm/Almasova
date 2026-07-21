@@ -19,29 +19,29 @@ import {
   defaultTelegramUrl,
   type CityContent,
 } from "@/lib/site-data";
+import { DEFAULT_GENDER } from "@/lib/gender";
 import { nbsp } from "@/shared/lib/typography";
 import styles from "./Header.module.scss";
 
-export function SiteHeader({ city }: { city?: CityContent | null }) {
+export function SiteHeader({
+  city,
+  gender = DEFAULT_GENDER,
+}: {
+  city?: CityContent | null;
+  gender?: string;
+}) {
   const [open, setOpen] = useState(false);
 
-  const links = city
-    ? [
-        { href: `/${city.slug}/trihopigmentaciya`, label: "Трихопигментация" },
-        { href: `/${city.slug}/kamuflyazh-rubcov-na-golove`, label: "Камуфляж рубцов" },
-        { href: `/${city.slug}/ceny`, label: "Цены" },
-        { href: `/${city.slug}/do-posle`, label: "До / после" },
-        { href: `/${city.slug}/otzyvy`, label: "Отзывы" },
-        { href: `/${city.slug}/faq`, label: "FAQ" },
-      ]
-    : [
-        { href: "/moskva/trihopigmentaciya", label: "Трихопигментация" },
-        { href: "/moskva/kamuflyazh-rubcov-na-golove", label: "Камуфляж рубцов" },
-        { href: "/moskva/ceny", label: "Цены" },
-        { href: "/moskva/do-posle", label: "До / после" },
-        { href: "/moskva/otzyvy", label: "Отзывы" },
-        { href: "/moskva/faq", label: "FAQ" },
-      ];
+  const citySlug = city?.slug ?? "moskva";
+  const base = `/${citySlug}/${gender}`;
+  const links = [
+    { href: `${base}/trihopigmentaciya`, label: "Трихопигментация" },
+    { href: `${base}/kamuflyazh-rubcov-na-golove`, label: "Камуфляж рубцов" },
+    { href: `${base}/ceny`, label: "Цены" },
+    { href: `${base}/do-posle`, label: "До / после" },
+    { href: `${base}/otzyvy`, label: "Отзывы" },
+    { href: `${base}/faq`, label: "FAQ" },
+  ];
 
   const phoneHref = city?.phoneHref ?? defaultPhoneHref;
   const phoneDisplay = city?.phoneDisplay ?? defaultPhoneDisplay;

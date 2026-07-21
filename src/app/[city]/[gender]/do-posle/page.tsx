@@ -1,4 +1,4 @@
-import { cityGenderParams } from "@/lib/gender";
+import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -24,15 +24,16 @@ export function generateStaticParams() {
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city }) => {
+  return params.then(({ city, gender }) => {
     const content = getCityContent(city);
-    if (!content) return {};
+    const g = getGenderMeta(gender);
+    if (!content || !g) return {};
     return {
-      title: `До и после в ${content.prepositionalName} - работы Алёны Алмасовой`,
+      title: `До и после в ${content.prepositionalName} - работы Алёны Алмасовой — ${g.forWhom}`,
       description: `До и после по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Кейсы Алёны Алмасовой по залысинам, макушке, рубцам и после пересадки волос.`,
-      alternates: cityAlternates(content.slug, "/do-posle"),
+      alternates: cityAlternates(content.slug, gender as GenderSlug, "/do-posle"),
     };
   });
 }
@@ -40,9 +41,9 @@ export function generateMetadata({
 export default async function BeforeAfterPage({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }) {
-  const { city } = await params;
+  const { city, gender } = await params;
   const content = getCityContent(city);
   if (!content) notFound();
   const copy = supportCopy.beforeAfter;
@@ -55,14 +56,14 @@ export default async function BeforeAfterPage({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: `До и после в ${cityIn}`,
-          url: getBaseUrl(`/${content.slug}/do-posle`),
+          url: getBaseUrl(`/${content.slug}/${gender}/do-posle`),
         }}
       />
-      <SiteHeader city={content} />
+      <SiteHeader city={content} gender={gender} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}`, label: content.name },
+          { href: `/${content.slug}/${gender}`, label: content.name },
           { label: "До / после" },
         ]}
       />
@@ -73,7 +74,7 @@ export default async function BeforeAfterPage({
           subtitle={copy.hero.subtitleTemplate}
           support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/trihopigmentaciya`}
+          secondaryHref={`/${content.slug}/${gender}/trihopigmentaciya`}
           secondaryLabel="О процедуре"
         />
 
@@ -105,7 +106,7 @@ export default async function BeforeAfterPage({
           <ContactCard city={content} />
         </Section>
       </main>
-      <SiteFooter city={content} />
+      <SiteFooter city={content} gender={gender} />
     </>
   );
 }

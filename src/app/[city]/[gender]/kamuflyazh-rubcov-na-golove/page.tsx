@@ -1,4 +1,4 @@
-import { cityGenderParams } from "@/lib/gender";
+import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -28,9 +28,9 @@ export function generateStaticParams() {
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city }) => {
+  return params.then(({ city, gender }) => {
     const content = getCityContent(city);
     if (!content) {
       return {};
@@ -39,7 +39,7 @@ export function generateMetadata({
     return {
       title: scarCopy[content.slug].metadataTitle,
       description: scarCopy[content.slug].metadataDescription,
-      alternates: cityAlternates(content.slug, "/kamuflyazh-rubcov-na-golove"),
+      alternates: cityAlternates(content.slug, gender as GenderSlug, "/kamuflyazh-rubcov-na-golove"),
     };
   });
 }
@@ -47,9 +47,9 @@ export function generateMetadata({
 export default async function ScarCamouflagePage({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }) {
-  const { city } = await params;
+  const { city, gender } = await params;
   const content = getCityContent(city);
 
   if (!content) {
@@ -115,13 +115,13 @@ export default async function ScarCamouflagePage({
             "@type": "ListItem",
             position: 2,
             name: content.name,
-            item: getBaseUrl(`/${content.slug}`),
+            item: getBaseUrl(`/${content.slug}/${gender}`),
           },
           {
             "@type": "ListItem",
             position: 3,
             name: "Камуфляж рубцов на голове",
-            item: getBaseUrl(`/${content.slug}/kamuflyazh-rubcov-na-golove`),
+            item: getBaseUrl(`/${content.slug}/${gender}/kamuflyazh-rubcov-na-golove`),
           },
         ],
       },
@@ -150,11 +150,11 @@ export default async function ScarCamouflagePage({
   return (
     <>
       <JsonLd data={schema} />
-      <SiteHeader city={content} />
+      <SiteHeader city={content} gender={gender} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}`, label: content.name },
+          { href: `/${content.slug}/${gender}`, label: content.name },
           { label: "Камуфляж рубцов на голове" },
         ]}
       />
@@ -165,7 +165,7 @@ export default async function ScarCamouflagePage({
           subtitle={copy.hero.subtitleTemplate.replace("{city}", cityIn)}
           support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/do-posle`}
+          secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Смотреть реальные работы"
         />
 
@@ -275,7 +275,7 @@ export default async function ScarCamouflagePage({
           <AboutSpecialist />
         </Section>
       </main>
-      <SiteFooter city={content} />
+      <SiteFooter city={content} gender={gender} />
     </>
   );
 }

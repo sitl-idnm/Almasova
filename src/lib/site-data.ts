@@ -254,25 +254,25 @@ export const cityContent: Record<CitySlug, CityContent> = {
     services: [
       {
         title: "Трихопигментация",
-        href: "/moskva/trihopigmentaciya",
+        href: "/moskva/muzhchinam/trihopigmentaciya",
         description:
           "Залысины, редкая макушка, поредение волос и более аккуратный внешний вид без пересадки.",
       },
       {
         title: "Камуфляж рубцов на голове",
-        href: "/moskva/kamuflyazh-rubcov-na-golove",
+        href: "/moskva/muzhchinam/kamuflyazh-rubcov-na-golove",
         description:
           "Рубцы после пересадки волос, операций и травм, которые хочется сделать менее заметными.",
       },
       {
         title: "Цены",
-        href: "/moskva/ceny",
+        href: "/moskva/muzhchinam/ceny",
         description:
           "Ориентиры по стоимости, чтобы заранее понимать бюджет и объем работы.",
       },
       {
         title: "До и после",
-        href: "/moskva/do-posle",
+        href: "/moskva/muzhchinam/do-posle",
         description:
           "Реальные работы по залысинам, макушке, пересадке волос и рубцам.",
       },
@@ -341,25 +341,25 @@ export const cityContent: Record<CitySlug, CityContent> = {
     services: [
       {
         title: "Трихопигментация",
-        href: "/almaty/trihopigmentaciya",
+        href: "/almaty/muzhchinam/trihopigmentaciya",
         description:
           "Залысины, поредение волос, заметная макушка и желание выглядеть аккуратнее.",
       },
       {
         title: "Камуфляж рубцов на голове",
-        href: "/almaty/kamuflyazh-rubcov-na-golove",
+        href: "/almaty/muzhchinam/kamuflyazh-rubcov-na-golove",
         description:
           "Работа с рубцами после пересадки волос, операций и травм на коже головы.",
       },
       {
         title: "Цены",
-        href: "/almaty/ceny",
+        href: "/almaty/muzhchinam/ceny",
         description:
           "Ориентиры по стоимости и понимание бюджета еще до консультации.",
       },
       {
         title: "До и после",
-        href: "/almaty/do-posle",
+        href: "/almaty/muzhchinam/do-posle",
         description:
           "Реальные работы, по которым проще оценить похожий случай.",
       },

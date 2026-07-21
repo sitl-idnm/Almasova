@@ -1,4 +1,4 @@
-import { cityGenderParams } from "@/lib/gender";
+import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -29,9 +29,9 @@ export function generateStaticParams() {
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city }) => {
+  return params.then(({ city, gender }) => {
     const content = getCityContent(city);
     if (!content) {
       return {};
@@ -40,7 +40,7 @@ export function generateMetadata({
     return {
       title: trichopigmentaciyaCopy[content.slug].metadataTitle,
       description: trichopigmentaciyaCopy[content.slug].metadataDescription,
-      alternates: cityAlternates(content.slug, "/trihopigmentaciya"),
+      alternates: cityAlternates(content.slug, gender as GenderSlug, "/trihopigmentaciya"),
     };
   });
 }
@@ -48,9 +48,9 @@ export function generateMetadata({
 export default async function TrichopigmentationPage({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }) {
-  const { city } = await params;
+  const { city, gender } = await params;
   const content = getCityContent(city);
 
   if (!content) {
@@ -94,7 +94,7 @@ export default async function TrichopigmentationPage({
       {
         "@type": "WebPage",
         name: `Трихопигментация в ${cityIn}`,
-        url: getBaseUrl(`/${content.slug}/trihopigmentaciya`),
+        url: getBaseUrl(`/${content.slug}/${gender}/trihopigmentaciya`),
       },
       {
         "@type": "Service",
@@ -121,13 +121,13 @@ export default async function TrichopigmentationPage({
             "@type": "ListItem",
             position: 2,
             name: content.name,
-            item: getBaseUrl(`/${content.slug}`),
+            item: getBaseUrl(`/${content.slug}/${gender}`),
           },
           {
             "@type": "ListItem",
             position: 3,
             name: "Трихопигментация",
-            item: getBaseUrl(`/${content.slug}/trihopigmentaciya`),
+            item: getBaseUrl(`/${content.slug}/${gender}/trihopigmentaciya`),
           },
         ],
       },
@@ -148,11 +148,11 @@ export default async function TrichopigmentationPage({
   return (
     <>
       <JsonLd data={schema} />
-      <SiteHeader city={content} />
+      <SiteHeader city={content} gender={gender} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}`, label: content.name },
+          { href: `/${content.slug}/${gender}`, label: content.name },
           { label: "Трихопигментация" },
         ]}
       />
@@ -163,7 +163,7 @@ export default async function TrichopigmentationPage({
           subtitle={copy.hero.subtitleTemplate.replace("{city}", cityIn)}
           support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/do-posle`}
+          secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Посмотреть до и после"
         />
 
@@ -267,7 +267,7 @@ export default async function TrichopigmentationPage({
           <AboutSpecialist />
         </Section>
       </main>
-      <SiteFooter city={content} />
+      <SiteFooter city={content} gender={gender} />
     </>
   );
 }

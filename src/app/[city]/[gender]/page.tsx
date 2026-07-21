@@ -1,4 +1,4 @@
-import { cityGenderParams } from "@/lib/gender";
+import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -27,9 +27,9 @@ export function generateStaticParams() {
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city }) => {
+  return params.then(({ city, gender }) => {
     const content = getCityContent(city);
     if (!content) {
       return {};
@@ -38,7 +38,7 @@ export function generateMetadata({
     return {
       title: cityHubCopy[content.slug].metadataTitle,
       description: cityHubCopy[content.slug].metadataDescription,
-      alternates: cityAlternates(content.slug),
+      alternates: cityAlternates(content.slug, gender as GenderSlug),
     };
   });
 }
@@ -46,9 +46,9 @@ export function generateMetadata({
 export default async function CityPage({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }) {
-  const { city } = await params;
+  const { city, gender } = await params;
   const content = getCityContent(city);
 
   if (!content) {
@@ -64,7 +64,7 @@ export default async function CityPage({
       {
         "@type": "WebPage",
         name: `${content.name} - ${specialistName}`,
-        url: getBaseUrl(`/${content.slug}`),
+        url: getBaseUrl(`/${content.slug}/${gender}`),
         description: content.intro,
       },
       {
@@ -96,7 +96,7 @@ export default async function CityPage({
   return (
     <>
       <JsonLd data={schema} />
-      <SiteHeader city={content} />
+      <SiteHeader city={content} gender={gender} />
       <main className="pb-16">
         <Hero
           eyebrow={copy.hero.eyebrow}
@@ -104,7 +104,7 @@ export default async function CityPage({
           subtitle={copy.hero.subtitle}
           support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/do-posle`}
+          secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Посмотреть работы"
           chips={[
             { icon: ShieldCheck, label: "Врач, а не тату-мастер" },
@@ -210,7 +210,7 @@ export default async function CityPage({
           <AboutSpecialist />
         </Section>
       </main>
-      <SiteFooter city={content} />
+      <SiteFooter city={content} gender={gender} />
     </>
   );
 }

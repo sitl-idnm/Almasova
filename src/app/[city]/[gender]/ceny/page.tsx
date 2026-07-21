@@ -1,4 +1,4 @@
-import { cityGenderParams } from "@/lib/gender";
+import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -24,15 +24,16 @@ export function generateStaticParams() {
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city }) => {
+  return params.then(({ city, gender }) => {
     const content = getCityContent(city);
-    if (!content) return {};
+    const g = getGenderMeta(gender);
+    if (!content || !g) return {};
     return {
-      title: `Цены в ${content.prepositionalName} - трихопигментация и камуфляж`,
+      title: `Цены в ${content.prepositionalName} - трихопигментация и камуфляж — ${g.forWhom}`,
       description: `Стоимость трихопигментации и камуфляжа рубцов в ${content.prepositionalName}. Ориентиры по зонам, логика расчета и консультация по телефону.`,
-      alternates: cityAlternates(content.slug, "/ceny"),
+      alternates: cityAlternates(content.slug, gender as GenderSlug, "/ceny"),
     };
   });
 }
@@ -40,9 +41,9 @@ export function generateMetadata({
 export default async function PricesPage({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }) {
-  const { city } = await params;
+  const { city, gender } = await params;
   const content = getCityContent(city);
 
   if (!content) notFound();
@@ -57,14 +58,14 @@ export default async function PricesPage({
           "@context": "https://schema.org",
           "@type": "WebPage",
           name: `Цены в ${cityIn}`,
-          url: getBaseUrl(`/${content.slug}/ceny`),
+          url: getBaseUrl(`/${content.slug}/${gender}/ceny`),
         }}
       />
-      <SiteHeader city={content} />
+      <SiteHeader city={content} gender={gender} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}`, label: content.name },
+          { href: `/${content.slug}/${gender}`, label: content.name },
           { label: "Цены" },
         ]}
       />
@@ -75,7 +76,7 @@ export default async function PricesPage({
           subtitle={copy.hero.subtitleTemplate}
           support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/kontakty`}
+          secondaryHref={`/${content.slug}/${gender}/kontakty`}
           secondaryLabel="Связаться"
         />
 
@@ -110,7 +111,7 @@ export default async function PricesPage({
           <ContactCard city={content} />
         </Section>
       </main>
-      <SiteFooter city={content} />
+      <SiteFooter city={content} gender={gender} />
     </>
   );
 }

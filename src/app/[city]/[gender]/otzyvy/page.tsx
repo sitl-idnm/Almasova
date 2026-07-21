@@ -1,4 +1,4 @@
-import { cityGenderParams } from "@/lib/gender";
+import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -25,15 +25,16 @@ export function generateStaticParams() {
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city }) => {
+  return params.then(({ city, gender }) => {
     const content = getCityContent(city);
-    if (!content) return {};
+    const g = getGenderMeta(gender);
+    if (!content || !g) return {};
     return {
-      title: `Отзывы в ${content.prepositionalName} - ${specialistName}`,
+      title: `Отзывы в ${content.prepositionalName} - ${specialistName} — ${g.forWhom}`,
       description: `Отзывы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Залысины, макушка, рубцы на голове и случаи после пересадки волос.`,
-      alternates: cityAlternates(content.slug, "/otzyvy"),
+      alternates: cityAlternates(content.slug, gender as GenderSlug, "/otzyvy"),
     };
   });
 }
@@ -41,9 +42,9 @@ export function generateMetadata({
 export default async function ReviewsPage({
   params,
 }: {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city: string; gender: string }>;
 }) {
-  const { city } = await params;
+  const { city, gender } = await params;
   const content = getCityContent(city);
   if (!content) notFound();
   const copy = supportCopy.reviews;
@@ -56,14 +57,14 @@ export default async function ReviewsPage({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: `Отзывы в ${cityIn}`,
-          url: getBaseUrl(`/${content.slug}/otzyvy`),
+          url: getBaseUrl(`/${content.slug}/${gender}/otzyvy`),
         }}
       />
-      <SiteHeader city={content} />
+      <SiteHeader city={content} gender={gender} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}`, label: content.name },
+          { href: `/${content.slug}/${gender}`, label: content.name },
           { label: "Отзывы" },
         ]}
       />
@@ -74,7 +75,7 @@ export default async function ReviewsPage({
           subtitle={copy.hero.subtitleTemplate}
           support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/do-posle`}
+          secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Смотреть работы"
         />
 
@@ -108,7 +109,7 @@ export default async function ReviewsPage({
           <ContactCard city={content} />
         </Section>
       </main>
-      <SiteFooter city={content} />
+      <SiteFooter city={content} gender={gender} />
     </>
   );
 }

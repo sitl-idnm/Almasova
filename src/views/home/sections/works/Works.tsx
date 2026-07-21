@@ -22,7 +22,7 @@ export const Works: FC = () => {
               )}
             </p>
           </div>
-          <Button as={Link} href="/moskva/do-posle" variant="bordered" className={styles.headCta}>
+          <Button as={Link} href="/moskva/muzhchinam/do-posle" variant="bordered" className={styles.headCta}>
             Все работы
             <ArrowUpRightIcon size={16} />
           </Button>

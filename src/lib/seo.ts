@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import type { GenderSlug } from "./gender";
 import { getBaseUrl, type CitySlug } from "./site-data";
 
 // Одна услуга/раздел существует в двух странах на одном языке (RU).
@@ -17,15 +18,19 @@ const cities = Object.keys(cityLang) as CitySlug[];
  * @param city    текущий город
  * @param subPath путь после `/{city}` (напр. `/ceny`, `/trihopigmentaciya`); "" для хаба города
  */
-export function cityAlternates(city: CitySlug, subPath = ""): Metadata["alternates"] {
+export function cityAlternates(
+  city: CitySlug,
+  gender: GenderSlug,
+  subPath = "",
+): Metadata["alternates"] {
   const languages: Record<string, string> = {};
   for (const c of cities) {
-    languages[cityLang[c]] = getBaseUrl(`/${c}${subPath}`);
+    languages[cityLang[c]] = getBaseUrl(`/${c}/${gender}${subPath}`);
   }
-  languages["x-default"] = getBaseUrl(`/moskva${subPath}`);
+  languages["x-default"] = getBaseUrl(`/moskva/${gender}${subPath}`);
 
   return {
-    canonical: getBaseUrl(`/${city}${subPath}`),
+    canonical: getBaseUrl(`/${city}/${gender}${subPath}`),
     languages,
   };
 }
