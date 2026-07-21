@@ -29,9 +29,22 @@
 .stageImg {
   object-fit: cover;
   transition: transform 300ms ease;
+  // Each new frame (keyed by index) fades/zooms in smoothly on switch.
+  animation: stageFade 380ms ease;
 
   .stage:hover & {
     transform: scale(1.02);
+  }
+}
+
+@keyframes stageFade {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

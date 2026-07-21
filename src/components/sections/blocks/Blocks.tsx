@@ -35,7 +35,7 @@ export function FeatureCards({ items }: { items: readonly string[] }) {
       {items.map((item) => (
         <div key={item} className={styles.card}>
           <span className={styles.cardIcon}>
-            <CheckCircle size={20} weight="fill" />
+            <CheckCircle size={22} weight="fill" />
           </span>
           <p className={styles.cardText}>{item}</p>
         </div>

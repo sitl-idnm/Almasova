@@ -4,8 +4,8 @@
  * для шапки/футера/формы/CTA, чтобы не хардкодить по компонентам.
  */
 export const CONTACTS = {
-  phoneDisplay: "+7 985 990 7601",
-  phoneHref: "tel:+79859907601",
+  phoneDisplay: "+7 985 307-34-37",
+  phoneHref: "tel:+79853073437",
   telegram: "https://t.me/chearesh",
   /** MAX-канал — ссылку клиент даст позже. */
   max: "",

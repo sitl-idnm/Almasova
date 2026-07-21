@@ -39,6 +39,7 @@ export function WorksGallery({ items }: { items: ProofItem[] }) {
           onClick={() => setLightboxIndex(activeIndex)}
         >
           <Image
+            key={activeIndex}
             src={activeItem.imageSrc}
             alt={activeItem.alt}
             fill

@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   min-height: 80px;
 }
 
@@ -41,10 +41,11 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 18px;
   margin-inline: auto;
+  min-width: 0;
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1240px) {
     display: none;
   }
 }
@@ -71,7 +72,8 @@
   align-items: center;
   gap: 8px;
 
-  @include mobile {
+  // Secondary contacts — hidden until there is genuine room (CTA + burger cover it).
+  @media (max-width: 1400px) {
     display: none;
   }
 }
@@ -117,7 +119,7 @@
     background: var(--accent-strong);
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1240px) {
     display: none;
   }
 }
@@ -138,8 +140,16 @@
   border: 1px solid var(--line);
   background: var(--surface-2);
   color: var(--text);
+  transition:
+    border-color 160ms ease,
+    color 160ms ease;
 
-  @media (max-width: 1200px) {
+  &:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (max-width: 1240px) {
     display: inline-flex;
   }
 }
@@ -152,7 +162,7 @@
   border-bottom: 1px solid var(--line);
   background: var(--bg);
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1240px) {
     display: flex;
   }
 }
@@ -164,6 +174,14 @@
   font-weight: 500;
   color: var(--text);
   border-bottom: 1px solid var(--line);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+
+  &:hover {
+    background: var(--surface-2);
+    color: var(--accent);
+  }
 
   &:last-of-type {
     border-bottom: none;

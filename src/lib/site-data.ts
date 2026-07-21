@@ -58,8 +58,8 @@ export type CityContent = {
 
 export const specialistName = "Алёна Алмасова";
 export const brandName = "Алёна Алмасова";
-export const defaultPhoneDisplay = "+7 985 990 7601";
-export const defaultPhoneHref = "+79859907601";
+export const defaultPhoneDisplay = "+7 985 307-34-37";
+export const defaultPhoneHref = "+79853073437";
 export const defaultTelegramUrl = "https://t.me/chearesh";
 export const brandSameAs = [defaultTelegramUrl];
 export const defaultContactChannels: ContactChannel[] = [

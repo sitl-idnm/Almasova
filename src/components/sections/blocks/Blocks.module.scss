@@ -17,23 +17,35 @@
 
 .card {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 24px;
+  align-items: center;
+  gap: 16px;
+  min-height: 92px;
+  padding: 20px 24px;
   border-radius: var(--r-lg);
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow 160ms ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+  }
 }
 
 .cardIcon {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
   flex-shrink: 0;
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
   color: var(--accent);
 }
 
 .cardText {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--text);
 }
 
@@ -150,6 +162,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  // Lets the answer animate from 0 to its intrinsic height (progressive).
+  interpolate-size: allow-keywords;
 }
 
 .faq {
@@ -157,6 +171,28 @@
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--line);
   overflow: hidden;
+  transition: box-shadow 160ms ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+  }
+}
+
+// Smooth expand/collapse in browsers that support ::details-content;
+// elsewhere it just opens instantly (graceful degradation).
+.faq::details-content {
+  block-size: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    block-size 260ms ease,
+    opacity 220ms ease,
+    content-visibility 260ms allow-discrete;
+}
+
+.faq[open]::details-content {
+  block-size: auto;
+  opacity: 1;
 }
 
 .faqQ {
@@ -170,6 +206,11 @@
   color: var(--text);
   cursor: pointer;
   list-style: none;
+  transition: color 160ms ease;
+
+  &:hover {
+    color: var(--accent);
+  }
 
   &::-webkit-details-marker {
     display: none;
