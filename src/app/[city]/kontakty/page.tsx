@@ -12,6 +12,7 @@ import {
   SiteHeader,
   TileGrid,
 } from "@/components/marketing";
+import { YandexMap } from "@/components/yandex";
 import { supportCopy } from "@/content/support-copy";
 import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
@@ -82,6 +83,16 @@ export default async function ContactsPage({
         >
           <ContactCard city={content} />
         </Section>
+
+        {content.slug === "moskva" ? (
+          <Section
+            eyebrow="На карте"
+            title="Как нас найти"
+            description="Студия в Москве на карте — можно построить маршрут."
+          >
+            <YandexMap />
+          </Section>
+        ) : null}
 
         <Section
           eyebrow={copy.phoneSection.eyebrow}

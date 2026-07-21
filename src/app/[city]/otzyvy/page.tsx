@@ -12,6 +12,7 @@ import {
   SiteHeader,
   TileGrid,
 } from "@/components/marketing";
+import { YandexReviews } from "@/components/yandex";
 import { supportCopy } from "@/content/support-copy";
 import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
@@ -83,6 +84,16 @@ export default async function ReviewsPage({
         >
           <ReviewsGrid items={content.reviews} />
         </Section>
+
+        {content.slug === "moskva" ? (
+          <Section
+            eyebrow="Яндекс.Карты"
+            title="Отзывы на Яндексе"
+            description="Живые отзывы клиентов из карточки организации на Яндекс.Картах."
+          >
+            <YandexReviews />
+          </Section>
+        ) : null}
 
         <Section
           eyebrow={copy.themesSection.eyebrow}
