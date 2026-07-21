@@ -11,6 +11,7 @@ import {
 } from "@phosphor-icons/react";
 
 import { GenderToggle } from "@/components/theme/GenderToggle";
+import { CitySwitcher } from "./CitySwitcher";
 import {
   brandName,
   defaultPhoneDisplay,
@@ -34,9 +35,12 @@ export function SiteHeader({ city }: { city?: CityContent | null }) {
         { href: `/${city.slug}/faq`, label: "FAQ" },
       ]
     : [
-        { href: "/moskva", label: "Москва" },
-        { href: "/almaty", label: "Алматы" },
         { href: "/moskva/trihopigmentaciya", label: "Трихопигментация" },
+        { href: "/moskva/kamuflyazh-rubcov-na-golove", label: "Камуфляж рубцов" },
+        { href: "/moskva/ceny", label: "Цены" },
+        { href: "/moskva/do-posle", label: "До / после" },
+        { href: "/moskva/otzyvy", label: "Отзывы" },
+        { href: "/moskva/faq", label: "FAQ" },
       ];
 
   const phoneHref = city?.phoneHref ?? defaultPhoneHref;
@@ -59,6 +63,7 @@ export function SiteHeader({ city }: { city?: CityContent | null }) {
         </nav>
 
         <div className={styles.actions}>
+          <CitySwitcher current={city?.slug} />
           <GenderToggle />
 
           <div className={styles.socials}>
@@ -98,6 +103,9 @@ export function SiteHeader({ city }: { city?: CityContent | null }) {
 
       {open ? (
         <nav className={styles.mobileMenu}>
+          <div className={styles.mobileCity}>
+            <CitySwitcher current={city?.slug} />
+          </div>
           {links.map((link) => (
             <Link
               key={link.href}

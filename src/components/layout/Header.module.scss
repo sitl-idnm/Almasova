@@ -40,12 +40,13 @@
 
 .nav {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 18px;
   margin-inline: auto;
   min-width: 0;
 
-  @media (max-width: 1240px) {
+  @media (max-width: 1300px) {
     display: none;
   }
 }
@@ -53,6 +54,7 @@
 .navLink {
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
   color: var(--muted);
   transition: color 160ms ease;
 
@@ -67,13 +69,64 @@
   gap: 12px;
 }
 
+/* ── City switcher (Москва / Алматы) ─────────────────────────────────── */
+.citySwitch {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.cityBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--muted);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+
+  &:hover {
+    color: var(--text);
+  }
+
+  &[data-active="true"] {
+    background: var(--accent);
+    color: var(--accent-contrast);
+  }
+}
+
+.mobileCity {
+  display: none;
+  margin-bottom: 12px;
+
+  @include mobile {
+    display: block;
+  }
+
+  .citySwitch {
+    display: inline-flex;
+  }
+}
+
 .socials {
   display: flex;
   align-items: center;
   gap: 8px;
 
   // Secondary contacts — hidden until there is genuine room (CTA + burger cover it).
-  @media (max-width: 1400px) {
+  @media (max-width: 1440px) {
     display: none;
   }
 }
@@ -119,7 +172,7 @@
     background: var(--accent-strong);
   }
 
-  @media (max-width: 1240px) {
+  @media (max-width: 1300px) {
     display: none;
   }
 }
@@ -149,7 +202,7 @@
     color: var(--accent);
   }
 
-  @media (max-width: 1240px) {
+  @media (max-width: 1300px) {
     display: inline-flex;
   }
 }
@@ -162,7 +215,7 @@
   border-bottom: 1px solid var(--line);
   background: var(--bg);
 
-  @media (max-width: 1240px) {
+  @media (max-width: 1300px) {
     display: flex;
   }
 }
