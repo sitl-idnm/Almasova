@@ -1,3 +1,4 @@
+import { cityGenderParams } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -21,7 +22,7 @@ import { cityAlternates } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return [{ city: "moskva" }, { city: "almaty" }];
+  return cityGenderParams();
 }
 
 export function generateMetadata({

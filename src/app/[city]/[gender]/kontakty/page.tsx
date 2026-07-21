@@ -1,24 +1,25 @@
+import { cityGenderParams } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import {
+  AboutSpecialist,
   Breadcrumbs,
   ContactCard,
   JsonLd,
   PageHero,
-  ReviewsGrid,
   Section,
   SiteFooter,
   SiteHeader,
   TileGrid,
 } from "@/components/marketing";
-import { YandexReviews } from "@/components/yandex";
+import { YandexMap } from "@/components/yandex";
 import { supportCopy } from "@/content/support-copy";
 import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return [{ city: "moskva" }, { city: "almaty" }];
+  return cityGenderParams();
 }
 
 export function generateMetadata({
@@ -30,14 +31,14 @@ export function generateMetadata({
     const content = getCityContent(city);
     if (!content) return {};
     return {
-      title: `Отзывы в ${content.prepositionalName} - ${specialistName}`,
-      description: `Отзывы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Залысины, макушка, рубцы на голове и случаи после пересадки волос.`,
-      alternates: cityAlternates(content.slug, "/otzyvy"),
+      title: `Контакты в ${content.prepositionalName} - ${specialistName}`,
+      description: `Контакты и запись в ${content.prepositionalName}. Телефон, режим работы, консультация по трихопигментации и камуфляжу рубцов у Алёны Алмасовой.`,
+      alternates: cityAlternates(content.slug, "/kontakty"),
     };
   });
 }
 
-export default async function ReviewsPage({
+export default async function ContactsPage({
   params,
 }: {
   params: Promise<{ city: string }>;
@@ -45,7 +46,7 @@ export default async function ReviewsPage({
   const { city } = await params;
   const content = getCityContent(city);
   if (!content) notFound();
-  const copy = supportCopy.reviews;
+  const copy = supportCopy.contacts;
   const cityIn = content.prepositionalName;
 
   return (
@@ -53,9 +54,9 @@ export default async function ReviewsPage({
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          name: `Отзывы в ${cityIn}`,
-          url: getBaseUrl(`/${content.slug}/otzyvy`),
+          "@type": "ContactPage",
+          name: `Контакты в ${cityIn}`,
+          url: getBaseUrl(`/${content.slug}/kontakty`),
         }}
       />
       <SiteHeader city={content} />
@@ -63,7 +64,7 @@ export default async function ReviewsPage({
         items={[
           { href: "/", label: "Главная" },
           { href: `/${content.slug}`, label: content.name },
-          { label: "Отзывы" },
+          { label: "Контакты" },
         ]}
       />
       <main className="pb-16">
@@ -71,10 +72,9 @@ export default async function ReviewsPage({
           eyebrow={content.name}
           title={`${copy.hero.titlePrefix}${cityIn}`}
           subtitle={copy.hero.subtitleTemplate}
-          support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/do-posle`}
-          secondaryLabel="Смотреть работы"
+          secondaryHref={`/${content.slug}/faq`}
+          secondaryLabel="Частые вопросы"
         />
 
         <Section
@@ -82,29 +82,29 @@ export default async function ReviewsPage({
           title={copy.mainSection.title}
           description={copy.mainSection.description}
         >
-          <ReviewsGrid items={content.reviews} />
+          <ContactCard city={content} />
         </Section>
 
         {content.slug === "moskva" ? (
           <Section
-            eyebrow="Яндекс.Карты"
-            title="Отзывы на Яндексе"
-            description="Живые отзывы клиентов из карточки организации на Яндекс.Картах."
+            eyebrow="На карте"
+            title="Как нас найти"
+            description="Студия в Москве на карте — можно построить маршрут."
           >
-            <YandexReviews />
+            <YandexMap />
           </Section>
         ) : null}
 
         <Section
-          eyebrow={copy.themesSection.eyebrow}
-          title={copy.themesSection.title}
-          description={copy.themesSection.description}
+          eyebrow={copy.phoneSection.eyebrow}
+          title={copy.phoneSection.title}
+          description={copy.phoneSection.description}
         >
-          <TileGrid items={[...copy.themesSection.items]} />
+          <TileGrid items={[...copy.phoneSection.items]} />
         </Section>
 
-        <Section eyebrow="Контакты" title="Получить консультацию">
-          <ContactCard city={content} />
+        <Section eyebrow="О специалисте" title="Обо мне">
+          <AboutSpecialist />
         </Section>
       </main>
       <SiteFooter city={content} />

@@ -16,6 +16,7 @@ import {
 import { WorksGallery } from "@/components/works-gallery";
 import { ServiceCards } from "@/components/sections/blocks/Blocks";
 import { concernCopy, type ConcernSlug } from "@/content/concern-copy";
+import { genderSlugs } from "@/lib/gender";
 import { cityAlternates } from "@/lib/seo";
 import {
   brandSameAs,
@@ -62,7 +63,9 @@ function getConcernGalleryItems(slug: ConcernSlug, items: ProofItem[]) {
 
 export function generateStaticParams() {
   return ["moskva", "almaty"].flatMap((city) =>
-    concernSlugs.map((concern) => ({ city, concern })),
+    genderSlugs.flatMap((gender) =>
+      concernSlugs.map((concern) => ({ city, gender, concern })),
+    ),
   );
 }
 
