@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import {
@@ -15,7 +14,9 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
+import { ServiceCards } from "@/components/sections/blocks/Blocks";
 import { concernCopy, type ConcernSlug } from "@/content/concern-copy";
+import { cityAlternates } from "@/lib/seo";
 import {
   brandSameAs,
   getBaseUrl,
@@ -84,9 +85,7 @@ export function generateMetadata({
         "{city}",
         cityContent.prepositionalName,
       ),
-      alternates: {
-        canonical: getBaseUrl(`/${cityContent.slug}/${concern}`),
-      },
+      alternates: cityAlternates(cityContent.slug, `/${concern}`),
     };
   });
 }
@@ -203,20 +202,17 @@ export default async function ConcernPage({
           title={`Если хотите понять, подходит ли это вам в ${cityIn}`}
           description={`Проще всего перейти в основной раздел по услуге или сразу связаться со мной. На консультации я объясню, реалистичен ли этот сценарий именно для вашего случая.`}
         >
-          <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-            <Link
-              className="surface rounded-[2rem] p-6 sm:p-8 hover:-translate-y-0.5"
-              href={serviceHref}
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-                Основная услуга
-              </p>
-              <h3 className="mt-4 text-3xl">{serviceLabel}</h3>
-              <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
-                Здесь собраны базовые объяснения по процедуре, фото, стоимость, отзывы и частые
-                вопросы.
-              </p>
-            </Link>
+          <div className="two-col">
+            <ServiceCards
+              services={[
+                {
+                  title: serviceLabel,
+                  href: serviceHref,
+                  description:
+                    "Базовые объяснения по процедуре, фото работ, стоимость, отзывы и частые вопросы.",
+                },
+              ]}
+            />
             <ContactCard city={cityContent} />
           </div>
         </Section>

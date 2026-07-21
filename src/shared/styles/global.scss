@@ -1,0 +1,284 @@
+// ── Almasova global styles ────────────────────────────────────────────
+@use "mixins" as *;
+
+// ── Design tokens ─────────────────────────────────────────────────────
+// Default (:root) = MALE theme (graphite + bronze). Crawlers see this
+// canonical version. FEMALE theme overrides via [data-gender="female"].
+:root {
+  // Palette — male (graphite + bronze)
+  --bg: #0f1114;
+  --bg-strong: #0b0c0e;
+  --surface: #17191d;
+  --surface-2: #1e2126;
+  --text: #f4f5f6;
+  --muted: #9aa0a6;
+  --line: rgba(244, 245, 246, 0.1);
+  --line-strong: rgba(244, 245, 246, 0.18);
+  --accent: #c8a46b;
+  --accent-strong: #d8b981;
+  --accent-soft: rgba(200, 164, 107, 0.14);
+  --accent-contrast: #0f1114;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+
+  // Radii (Chaika): 8 / 12 / 16 / 24 / 48 / pill
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-2xl: 48px;
+  --r-pill: 100px;
+
+  // Fonts (wired by next/font on <html>). No serif — headings use Inter Tight;
+  // Arsenal (--font-accent) is reserved for the logotype and hero title only.
+  --font-ui: var(--font-inter-tight), system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), system-ui, sans-serif;
+  --font-accent: var(--font-arsenal), Georgia, serif;
+}
+
+:root[data-gender="female"] {
+  // Palette — female (warm nude + dusty rose)
+  --bg: #fbf7f4;
+  --bg-strong: #f3eae3;
+  --surface: #ffffff;
+  --surface-2: #fbf6f2;
+  --text: #211a1c;
+  --muted: #8a7b7e;
+  --line: rgba(33, 26, 28, 0.12);
+  --line-strong: rgba(33, 26, 28, 0.2);
+  --accent: #a9707b;
+  --accent-strong: #925c67;
+  --accent-soft: rgba(169, 112, 123, 0.14);
+  --accent-contrast: #ffffff;
+  --shadow: 0 24px 80px rgba(74, 40, 45, 0.12);
+}
+
+// ── Reset ─────────────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.4;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  // `clip` (not `hidden`) so sticky headers work (Chaika fix)
+  overflow-x: clip;
+  // Smooth palette swap when toggling gender
+  transition:
+    background-color 260ms ease,
+    color 260ms ease;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+// ── Global helpers ────────────────────────────────────────────────────
+.container {
+  @include container;
+}
+
+// Page main gets bottom breathing room before the footer (replaces the dead
+// Tailwind `pb-16` left on <main> after Tailwind was removed).
+main {
+  padding-bottom: 64px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Legacy utility classes ────────────────────────────────────────────
+// Used by inline page markup pending per-page migration to modules.
+.container-shell {
+  @include container;
+}
+
+.surface,
+.surface-strong {
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.rich-gradient {
+  background:
+    radial-gradient(circle at top right, var(--accent-soft), transparent 42%),
+    var(--surface);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 40px);
+  line-height: 1.05;
+}
+
+.section-copy {
+  max-width: 60ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.accent-text {
+  color: var(--accent);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 15px;
+  font-weight: 600;
+
+  &:hover {
+    background: var(--accent-strong);
+  }
+}
+
+.button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+
+  &:hover {
+    border-color: var(--accent);
+  }
+}
+
+// Gender-conditional copy: BOTH variants are server-rendered; the inactive
+// one is hidden via CSS. Keeps HTML static (SEO-safe), no re-render on toggle.
+.g-female {
+  display: none;
+}
+:root[data-gender="female"] {
+  .g-female {
+    display: revert;
+  }
+  .g-male {
+    display: none;
+  }
+}
+
+// Inline variant (keeps flow for spans)
+.g-female-inline {
+  display: none;
+}
+:root[data-gender="female"] {
+  .g-female-inline {
+    display: inline;
+  }
+  .g-male-inline {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

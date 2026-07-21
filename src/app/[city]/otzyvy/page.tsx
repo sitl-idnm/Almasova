@@ -13,6 +13,7 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
+import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -30,7 +31,7 @@ export function generateMetadata({
     return {
       title: `Отзывы в ${content.prepositionalName} - ${specialistName}`,
       description: `Отзывы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Залысины, макушка, рубцы на голове и случаи после пересадки волос.`,
-      alternates: { canonical: getBaseUrl(`/${content.slug}/otzyvy`) },
+      alternates: cityAlternates(content.slug, "/otzyvy"),
     };
   });
 }

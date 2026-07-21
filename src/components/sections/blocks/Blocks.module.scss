@@ -1,0 +1,322 @@
+@use "mixins" as *;
+
+// ── FeatureCards ──────────────────────────────────────────────────────
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 92px;
+  padding: 20px 24px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow 160ms ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+  }
+}
+
+.cardIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.cardText {
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+// ── ServiceCards ──────────────────────────────────────────────────────
+.services {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.service {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow 0.16s ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+
+  @include mobile {
+    padding: 24px;
+  }
+}
+
+.serviceBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.serviceTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.serviceText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.serviceMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+// ── Steps ─────────────────────────────────────────────────────────────
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.stepNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.stepTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.stepText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+// ── Faq ───────────────────────────────────────────────────────────────
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  // Lets the answer animate from 0 to its intrinsic height (progressive).
+  interpolate-size: allow-keywords;
+}
+
+.faq {
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+  transition: box-shadow 160ms ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+  }
+}
+
+// Smooth expand/collapse in browsers that support ::details-content;
+// elsewhere it just opens instantly (graceful degradation).
+.faq::details-content {
+  block-size: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    block-size 260ms ease,
+    opacity 220ms ease,
+    content-visibility 260ms allow-discrete;
+}
+
+.faq[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+.faqQ {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  transition: color 160ms ease;
+
+  &:hover {
+    color: var(--accent);
+  }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+// Minimal +/- marker (two bars; vertical one collapses when open).
+.faqMark {
+  position: relative;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.16s ease;
+  }
+
+  &::before {
+    width: 14px;
+    height: 2px;
+  }
+
+  &::after {
+    width: 2px;
+    height: 14px;
+  }
+}
+
+.faq[open] .faqMark::after {
+  opacity: 0;
+}
+
+.faqA {
+  padding: 0 24px 22px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+// ── Reviews ───────────────────────────────────────────────────────────
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.reviewHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.reviewAvatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reviewName {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.reviewLabel {
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.reviewQuote {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}

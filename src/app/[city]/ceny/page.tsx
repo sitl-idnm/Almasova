@@ -5,14 +5,15 @@ import {
   Breadcrumbs,
   ContactCard,
   JsonLd,
-  PageHero,
-  PriceGrid,
   Section,
   SiteFooter,
   SiteHeader,
   TileGrid,
 } from "@/components/marketing";
+import { Hero } from "@/components/sections/Hero/Hero";
+import { PriceTable } from "@/components/sections/PriceTable/PriceTable";
 import { supportCopy } from "@/content/support-copy";
+import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -30,7 +31,7 @@ export function generateMetadata({
     return {
       title: `Цены в ${content.prepositionalName} - трихопигментация и камуфляж`,
       description: `Стоимость трихопигментации и камуфляжа рубцов в ${content.prepositionalName}. Ориентиры по зонам, логика расчета и консультация по телефону.`,
-      alternates: { canonical: getBaseUrl(`/${content.slug}/ceny`) },
+      alternates: cityAlternates(content.slug, "/ceny"),
     };
   });
 }
@@ -67,7 +68,7 @@ export default async function PricesPage({
         ]}
       />
       <main className="pb-16">
-        <PageHero
+        <Hero
           eyebrow={content.name}
           title={`${copy.hero.titlePrefix}${cityIn}`}
           subtitle={copy.hero.subtitleTemplate}
@@ -82,7 +83,10 @@ export default async function PricesPage({
           title={copy.topSection.title}
           description={copy.topSection.description}
         >
-          <PriceGrid items={content.priceItems} />
+          <PriceTable
+            items={content.priceItems}
+            note="Точная стоимость зависит от площади зоны, наличия рубцов, исходной плотности и числа этапов — её я называю после очной или онлайн-оценки."
+          />
         </Section>
 
         <Section

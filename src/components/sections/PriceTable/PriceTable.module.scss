@@ -1,0 +1,81 @@
+@use "mixins" as *;
+
+.table {
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  padding: 16px 28px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  @include mobile {
+    padding: 14px 20px;
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+  padding: 24px 28px;
+  border-top: 1px solid var(--line);
+
+  @include mobile {
+    padding: 18px 20px;
+    gap: 16px;
+  }
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.desc {
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.price {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+
+  @include mobile {
+    font-size: 18px;
+  }
+}
+
+.note {
+  padding: 18px 28px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+
+  @include mobile {
+    padding: 16px 20px;
+  }
+}

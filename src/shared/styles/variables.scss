@@ -1,0 +1,31 @@
+// ── Almasova design system — Sass variables ───────────────────────────
+// Consolidated from the Chaika design system, adapted to the SMP niche.
+@use "sass:map";
+
+// Breakpoints (Chaika): tablet ≤900, mobile ≤560
+$tablet: 900px;
+$mobile: 560px;
+
+// Layout
+$container: 1312px;
+$gutter: 64px;
+$gutter-tablet: 24px;
+$gutter-mobile: 12px;
+
+// Spacing scale (Chaika): 4·6·8·12·16·24·32·48·64·88
+$space: (
+  1: 4px,
+  2: 6px,
+  3: 8px,
+  4: 12px,
+  5: 16px,
+  6: 24px,
+  7: 32px,
+  8: 48px,
+  9: 64px,
+  10: 88px,
+);
+
+@function sp($step) {
+  @return map.get($space, $step);
+}

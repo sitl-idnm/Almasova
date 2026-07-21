@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
 
+import { concernCopy } from "@/content/concern-copy";
+
 const base = "https://almasova.com";
 const cities = ["moskva", "almaty"];
+const concerns = Object.keys(concernCopy);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
@@ -15,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       `/${city}/otzyvy`,
       `/${city}/faq`,
       `/${city}/kontakty`,
+      ...concerns.map((concern) => `/${city}/${concern}`),
     ]),
   ];
 

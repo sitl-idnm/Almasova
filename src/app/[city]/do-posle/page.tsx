@@ -13,6 +13,7 @@ import {
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { supportCopy } from "@/content/support-copy";
+import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -30,7 +31,7 @@ export function generateMetadata({
     return {
       title: `До и после в ${content.prepositionalName} - работы Алёны Алмасовой`,
       description: `До и после по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Кейсы Алёны Алмасовой по залысинам, макушке, рубцам и после пересадки волос.`,
-      alternates: { canonical: getBaseUrl(`/${content.slug}/do-posle`) },
+      alternates: cityAlternates(content.slug, "/do-posle"),
     };
   });
 }

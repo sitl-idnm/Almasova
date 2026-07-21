@@ -1,25 +1,40 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Inter_Tight, Arsenal } from "next/font/google";
 import Script from "next/script";
-import "./globals.css";
+import { GenderOverlay } from "@/components/theme/GenderOverlay";
+import "../shared/styles/global.scss";
 
-const siteFont = Montserrat({
-  variable: "--font-body",
+const fontUi = Inter_Tight({
   subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter-tight",
+  display: "swap",
 });
+
+// Arsenal — reserved for the logotype and the hero title only (as in Chaika).
+const fontAccent = Arsenal({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "700"],
+  variable: "--font-arsenal",
+  display: "swap",
+});
+
+// Anti-FOUC: apply the gender theme from cookie before first paint so
+// toggling gender never causes a flash and pages stay statically rendered.
+const genderInit = `(function(){try{var m=document.cookie.match(/(?:^|; )gender=(male|female)/);document.documentElement.setAttribute('data-gender',m?m[1]:'male');}catch(e){document.documentElement.setAttribute('data-gender','male');}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://almasova.com"),
   title: {
-    default: "Алёна Алмасова - трихопигментация и медицинский камуфляж",
+    default: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
     template: "%s | Алёна Алмасова",
   },
   description:
-    "Трихопигментация кожи головы и камуфляж рубцов у Алёны Алмасовой. Москва и Алматы.",
+    "Трихопигментация кожи головы и камуфляж рубцов у врача Алёны Алмасовой. Москва и Алматы.",
   openGraph: {
-    title: "Алёна Алмасова - трихопигментация и медицинский камуфляж",
+    title: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
     description:
-      "Трихопигментация кожи головы и камуфляж рубцов. Москва и Алматы.",
+      "Трихопигментация кожи головы и камуфляж рубцов. Естественный результат, медицинский подход. Москва и Алматы.",
     url: "https://almasova.com",
     siteName: "Алёна Алмасова",
     locale: "ru_RU",
@@ -29,15 +44,14 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Алёна Алмасова - трихопигментация и медицинский камуфляж",
+        alt: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Алёна Алмасова - трихопигментация и медицинский камуфляж",
-    description:
-      "Трихопигментация кожи головы и камуфляж рубцов. Москва и Алматы.",
+    title: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
+    description: "Трихопигментация кожи головы и камуфляж рубцов. Москва и Алматы.",
     images: ["/twitter-image"],
   },
   icons: {
@@ -52,8 +66,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${siteFont.variable} h-full`}>
-      <body className="min-h-full flex flex-col">
+    <html
+      lang="ru"
+      data-gender="male"
+      suppressHydrationWarning
+      className={`${fontUi.variable} ${fontAccent.variable}`}
+    >
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: genderInit }} />
         <Script id="yandex-metrika" strategy="afterInteractive">
           {`
             (function(m,e,t,r,i,k,a){
@@ -86,6 +106,7 @@ export default function RootLayout({
           </div>
         </noscript>
         {children}
+        <GenderOverlay />
       </body>
     </html>
   );
