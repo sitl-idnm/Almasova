@@ -108,6 +108,7 @@ export default async function ConcernPage({
 
   const copy = concernCopy[concern as ConcernSlug];
   const cityIn = cityContent.prepositionalName;
+  const gm = getGenderMeta(gender)!;
   const galleryItems = getConcernGalleryItems(concern as ConcernSlug, cityContent.proofItems);
   const serviceHref =
     copy.service === "scar"
@@ -164,7 +165,7 @@ export default async function ConcernPage({
       />
       <main className="pb-16">
         <PageHero
-          eyebrow={cityContent.name}
+          eyebrow={`${cityContent.name} · ${gm.forWhom}`}
           title={pageTitle}
           subtitle={copy.heroSubtitleTemplate.replace("{city}", cityIn)}
           support={copy.heroSupportTemplate.replace("{city}", cityIn)}

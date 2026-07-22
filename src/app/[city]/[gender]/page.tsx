@@ -17,6 +17,7 @@ import { Faq, FeatureCards, Reviews, ServiceCards, Steps } from "@/components/se
 import { GenderAccent } from "@/components/theme/GenderAccent";
 import { Certificate, ShieldCheck, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { cityHubCopy } from "@/content/city-copy";
+import { leadFor } from "@/content/gender-copy";
 import { cityAlternates } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
@@ -31,12 +32,13 @@ export function generateMetadata({
 }): Promise<Metadata> {
   return params.then(({ city, gender }) => {
     const content = getCityContent(city);
-    if (!content) {
+    const g = getGenderMeta(gender);
+    if (!content || !g) {
       return {};
     }
 
     return {
-      title: cityHubCopy[content.slug].metadataTitle,
+      title: `${cityHubCopy[content.slug].metadataTitle} — ${g.forWhom}`,
       description: cityHubCopy[content.slug].metadataDescription,
       alternates: cityAlternates(content.slug, gender as GenderSlug),
     };
@@ -57,6 +59,7 @@ export default async function CityPage({
 
   const copy = cityHubCopy[content.slug];
   const cityIn = content.prepositionalName;
+  const gm = getGenderMeta(gender)!;
 
   const schema = {
     "@context": "https://schema.org",
@@ -100,9 +103,9 @@ export default async function CityPage({
       <main className="pb-16">
         <Hero
           eyebrow={copy.hero.eyebrow}
-          title={copy.hero.title}
+          title={`${copy.hero.title} — ${gm.dative}`}
           subtitle={copy.hero.subtitle}
-          support={copy.hero.support}
+          support={leadFor(gender as GenderSlug, "default")}
           primaryHref={`tel:${content.phoneHref}`}
           secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Посмотреть работы"
