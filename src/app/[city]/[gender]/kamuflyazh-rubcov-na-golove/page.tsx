@@ -192,21 +192,17 @@ export default async function ScarCamouflagePage({
           title={copy.resultSection.title}
           description={copy.resultSection.description}
         >
-          <div className="grid gap-5 lg:grid-cols-2">
-            <div className="surface rounded-[1.8rem] p-6 sm:p-8">
-              <h3 className="text-3xl">{copy.resultSection.leftTitle}</h3>
-              <div className="mt-5">
-                <InlineFeatureList
-                  variant="dense"
-                  items={[...copy.resultSection.leftItems]}
-                />
-              </div>
+          <div className="two-col">
+            <div className="panel">
+              <h3 className="panel-title">{copy.resultSection.leftTitle}</h3>
+              <InlineFeatureList
+                variant="dense"
+                items={[...copy.resultSection.leftItems]}
+              />
             </div>
-            <div className="surface rounded-[1.8rem] p-6 sm:p-8">
-              <h3 className="text-3xl">{copy.resultSection.rightTitle}</h3>
-              <p className="mt-4 text-sm leading-8 text-[var(--muted)] sm:text-base">
-                {copy.resultSection.rightText}
-              </p>
+            <div className="panel">
+              <h3 className="panel-title">{copy.resultSection.rightTitle}</h3>
+              <p className="panel-text">{copy.resultSection.rightText}</p>
             </div>
           </div>
         </Section>
@@ -216,7 +212,7 @@ export default async function ScarCamouflagePage({
           title={`${copy.priceSection.titlePrefix}${cityIn}`}
           description={copy.priceSection.description}
         >
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="card-grid">
             {[
               {
                 title: copy.priceSection.cards.local.title,
@@ -234,16 +230,14 @@ export default async function ScarCamouflagePage({
                 text: copy.priceSection.cards.complex.text,
               },
             ].map((item) => (
-              <div key={item.title} className="surface rounded-[1.8rem] p-6">
-                <p className="text-2xl">{item.title}</p>
-                <p className="mt-3 text-3xl font-semibold text-[var(--accent-strong)]">
-                  {item.price}
-                </p>
-                <p className="mt-4 text-sm leading-7 text-[var(--muted)]">{item.text}</p>
+              <div key={item.title} className="panel">
+                <p className="panel-title">{item.title}</p>
+                <p className="panel-price">{item.price}</p>
+                <p className="panel-text">{item.text}</p>
               </div>
             ))}
           </div>
-          <div className="mt-6">
+          <div style={{ marginTop: 24 }}>
             <a className="button-primary" href={`tel:${content.phoneHref}`}>
               {copy.priceSection.cta}
             </a>
