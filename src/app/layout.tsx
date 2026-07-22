@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter_Tight, Arsenal } from "next/font/google";
 import Script from "next/script";
 import { GenderOverlay } from "@/components/theme/GenderOverlay";
+import { ClickGoals } from "@/components/analytics/ClickGoals";
 import "../shared/styles/global.scss";
 
 const fontUi = Inter_Tight({
@@ -106,6 +107,7 @@ export default function RootLayout({
           </div>
         </noscript>
         {children}
+        <ClickGoals />
         <GenderOverlay />
       </body>
     </html>
