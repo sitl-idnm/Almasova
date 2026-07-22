@@ -1,12 +1,12 @@
 import styles from "./yandex.module.scss";
 
-/** Яндекс-карта организации (Москва, oid 19842067924). Адаптивная обёртка. */
-export function YandexMap() {
+/** Яндекс-карта организации. Адаптивная обёртка; src — виджет-конструктор из site-data. */
+export function YandexMap({ src }: { src: string }) {
   return (
     <div className={styles.map}>
       <iframe
         className={styles.mapFrame}
-        src="https://yandex.ru/map-widget/v1/?ll=37.459412%2C55.730988&mode=search&oid=19842067924&ol=biz&z=17"
+        src={src}
         title="Алёна Алмасова на Яндекс.Картах"
         allowFullScreen
         loading="lazy"

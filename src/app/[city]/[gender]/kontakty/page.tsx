@@ -92,7 +92,7 @@ export default async function ContactsPage({
             title="Как нас найти"
             description="Студия в Москве на карте — можно построить маршрут."
           >
-            <YandexMap />
+            <YandexMap src={content.mapEmbedUrl} />
           </Section>
         ) : null}
 
