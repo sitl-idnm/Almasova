@@ -14,6 +14,7 @@ import {
 import { Hero } from "@/components/sections/Hero/Hero";
 import { PriceTable } from "@/components/sections/PriceTable/PriceTable";
 import { supportCopy } from "@/content/support-copy";
+import { leadFor } from "@/content/gender-copy";
 import { cityAlternates } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
@@ -50,6 +51,7 @@ export default async function PricesPage({
 
   const copy = supportCopy.prices;
   const cityIn = content.prepositionalName;
+  const gm = getGenderMeta(gender)!;
 
   return (
     <>
@@ -72,9 +74,9 @@ export default async function PricesPage({
       <main className="pb-16">
         <Hero
           eyebrow={content.name}
-          title={`${copy.hero.titlePrefix}${cityIn}`}
+          title={`${copy.hero.titlePrefix}${cityIn} — ${gm.dative}`}
           subtitle={copy.hero.subtitleTemplate}
-          support={copy.hero.support}
+          support={leadFor(gender as GenderSlug, "ceny")}
           primaryHref={`tel:${content.phoneHref}`}
           secondaryHref={`/${content.slug}/${gender}/kontakty`}
           secondaryLabel="Связаться"

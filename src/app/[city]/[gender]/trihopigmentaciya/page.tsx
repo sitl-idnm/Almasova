@@ -19,6 +19,7 @@ import {
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { trichopigmentaciyaCopy } from "@/content/trichopigmentaciya-copy";
+import { leadFor } from "@/content/gender-copy";
 import { cityAlternates } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
@@ -59,6 +60,7 @@ export default async function TrichopigmentationPage({
 
   const copy = trichopigmentaciyaCopy;
   const cityIn = content.prepositionalName;
+  const gm = getGenderMeta(gender)!;
 
   const faqItems = [
     {
@@ -159,9 +161,9 @@ export default async function TrichopigmentationPage({
       <main className="pb-16">
         <PageHero
           eyebrow={content.name}
-          title={`${copy.hero.titlePrefix}${cityIn}`}
+          title={`${copy.hero.titlePrefix}${cityIn} — ${gm.dative}`}
           subtitle={copy.hero.subtitleTemplate.replace("{city}", cityIn)}
-          support={copy.hero.support}
+          support={leadFor(gender as GenderSlug, "trihopigmentaciya")}
           primaryHref={`tel:${content.phoneHref}`}
           secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Посмотреть до и после"

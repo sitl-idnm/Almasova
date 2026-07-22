@@ -1,4 +1,5 @@
 import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
+import { leadFor } from "@/content/gender-copy";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -58,6 +59,7 @@ export default async function ScarCamouflagePage({
 
   const copy = scarCopy;
   const cityIn = content.prepositionalName;
+  const gm = getGenderMeta(gender)!;
 
   const faqItems = [
     {
@@ -161,9 +163,9 @@ export default async function ScarCamouflagePage({
       <main className="pb-16">
         <PageHero
           eyebrow={content.name}
-          title={`${copy.hero.titlePrefix}${cityIn}`}
+          title={`${copy.hero.titlePrefix}${cityIn} — ${gm.dative}`}
           subtitle={copy.hero.subtitleTemplate.replace("{city}", cityIn)}
-          support={copy.hero.support}
+          support={leadFor(gender as GenderSlug, "kamuflyazh-rubcov-na-golove")}
           primaryHref={`tel:${content.phoneHref}`}
           secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Смотреть реальные работы"

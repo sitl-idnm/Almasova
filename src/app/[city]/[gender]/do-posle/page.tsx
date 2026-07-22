@@ -1,4 +1,5 @@
 import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
+import { leadFor } from "@/content/gender-copy";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -48,6 +49,7 @@ export default async function BeforeAfterPage({
   if (!content) notFound();
   const copy = supportCopy.beforeAfter;
   const cityIn = content.prepositionalName;
+  const gm = getGenderMeta(gender)!;
 
   return (
     <>
@@ -70,9 +72,9 @@ export default async function BeforeAfterPage({
       <main className="pb-16">
         <PageHero
           eyebrow={content.name}
-          title={`${copy.hero.titlePrefix}${cityIn}`}
+          title={`${copy.hero.titlePrefix}${cityIn} — ${gm.dative}`}
           subtitle={copy.hero.subtitleTemplate}
-          support={copy.hero.support}
+          support={leadFor(gender as GenderSlug, "do-posle")}
           primaryHref={`tel:${content.phoneHref}`}
           secondaryHref={`/${content.slug}/${gender}/trihopigmentaciya`}
           secondaryLabel="О процедуре"
