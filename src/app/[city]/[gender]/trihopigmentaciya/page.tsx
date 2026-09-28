@@ -227,6 +227,9 @@ export default async function TrichopigmentationPage({
               </div>
             ))}
           </div>
+          <p className="panel-text" style={{ marginTop: 16 }}>
+            * Стоимость указана за один сеанс
+          </p>
           <div style={{ marginTop: 24 }}>
             <a className="button-primary" href={`tel:${content.phoneHref}`}>
               {copy.priceSection.cta}

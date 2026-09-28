@@ -22,6 +22,7 @@ export function PriceTable({ items, note }: { items: PriceRow[]; note?: string }
           <p className={styles.price}>{row.price}</p>
         </div>
       ))}
+      <p className={styles.perSession}>* Стоимость указана за один сеанс</p>
       {note && <p className={styles.note}>{note}</p>}
     </div>
   );

@@ -68,6 +68,17 @@
   }
 }
 
+.perSession {
+  padding: 16px 28px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+
+  @include mobile {
+    padding: 14px 20px 0;
+  }
+}
+
 .note {
   padding: 18px 28px;
   border-top: 1px solid var(--line);
