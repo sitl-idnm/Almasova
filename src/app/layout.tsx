@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter_Tight, Arsenal } from "next/font/google";
 import Script from "next/script";
 import { GenderOverlay } from "@/components/theme/GenderOverlay";
+import { ClickGoals } from "@/components/analytics/ClickGoals";
 import "../shared/styles/global.scss";
 
 const fontUi = Inter_Tight({
@@ -26,15 +27,15 @@ const genderInit = `(function(){try{var m=document.cookie.match(/(?:^|; )gender=
 export const metadata: Metadata = {
   metadataBase: new URL("https://almasova.com"),
   title: {
-    default: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
+    default: "Алёна Алмасова — трихопигментация и камуфляж рубцов",
     template: "%s | Алёна Алмасова",
   },
   description:
-    "Трихопигментация кожи головы и камуфляж рубцов у врача Алёны Алмасовой. Москва и Алматы.",
+    "Трихопигментация кожи головы и камуфляж рубцов у специалиста Алёны Алмасовой. Москва и Алматы.",
   openGraph: {
-    title: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
+    title: "Алёна Алмасова — трихопигментация и камуфляж рубцов",
     description:
-      "Трихопигментация кожи головы и камуфляж рубцов. Естественный результат, медицинский подход. Москва и Алматы.",
+      "Трихопигментация кожи головы и камуфляж рубцов. Естественный результат, профессиональный подход. Москва и Алматы.",
     url: "https://almasova.com",
     siteName: "Алёна Алмасова",
     locale: "ru_RU",
@@ -44,13 +45,13 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
+        alt: "Алёна Алмасова — трихопигментация и камуфляж рубцов",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Алёна Алмасова — трихопигментация и медицинский камуфляж",
+    title: "Алёна Алмасова — трихопигментация и камуфляж рубцов",
     description: "Трихопигментация кожи головы и камуфляж рубцов. Москва и Алматы.",
     images: ["/twitter-image"],
   },
@@ -106,6 +107,7 @@ export default function RootLayout({
           </div>
         </noscript>
         {children}
+        <ClickGoals />
         <GenderOverlay />
       </body>
     </html>

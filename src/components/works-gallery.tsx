@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowsOutIcon,
   CaretLeftIcon,
@@ -10,25 +10,37 @@ import {
 } from "@phosphor-icons/react";
 
 import type { ProofItem } from "@/lib/site-data";
+import { useGender } from "@/components/theme/useGender";
 import { nbsp } from "@/shared/lib/typography";
 import styles from "./works-gallery.module.scss";
 
 export function WorksGallery({ items }: { items: ProofItem[] }) {
+  const gender = useGender();
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const activeItem = items[activeIndex];
-  const lightboxItem = lightboxIndex !== null ? items[lightboxIndex] : null;
+  // Показываем кейсы под выбранный пол; если под пол ничего нет — весь набор.
+  const genderItems = items.filter((i) => !i.gender || i.gender === "both" || i.gender === gender);
+  const visibleItems = genderItems.length ? genderItems : items;
+
+  // При смене пола/набора сбрасываем позицию, чтобы индекс не выпал за границы.
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [gender, visibleItems.length]);
+
+  const items_ = visibleItems;
+  const activeItem = items_[activeIndex] ?? items_[0];
+  const lightboxItem = lightboxIndex !== null ? items_[lightboxIndex] : null;
 
   const goPrev = () =>
-    setActiveIndex((c) => (c === 0 ? items.length - 1 : c - 1));
+    setActiveIndex((c) => (c === 0 ? items_.length - 1 : c - 1));
   const goNext = () =>
-    setActiveIndex((c) => (c === items.length - 1 ? 0 : c + 1));
+    setActiveIndex((c) => (c === items_.length - 1 ? 0 : c + 1));
 
   const goLightboxPrev = () =>
-    setLightboxIndex((c) => (c === null ? c : c === 0 ? items.length - 1 : c - 1));
+    setLightboxIndex((c) => (c === null ? c : c === 0 ? items_.length - 1 : c - 1));
   const goLightboxNext = () =>
-    setLightboxIndex((c) => (c === null ? c : c === items.length - 1 ? 0 : c + 1));
+    setLightboxIndex((c) => (c === null ? c : c === items_.length - 1 ? 0 : c + 1));
 
   return (
     <>
@@ -68,7 +80,7 @@ export function WorksGallery({ items }: { items: ProofItem[] }) {
           <div className={styles.panelFooter}>
             <div className={styles.panelNav}>
               <p className={styles.counter}>
-                {activeIndex + 1} / {items.length}
+                {activeIndex + 1} / {items_.length}
               </p>
               <div className={styles.navBtns}>
                 <button
@@ -91,7 +103,7 @@ export function WorksGallery({ items }: { items: ProofItem[] }) {
             </div>
 
             <div className={styles.thumbs}>
-              {items.map((item, index) => (
+              {items_.map((item, index) => (
                 <button
                   key={`${item.title}-${item.imageSrc}`}
                   type="button"
@@ -161,7 +173,7 @@ export function WorksGallery({ items }: { items: ProofItem[] }) {
             <div className={styles.lightboxFoot}>
               <p className={styles.lightboxDetails}>{nbsp(lightboxItem.details)}</p>
               <p className={styles.counter}>
-                {(lightboxIndex ?? 0) + 1} / {items.length}
+                {(lightboxIndex ?? 0) + 1} / {items_.length}
               </p>
             </div>
           </div>

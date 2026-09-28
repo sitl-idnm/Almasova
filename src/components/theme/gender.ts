@@ -17,10 +17,14 @@ export function currentGender(): Gender {
   return attr === "female" ? "female" : "male";
 }
 
+/** Событие смены пола — на него подписываются gender-aware компоненты (напр. галерея). */
+export const GENDER_EVENT = "genderchange";
+
 export function setGender(g: Gender): void {
   if (typeof document === "undefined") return;
   document.documentElement.setAttribute("data-gender", g);
   document.cookie = `${COOKIE}=${g}; path=/; max-age=${MAX_AGE}; samesite=lax`;
+  window.dispatchEvent(new CustomEvent<Gender>(GENDER_EVENT, { detail: g }));
   // Notify Yandex.Metrika if available (goal wiring lands in the conversion phase)
   const w = window as unknown as { ym?: (id: number, m: string, t: string) => void };
   try {

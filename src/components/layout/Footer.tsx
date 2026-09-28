@@ -13,12 +13,22 @@ import {
   specialistName,
   type CityContent,
 } from "@/lib/site-data";
+import { DEFAULT_GENDER } from "@/lib/gender";
+import { legalDocs, operator } from "@/content/legal";
 import { nbsp } from "@/shared/lib/typography";
 import styles from "./Footer.module.scss";
 
-export function SiteFooter({ city }: { city?: CityContent | null }) {
+export function SiteFooter({
+  city,
+  gender = DEFAULT_GENDER,
+}: {
+  city?: CityContent | null;
+  gender?: string;
+}) {
   const phoneHref = city?.phoneHref ?? defaultPhoneHref;
   const phoneDisplay = city?.phoneDisplay ?? defaultPhoneDisplay;
+  const citySlug = city?.slug ?? "moskva";
+  const base = `/${citySlug}/${gender}`;
   const year = new Date().getFullYear();
 
   return (
@@ -28,7 +38,7 @@ export function SiteFooter({ city }: { city?: CityContent | null }) {
           <p className={styles.brandName}>{nbsp(specialistName)}</p>
           <p className={styles.brandText}>
             {nbsp(
-              "Врач. Трихопигментация кожи головы и медицинский камуфляж рубцов — залысины, редкая макушка и рубцы без неестественного эффекта.",
+              "Специалист по трихопигментации с высшим медицинским образованием. Трихопигментация кожи головы и камуфляж рубцов — залысины, редкая макушка и рубцы без неестественного эффекта. Эстетическая процедура, не медицинская услуга.",
             )}
           </p>
           <div className={styles.socials}>
@@ -52,20 +62,16 @@ export function SiteFooter({ city }: { city?: CityContent | null }) {
 
         <div className={styles.col}>
           <p className={styles.colLabel}>Города</p>
-          <Link href="/moskva">{nbsp("Москва")}</Link>
-          <Link href="/almaty">{nbsp("Алматы")}</Link>
+          <Link href={`/moskva/${gender}`}>{nbsp("Москва")}</Link>
+          <Link href={`/almaty/${gender}`}>{nbsp("Алматы")}</Link>
         </div>
 
         <div className={styles.col}>
           <p className={styles.colLabel}>Разделы</p>
-          <Link href={city ? `/${city.slug}/do-posle` : "/moskva/do-posle"}>
-            {nbsp("До и после")}
-          </Link>
-          <Link href={city ? `/${city.slug}/ceny` : "/moskva/ceny"}>{nbsp("Цены")}</Link>
-          <Link href={city ? `/${city.slug}/faq` : "/moskva/faq"}>{nbsp("Вопросы")}</Link>
-          <Link href={city ? `/${city.slug}/kontakty` : "/moskva/kontakty"}>
-            {nbsp("Контакты")}
-          </Link>
+          <Link href={`${base}/do-posle`}>{nbsp("До и после")}</Link>
+          <Link href={`${base}/ceny`}>{nbsp("Цены")}</Link>
+          <Link href={`${base}/faq`}>{nbsp("Вопросы")}</Link>
+          <Link href={`${base}/kontakty`}>{nbsp("Контакты")}</Link>
         </div>
 
         <div className={styles.col}>
@@ -75,11 +81,22 @@ export function SiteFooter({ city }: { city?: CityContent | null }) {
           </a>
           <p className={styles.note}>{nbsp("Телефон, Telegram, MAX и онлайн-консультация")}</p>
         </div>
+
+        <div className={styles.col}>
+          <p className={styles.colLabel}>Документы</p>
+          {legalDocs.map((doc) => (
+            <Link key={doc.slug} href={`/${doc.slug}`}>
+              {nbsp(doc.title)}
+            </Link>
+          ))}
+        </div>
       </div>
 
       <div className={`container ${styles.bottom}`}>
         <span>© {year} {nbsp(brandName)}</span>
-        <span>{nbsp("Трихопигментация · медицинский камуфляж")}</span>
+        <span className={styles.requisites}>
+          {nbsp(`${operator.fullName} · ${operator.status} · ИНН ${operator.inn}`)}
+        </span>
       </div>
     </footer>
   );

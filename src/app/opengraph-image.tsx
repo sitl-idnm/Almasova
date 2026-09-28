@@ -55,7 +55,7 @@ export default function OpenGraphImage() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div style={{ fontSize: 64, fontWeight: 700, lineHeight: 1.05, maxWidth: 900 }}>
-            Трихопигментация кожи головы и медицинский камуфляж
+            Трихопигментация кожи головы и камуфляж рубцов
           </div>
           <div
             style={{
@@ -94,7 +94,7 @@ export default function OpenGraphImage() {
               background: "rgba(255,255,255,0.82)",
             }}
           >
-            Медицинский подход
+            Профессиональный подход
           </div>
         </div>
       </div>

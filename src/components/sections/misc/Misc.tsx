@@ -135,7 +135,7 @@ export function AboutSpecialist() {
         <div className={styles.aboutMain}>
           <span className={styles.aboutBadge}>{specialistName}</span>
           <h3 className={styles.aboutTitle}>
-            Врач и специалист по трихопигментации кожи головы
+            Специалист по трихопигментации кожи головы с высшим медицинским образованием
           </h3>
           <p className={styles.aboutLead}>{lead}</p>
           <div className={styles.aboutParas}>

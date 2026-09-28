@@ -27,7 +27,7 @@ export function GenderOverlay() {
       aria-label="Кому подбираем решение"
     >
       <div className={styles.overlayCard}>
-        <p className={styles.overlayEyebrow}>Трихопигментация · медицинский подход</p>
+        <p className={styles.overlayEyebrow}>Трихопигментация · профессиональный подход</p>
         <h2 className={styles.overlayTitle}>Кому подбираем решение?</h2>
         <p className={styles.overlayText}>
           Задачи и подача отличаются. Выберите, чтобы показать примеры и оформление,

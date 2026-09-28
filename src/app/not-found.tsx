@@ -6,19 +6,19 @@ export default function NotFound() {
   return (
     <>
       <SiteHeader />
-      <main className="container-shell flex flex-1 items-center py-24">
-        <div className="surface-strong w-full rounded-[2rem] p-8 sm:p-12">
+      <main className="container-shell not-found">
+        <div className="panel">
           <span className="eyebrow">404</span>
-          <h1 className="section-title max-w-3xl">Такой страницы сейчас нет</h1>
-          <p className="section-copy mt-6">
+          <h1 className="section-title">Такой страницы сейчас нет</h1>
+          <p className="section-copy">
             Вернитесь на главную страницу или перейдите в один из городов, чтобы
             продолжить просмотр сайта.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="not-found__actions">
             <Link className="button-primary" href="/">
               На главную
             </Link>
-            <Link className="button-secondary" href="/moskva">
+            <Link className="button-secondary" href="/moskva/muzhchinam">
               К странице Москвы
             </Link>
           </div>
