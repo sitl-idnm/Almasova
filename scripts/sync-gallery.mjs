@@ -1,36 +1,31 @@
 /**
- * Синхронизация галереи «до/после» из папки Google Drive.
+ * Синхронизация галереи «до/после» из ПУБЛИЧНОЙ папки Google Drive.
  *
  *   npm run sync:gallery
  *
  * Что делает:
- *   1) забирает список изображений из ПУБЛИЧНОЙ папки Google Drive (Drive API v3);
+ *   1) забирает список изображений из публичной папки Drive (без API-ключа,
+ *      через embeddedfolderview);
  *   2) скачивает каждое фото, ужимает и конвертирует в WebP (sharp);
- *   3) кладёт в public/images/works-drive/;
+ *   3) кладёт в public/images/works-drive/ (папка полностью пересобирается);
  *   4) перегенерирует src/content/works-drive.generated.ts.
  *
  * Требуется один раз:
- *   • открыть папку Drive: «Доступ по ссылке → Любой, у кого есть ссылка → Читатель»;
- *   • создать бесплатный API-ключ в Google Cloud Console (включить «Google Drive API»);
+ *   • папка Drive должна быть открыта: «Доступ по ссылке → Любой, у кого есть ссылка → Читатель»;
  *   • установить sharp:  npm i -D sharp
  *
- * Переменные окружения (можно положить в .env.local):
- *   GDRIVE_API_KEY   — ключ Google API (обязательно);
+ * Переменные окружения (необязательно):
  *   GDRIVE_FOLDER_ID — id папки (по умолчанию — папка клиента ниже).
  *
- * СХЕМА ИМЁН ФАЙЛОВ В DRIVE (всё опционально, разделитель — двойное подчёркивание `__`):
- *   <пол>__<Заголовок>__<Подпись>__<сеансы>.jpg
- *   пол:      m|muzh|male → мужской;  zh|f|zhen|female → женский;  иначе — общий
- *   пример:   m__Макушка__Просвечивающую макушку сделали визуально плотной__2-3 сеанса.jpg
- *   пример:   zh__Пробор__Вернули густоту по пробору без операций.jpg
- *   Если `__` нет — заголовок берётся из имени файла (дефисы → пробелы).
+ * ПОДПИСИ/ПОЛ. Если имя файла в Drive содержит двойное подчёркивание `__`, оно
+ * разбирается как  <пол>__<Заголовок>__<Подпись>__<сеансы>.jpg  (пол: m|zh).
+ * Иначе кейс получает нейтральную подпись «Работа N» и показывается всем.
  */
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
-const FOLDER_ID = process.env.GDRIVE_FOLDER_ID || "1SKcxLy_n3TiDdNpPoLt5yu5K6z-cs9H7";
-const API_KEY = process.env.GDRIVE_API_KEY;
+const FOLDER_ID = process.env.GDRIVE_FOLDER_ID || "1NUkP5UMET5C7hmvUn1n6uWouP-_zyVbw";
 
 const ROOT = path.resolve(process.cwd());
 const OUT_DIR = path.join(ROOT, "public", "images", "works-drive");
@@ -38,18 +33,11 @@ const OUT_URL_BASE = "/images/works-drive";
 const GEN_FILE = path.join(ROOT, "src", "content", "works-drive.generated.ts");
 const MAX_WIDTH = 1600;
 const QUALITY = 80;
+const UA = "Mozilla/5.0";
 
 function fail(msg) {
   console.error("\n✖ " + msg + "\n");
   process.exit(1);
-}
-
-if (!API_KEY) {
-  fail(
-    "Не задан GDRIVE_API_KEY. Создайте API-ключ в Google Cloud Console (включив Google Drive API)\n" +
-      "  и запустите: GDRIVE_API_KEY=xxxx npm run sync:gallery\n" +
-      "  (или добавьте GDRIVE_API_KEY в .env.local)",
-  );
 }
 
 let sharp;
@@ -59,68 +47,70 @@ try {
   fail("Не установлен sharp. Выполните: npm i -D sharp");
 }
 
-const IMAGE_MIME = /^image\/(jpe?g|png|webp|heic|heif)$/i;
+const IMAGE_EXT = /\.(jpe?g|png|webp|heic|heif)$/i;
 
+const TRANSLIT = {
+  а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z",
+  и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r",
+  с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "c", ч: "ch", ш: "sh", щ: "sch",
+  ъ: "", ы: "y", ь: "", э: "e", ю: "yu", я: "ya",
+};
+
+// Латиница-безопасный slug (кириллица → транслит), чтобы имена файлов и URL
+// не ломались на Linux/CDN.
 const slugify = (s) =>
   s
     .toLowerCase()
-    .replace(/[^a-z0-9а-яё]+/gi, "-")
+    .replace(/[а-яё]/g, (ch) => TRANSLIT[ch] ?? "")
+    .replace(/[^a-z0-9]+/gi, "-")
     .replace(/^-+|-+$/g, "")
     .replace(/-{2,}/g, "-")
     .slice(0, 60);
 
-const translitLite = (s) => s; // имена файлов латиницей рекомендуются; кириллицу slugify тоже переварит
-
-function parseMeta(rawName) {
+function parseMeta(rawName, index) {
   const base = rawName.replace(/\.[^.]+$/, "");
-  const parts = base.split("__").map((p) => p.trim());
-  let gender = "both";
-  let title = base.replace(/[-_]+/g, " ").trim();
-  let details = "";
-  let sessions = "";
+  const fallbackTitle = `Работа ${index + 1}`;
 
-  if (parts.length > 1) {
+  if (base.includes("__")) {
+    const parts = base.split("__").map((p) => p.trim());
+    let gender = "both";
     const g = parts[0].toLowerCase();
     if (/^(m|muzh|male|man|муж)/.test(g)) gender = "male";
     else if (/^(zh|f|zhen|female|women|жен)/.test(g)) gender = "female";
     const rest = gender === "both" ? parts : parts.slice(1);
-    title = (rest[0] || title).replace(/[-_]+/g, " ").trim();
-    details = (rest[1] || "").trim();
-    sessions = (rest[2] || "").trim();
+    const title = (rest[0] || fallbackTitle).replace(/[-_]+/g, " ").trim();
+    const details = (rest[1] || "Трихопигментация — до и после").trim();
+    const sessions = (rest[2] || "").trim();
+    return { gender, title, details, sessions };
   }
 
-  if (!details) details = title;
-  return { gender, title, details, sessions };
+  return {
+    gender: "both",
+    title: fallbackTitle,
+    details: "Трихопигментация — до и после",
+    sessions: "",
+  };
 }
 
 async function listFiles() {
+  const url = `https://drive.google.com/embeddedfolderview?id=${FOLDER_ID}#list`;
+  const res = await fetch(url, { headers: { "User-Agent": UA } });
+  if (!res.ok) fail(`Не удалось открыть папку (${res.status}). Проверьте доступ «по ссылке».`);
+  const html = await res.text();
+
   const files = [];
-  let pageToken = "";
-  do {
-    const url = new URL("https://www.googleapis.com/drive/v3/files");
-    url.searchParams.set("q", `'${FOLDER_ID}' in parents and trashed=false`);
-    url.searchParams.set("key", API_KEY);
-    url.searchParams.set("fields", "nextPageToken, files(id,name,mimeType)");
-    url.searchParams.set("pageSize", "1000");
-    url.searchParams.set("orderBy", "name_natural");
-    if (pageToken) url.searchParams.set("pageToken", pageToken);
-
-    const res = await fetch(url);
-    if (!res.ok) {
-      const body = await res.text();
-      fail(`Drive API вернул ${res.status}. Проверьте API-ключ и доступ к папке.\n${body}`);
-    }
-    const data = await res.json();
-    files.push(...(data.files || []));
-    pageToken = data.nextPageToken || "";
-  } while (pageToken);
-
-  return files.filter((f) => IMAGE_MIME.test(f.mimeType));
+  const re = /id="entry-([A-Za-z0-9_-]{20,})"[\s\S]*?flip-entry-title[^>]*>([^<]+)</g;
+  let m;
+  while ((m = re.exec(html))) {
+    const [, id, name] = m;
+    if (IMAGE_EXT.test(name)) files.push({ id, name: name.trim() });
+  }
+  return files;
 }
 
 async function downloadFile(id) {
-  const url = `https://www.googleapis.com/drive/v3/files/${id}?alt=media&key=${API_KEY}`;
-  const res = await fetch(url);
+  const url = `https://drive.usercontent.google.com/download?id=${id}&export=download`;
+  const res = await fetch(url, { headers: { "User-Agent": UA } });
   if (!res.ok) fail(`Не удалось скачать файл ${id}: ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
 }
@@ -128,11 +118,7 @@ async function downloadFile(id) {
 async function main() {
   console.log(`→ Папка Drive: ${FOLDER_ID}`);
   const files = await listFiles();
-  if (!files.length) {
-    console.log("В папке нет изображений — генерирую пустой список.");
-  } else {
-    console.log(`Найдено изображений: ${files.length}`);
-  }
+  console.log(files.length ? `Найдено изображений: ${files.length}` : "В папке нет изображений.");
 
   await rm(OUT_DIR, { recursive: true, force: true });
   await mkdir(OUT_DIR, { recursive: true });
@@ -142,8 +128,8 @@ async function main() {
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    const meta = parseMeta(file.name);
-    let slug = slugify(translitLite(meta.title)) || `foto-${i + 1}`;
+    const meta = parseMeta(file.name, i);
+    let slug = slugify(meta.title) || `foto-${i + 1}`;
     while (usedSlugs.has(slug)) slug += `-${i + 1}`;
     usedSlugs.add(slug);
 
@@ -176,13 +162,9 @@ async function main() {
  * Источник: папка Google Drive ${FOLDER_ID}.
  */
 export const driveWorks: ProofItem[] = `;
-  const body = JSON.stringify(items, null, 2);
-  await writeFile(GEN_FILE, `${header}${body};\n`, "utf8");
+  await writeFile(GEN_FILE, `${header}${JSON.stringify(items, null, 2)};\n`, "utf8");
 
   console.log(`\n✔ Готово. Кейсов: ${items.length}. Обновлён ${path.relative(ROOT, GEN_FILE)}`);
-  if (items.length) {
-    console.log("  Проверьте сборку:  npm run build");
-  }
 }
 
 main().catch((e) => fail(e.stack || String(e)));
