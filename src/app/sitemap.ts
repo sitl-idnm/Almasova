@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { concernCopy } from "@/content/concern-copy";
+import { legalDocs } from "@/content/legal";
 import { genderSlugs } from "@/lib/gender";
 
 const base = "https://almasova.com";
@@ -27,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         subPaths.map((sub) => `/${city}/${gender}${sub}`),
       ),
     ),
+    ...legalDocs.map((doc) => `/${doc.slug}`),
   ];
 
   return paths.map((path) => ({

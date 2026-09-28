@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { WorksGallery } from "@/components/works-gallery";
-import { allWorks } from "@/content/works";
+import { galleryWorks } from "@/content/works";
 import { Button } from "@/ui/Button/Button";
 import { nbsp } from "@/shared/lib/typography";
 
@@ -28,7 +28,7 @@ export const Works: FC = () => {
           </Button>
         </div>
 
-        <WorksGallery items={allWorks} />
+        <WorksGallery items={galleryWorks} />
       </div>
     </section>
   );

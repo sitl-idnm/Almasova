@@ -14,6 +14,7 @@ import {
   type CityContent,
 } from "@/lib/site-data";
 import { DEFAULT_GENDER } from "@/lib/gender";
+import { legalDocs, operator } from "@/content/legal";
 import { nbsp } from "@/shared/lib/typography";
 import styles from "./Footer.module.scss";
 
@@ -37,7 +38,7 @@ export function SiteFooter({
           <p className={styles.brandName}>{nbsp(specialistName)}</p>
           <p className={styles.brandText}>
             {nbsp(
-              "Врач. Трихопигментация кожи головы и медицинский камуфляж рубцов — залысины, редкая макушка и рубцы без неестественного эффекта.",
+              "Специалист по трихопигментации с высшим медицинским образованием. Трихопигментация кожи головы и камуфляж рубцов — залысины, редкая макушка и рубцы без неестественного эффекта. Эстетическая процедура, не медицинская услуга.",
             )}
           </p>
           <div className={styles.socials}>
@@ -80,11 +81,22 @@ export function SiteFooter({
           </a>
           <p className={styles.note}>{nbsp("Телефон, Telegram, MAX и онлайн-консультация")}</p>
         </div>
+
+        <div className={styles.col}>
+          <p className={styles.colLabel}>Документы</p>
+          {legalDocs.map((doc) => (
+            <Link key={doc.slug} href={`/${doc.slug}`}>
+              {nbsp(doc.title)}
+            </Link>
+          ))}
+        </div>
       </div>
 
       <div className={`container ${styles.bottom}`}>
         <span>© {year} {nbsp(brandName)}</span>
-        <span>{nbsp("Трихопигментация · медицинский камуфляж")}</span>
+        <span className={styles.requisites}>
+          {nbsp(`${operator.fullName} · ${operator.status} · ИНН ${operator.inn}`)}
+        </span>
       </div>
     </footer>
   );

@@ -47,7 +47,7 @@ export function Hero({
   secondaryLabel = "Посмотреть работы",
   chips,
   cityCards,
-  asideTitle = "Медицинский подход",
+  asideTitle = "Профессиональный подход",
   asideText = "Оцениваю показания и противопоказания, подбираю линию, плотность и оттенок под ваш случай — без шаблона и лишних обещаний.",
 }: HeroProps) {
   return (

@@ -110,7 +110,7 @@ export default async function CityPage({
           secondaryHref={`/${content.slug}/${gender}/do-posle`}
           secondaryLabel="Посмотреть работы"
           chips={[
-            { icon: ShieldCheck, label: "Врач, а не тату-мастер" },
+            { icon: ShieldCheck, label: "С мед. образованием, а не тату-мастер" },
             { icon: Sparkle, label: "Естественный результат" },
             { icon: Certificate, label: "Оценка показаний" },
           ]}
@@ -192,7 +192,7 @@ export default async function CityPage({
         <Section
           eyebrow="Локальные ориентиры"
           title={`Что важно учесть перед записью в ${cityIn}`}
-          description={`Я собрала короткие ориентиры именно для пациентов в ${cityIn}, чтобы вам было проще понять формат консультации, стоимость и логику дальнейших шагов.`}
+          description={`Я собрала короткие ориентиры именно для клиентов в ${cityIn}, чтобы вам было проще понять формат консультации, стоимость и логику дальнейших шагов.`}
         >
           <FeatureCards items={content.localTrust} />
         </Section>

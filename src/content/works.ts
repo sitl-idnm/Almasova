@@ -1,4 +1,5 @@
 import type { ProofItem } from "@/lib/site-data";
+import { driveWorks } from "./works-drive.generated";
 
 /**
  * Реальные работы «до/после» трихопигментации (SMP) Алёны Алмасовой.
@@ -219,7 +220,13 @@ export const allWorks: ProofItem[] = [
   },
 ];
 
+/**
+ * Источник галереи: если синхронизированы фото из Google Drive
+ * (`npm run sync:gallery`) — используем их, иначе кураторский набор выше.
+ */
+export const galleryWorks: ProofItem[] = driveWorks.length ? driveWorks : allWorks;
+
 /** Кейсы для мужского варианта (+ универсальные). */
-export const worksMale = allWorks.filter((w) => w.gender !== "female");
+export const worksMale = galleryWorks.filter((w) => w.gender !== "female");
 /** Кейсы для женского варианта (+ универсальные). */
-export const worksFemale = allWorks.filter((w) => w.gender !== "male");
+export const worksFemale = galleryWorks.filter((w) => w.gender !== "male");

@@ -18,8 +18,8 @@ type Tag = { icon: typeof PhoneIcon; label: string };
 
 // Ordered shortest → longest, like Chaika.
 const tags: Tag[] = [
-  { icon: StethoscopeIcon, label: "Врач, а не тату-мастер" },
-  { icon: CertificateIcon, label: "Медицинский подход" },
+  { icon: StethoscopeIcon, label: "С мед. образованием, а не тату-мастер" },
+  { icon: CertificateIcon, label: "Профессиональный подход" },
   { icon: ImagesIcon, label: "Зажившие работы спустя годы" },
 ];
 

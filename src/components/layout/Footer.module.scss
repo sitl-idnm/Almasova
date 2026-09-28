@@ -8,7 +8,7 @@
 
 .inner {
   display: grid;
-  grid-template-columns: 1.6fr 0.8fr 0.8fr 1fr;
+  grid-template-columns: 1.5fr 0.7fr 0.8fr 0.9fr 1fr;
   gap: 40px;
   padding-block: 64px 40px;
 
@@ -117,5 +117,16 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+}
+
+.requisites {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: right;
+
+  @include mobile {
+    text-align: left;
   }
 }

@@ -28,7 +28,7 @@ export default function HomePage() {
         "@type": "Person",
         name: specialistName,
         url: getBaseUrl("/"),
-        jobTitle: "Врач, специалист по трихопигментации кожи головы",
+        jobTitle: "Специалист по трихопигментации кожи головы (высшее медицинское образование)",
         sameAs: brandSameAs,
       },
       {
