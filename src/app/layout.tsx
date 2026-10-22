@@ -36,7 +36,6 @@ export const metadata: Metadata = {
     title: "Алёна Алмасова — трихопигментация и камуфляж рубцов",
     description:
       "Трихопигментация кожи головы и камуфляж рубцов. Естественный результат, профессиональный подход. Москва и Алматы.",
-    url: "https://almasova.com",
     siteName: "Алёна Алмасова",
     locale: "ru_RU",
     type: "website",

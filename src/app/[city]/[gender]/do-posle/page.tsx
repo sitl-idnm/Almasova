@@ -15,7 +15,7 @@ import {
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { supportCopy } from "@/content/support-copy";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -31,11 +31,11 @@ export function generateMetadata({
     const content = getCityContent(city);
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
-    return {
+    return pageMeta({
       title: `До и после в ${content.prepositionalName} - работы Алёны Алмасовой — ${g.forWhom}`,
       description: `До и после по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Кейсы Алёны Алмасовой по залысинам, макушке, рубцам и после пересадки волос.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/do-posle"),
-    };
+    });
   });
 }
 

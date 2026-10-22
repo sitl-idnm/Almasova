@@ -20,7 +20,7 @@ import {
 import { WorksGallery } from "@/components/works-gallery";
 import { trichopigmentaciyaCopy } from "@/content/trichopigmentaciya-copy";
 import { leadFor } from "@/content/gender-copy";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -38,11 +38,11 @@ export function generateMetadata({
       return {};
     }
 
-    return {
+    return pageMeta({
       title: trichopigmentaciyaCopy[content.slug].metadataTitle,
       description: trichopigmentaciyaCopy[content.slug].metadataDescription,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/trihopigmentaciya"),
-    };
+    });
   });
 }
 

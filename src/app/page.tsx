@@ -3,15 +3,14 @@ import type { Metadata } from "next";
 import { JsonLd, SiteFooter, SiteHeader } from "@/components/marketing";
 import { HomeView } from "@/views/home/home";
 import { homeCopy } from "@/content/home-copy";
+import { pageMeta } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, specialistName } from "@/lib/site-data";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: homeCopy.metadataTitle,
   description: homeCopy.metadataDescription,
-  alternates: {
-    canonical: getBaseUrl("/"),
-  },
-};
+  alternates: { canonical: getBaseUrl("/") },
+});
 
 export default function HomePage() {
   const structuredData = {

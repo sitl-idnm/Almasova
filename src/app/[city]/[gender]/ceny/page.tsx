@@ -15,7 +15,7 @@ import { Hero } from "@/components/sections/Hero/Hero";
 import { PriceTable } from "@/components/sections/PriceTable/PriceTable";
 import { supportCopy } from "@/content/support-copy";
 import { leadFor } from "@/content/gender-copy";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -31,11 +31,11 @@ export function generateMetadata({
     const content = getCityContent(city);
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
-    return {
+    return pageMeta({
       title: `Цены в ${content.prepositionalName} - трихопигментация и камуфляж — ${g.forWhom}`,
       description: `Стоимость трихопигментации и камуфляжа рубцов в ${content.prepositionalName}. Ориентиры по зонам, логика расчета и консультация по телефону.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/ceny"),
-    };
+    });
   });
 }
 

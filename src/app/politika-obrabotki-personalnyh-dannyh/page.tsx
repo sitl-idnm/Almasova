@@ -3,12 +3,15 @@ import type { Metadata } from "next";
 import { Breadcrumbs, Section, SiteFooter, SiteHeader } from "@/components/marketing";
 import { LegalDocView } from "@/components/legal/LegalDoc";
 import { privacyPolicy } from "@/content/legal";
+import { pageMeta } from "@/lib/seo";
 import { getBaseUrl } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: privacyPolicy.metaTitle,
-  description: privacyPolicy.metaDescription,
-  alternates: { canonical: getBaseUrl(`/${privacyPolicy.slug}`) },
+  ...pageMeta({
+    title: privacyPolicy.metaTitle,
+    description: privacyPolicy.metaDescription,
+    alternates: { canonical: getBaseUrl(`/${privacyPolicy.slug}`) },
+  }),
   robots: { index: true, follow: true },
 };
 

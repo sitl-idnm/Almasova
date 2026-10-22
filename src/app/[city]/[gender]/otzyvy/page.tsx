@@ -15,7 +15,7 @@ import {
 } from "@/components/marketing";
 import { YandexReviews } from "@/components/yandex";
 import { supportCopy } from "@/content/support-copy";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -31,11 +31,11 @@ export function generateMetadata({
     const content = getCityContent(city);
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
-    return {
+    return pageMeta({
       title: `Отзывы в ${content.prepositionalName} - ${specialistName} — ${g.forWhom}`,
       description: `Отзывы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Залысины, макушка, рубцы на голове и случаи после пересадки волос.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/otzyvy"),
-    };
+    });
   });
 }
 

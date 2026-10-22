@@ -17,7 +17,7 @@ import { WorksGallery } from "@/components/works-gallery";
 import { ServiceCards } from "@/components/sections/blocks/Blocks";
 import { concernCopy, type ConcernSlug } from "@/content/concern-copy";
 import { genderSlugs, getGenderMeta, type GenderSlug } from "@/lib/gender";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import {
   brandSameAs,
   getBaseUrl,
@@ -83,14 +83,14 @@ export function generateMetadata({
 
     const copy = concernCopy[concern as ConcernSlug];
 
-    return {
+    return pageMeta({
       title: `${copy.metadataTitleTemplate.replace("{city}", cityContent.prepositionalName)} — ${g.forWhom}`,
       description: copy.metadataDescriptionTemplate.replace(
         "{city}",
         cityContent.prepositionalName,
       ),
       alternates: cityAlternates(cityContent.slug, gender as GenderSlug, `/${concern}`),
-    };
+    });
   });
 }
 

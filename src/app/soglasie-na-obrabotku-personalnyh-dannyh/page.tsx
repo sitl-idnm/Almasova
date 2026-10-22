@@ -3,12 +3,15 @@ import type { Metadata } from "next";
 import { Breadcrumbs, Section, SiteFooter, SiteHeader } from "@/components/marketing";
 import { LegalDocView } from "@/components/legal/LegalDoc";
 import { consent } from "@/content/legal";
+import { pageMeta } from "@/lib/seo";
 import { getBaseUrl } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: consent.metaTitle,
-  description: consent.metaDescription,
-  alternates: { canonical: getBaseUrl(`/${consent.slug}`) },
+  ...pageMeta({
+    title: consent.metaTitle,
+    description: consent.metaDescription,
+    alternates: { canonical: getBaseUrl(`/${consent.slug}`) },
+  }),
   robots: { index: true, follow: true },
 };
 

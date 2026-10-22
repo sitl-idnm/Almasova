@@ -13,7 +13,7 @@ import {
   SiteHeader,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import { getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -29,11 +29,11 @@ export function generateMetadata({
     const content = getCityContent(city);
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
-    return {
+    return pageMeta({
       title: `FAQ в ${content.prepositionalName} - частые вопросы — ${g.forWhom}`,
       description: `Частые вопросы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName} у Алёны Алмасовой. Больно ли, сколько держится, нужна ли коррекция, можно ли после пересадки волос.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/faq"),
-    };
+    });
   });
 }
 

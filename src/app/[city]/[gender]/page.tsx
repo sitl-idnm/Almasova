@@ -18,7 +18,7 @@ import { GenderAccent } from "@/components/theme/GenderAccent";
 import { Certificate, ShieldCheck, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { cityHubCopy } from "@/content/city-copy";
 import { leadFor } from "@/content/gender-copy";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -37,11 +37,11 @@ export function generateMetadata({
       return {};
     }
 
-    return {
+    return pageMeta({
       title: `${cityHubCopy[content.slug].metadataTitle} — ${g.forWhom}`,
       description: cityHubCopy[content.slug].metadataDescription,
       alternates: cityAlternates(content.slug, gender as GenderSlug),
-    };
+    });
   });
 }
 

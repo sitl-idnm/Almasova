@@ -14,7 +14,7 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
-import { cityAlternates } from "@/lib/seo";
+import { cityAlternates, pageMeta } from "@/lib/seo";
 import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -30,11 +30,11 @@ export function generateMetadata({
     const content = getCityContent(city);
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
-    return {
+    return pageMeta({
       title: `Контакты в ${content.prepositionalName} - ${specialistName} — ${g.forWhom}`,
       description: `Контакты и запись в ${content.prepositionalName}. Телефон, режим работы, консультация по трихопигментации и камуфляжу рубцов у Алёны Алмасовой.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/kontakty"),
-    };
+    });
   });
 }
 
