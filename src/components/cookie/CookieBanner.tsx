@@ -1,38 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+
+import { setConsent, useConsent } from "@/shared/lib/consent";
 
 import styles from "./CookieBanner.module.scss";
 
-const STORAGE_KEY = "cookie-consent";
-
 /**
- * Информационный баннер о cookie/аналитике. Появляется, пока согласие не дано,
- * и запоминает выбор в localStorage. Яндекс.Метрику не блокирует (уведомительная
- * модель): продолжая пользоваться сайтом, пользователь соглашается.
+ * Баннер о cookie/аналитике. Показывается, пока посетитель не сделал выбор.
+ * Яндекс.Метрика (см. analytics/Metrika.tsx) запускается только после «Принять»;
+ * «Отклонить» запоминает отказ, аналитика не загружается.
  */
 export function CookieBanner() {
-  const [visible, setVisible] = useState(false);
+  const consent = useConsent();
 
-  useEffect(() => {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
-    } catch {
-      setVisible(true);
-    }
-  }, []);
-
-  const accept = () => {
-    try {
-      localStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      /* localStorage недоступен — просто скрываем баннер */
-    }
-    setVisible(false);
-  };
-
-  if (!visible) return null;
+  if (consent !== "unset") return null;
 
   return (
     <div className={styles.root} role="dialog" aria-label="Использование cookie">
@@ -44,9 +26,18 @@ export function CookieBanner() {
         </Link>
         .
       </p>
-      <button type="button" onClick={accept} className={styles.button}>
-        Принять
-      </button>
+      <div className={styles.actions}>
+        <button
+          type="button"
+          onClick={() => setConsent("denied")}
+          className={`${styles.button} ${styles.buttonSecondary}`}
+        >
+          Отклонить
+        </button>
+        <button type="button" onClick={() => setConsent("granted")} className={styles.button}>
+          Принять
+        </button>
+      </div>
     </div>
   );
 }

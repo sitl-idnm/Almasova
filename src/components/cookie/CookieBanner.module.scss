@@ -42,9 +42,21 @@
   text-underline-offset: 2px;
 }
 
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+
+  @include mobile {
+    > * {
+      flex: 1;
+    }
+  }
+}
+
 .button {
   flex-shrink: 0;
-  padding: 11px 26px;
+  padding: 11px 22px;
   border: none;
   border-radius: var(--r-pill);
   background: var(--accent);
@@ -56,5 +68,16 @@
 
   &:hover {
     opacity: 0.9;
+  }
+}
+
+.buttonSecondary {
+  background: transparent;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--line);
+
+  &:hover {
+    opacity: 1;
+    box-shadow: inset 0 0 0 1px var(--accent);
   }
 }

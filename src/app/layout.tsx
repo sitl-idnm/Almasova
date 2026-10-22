@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter_Tight, Arsenal } from "next/font/google";
-import Script from "next/script";
 import { GenderOverlay } from "@/components/theme/GenderOverlay";
 import { ClickGoals } from "@/components/analytics/ClickGoals";
+import { Metrika } from "@/components/analytics/Metrika";
 import { CookieBanner } from "@/components/cookie/CookieBanner";
 import "../shared/styles/global.scss";
 
@@ -76,37 +76,7 @@ export default function RootLayout({
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: genderInit }} />
-        <Script id="yandex-metrika" strategy="afterInteractive">
-          {`
-            (function(m,e,t,r,i,k,a){
-                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();
-                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-            })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108411536', 'ym');
-
-            ym(108411536, 'init', {
-              ssr: true,
-              webvisor: true,
-              clickmap: true,
-              ecommerce: "dataLayer",
-              referrer: document.referrer,
-              url: location.href,
-              accurateTrackBounce: true,
-              trackLinks: true
-            });
-          `}
-        </Script>
-        <noscript>
-          <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://mc.yandex.ru/watch/108411536"
-              style={{ position: "absolute", left: "-9999px" }}
-              alt=""
-            />
-          </div>
-        </noscript>
+        <Metrika />
         {children}
         <ClickGoals />
         <GenderOverlay />
