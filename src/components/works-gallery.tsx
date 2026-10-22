@@ -56,7 +56,8 @@ export function WorksGallery({ items }: { items: ProofItem[] }) {
             src={activeItem.imageSrc}
             alt={activeItem.alt}
             fill
-            sizes="(max-width: 900px) 100vw, 62vw"
+            // Сцена — 0.6 ширины контейнера (1312 px − поля 2×64) ≈ 710 px на ПК.
+            sizes="(max-width: 900px) 100vw, (max-width: 1312px) 60vw, 720px"
             className={styles.stageImg}
           />
           <div className={styles.stageOverlay}>

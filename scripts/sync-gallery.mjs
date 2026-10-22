@@ -7,7 +7,7 @@
  *   1) забирает список изображений из публичной папки Drive (без API-ключа,
  *      через embeddedfolderview);
  *   2) скачивает каждое фото, ужимает и конвертирует в WebP (sharp);
- *   3) кладёт в public/images/works-drive/ (папка полностью пересобирается);
+ *   3) кладёт в public/images/works-drive/<slug>-<хеш>.webp (папка полностью пересобирается);
  *   4) перегенерирует src/content/works-drive.generated.ts.
  *
  * Требуется один раз:
@@ -21,6 +21,7 @@
  * разбирается как  <пол>__<Заголовок>__<Подпись>__<сеансы>.jpg  (пол: m|zh).
  * Иначе кейс получает нейтральную подпись «Работа N» и показывается всем.
  */
+import { createHash } from "node:crypto";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
@@ -140,7 +141,10 @@ async function main() {
       .resize({ width: MAX_WIDTH, withoutEnlargement: true })
       .webp({ quality: QUALITY })
       .toBuffer();
-    const fileName = `${slug}.webp`;
+    // Хеш содержимого в имени: фото кешируются браузером на год (immutable,
+    // см. next.config.ts), а заменённое фото получает новый адрес.
+    const hash = createHash("sha1").update(webp).digest("hex").slice(0, 8);
+    const fileName = `${slug}-${hash}.webp`;
     await writeFile(path.join(OUT_DIR, fileName), webp);
     console.log(`ok (${Math.round(webp.length / 1024)} KB, ${meta.gender})`);
 
