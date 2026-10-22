@@ -4,7 +4,7 @@ import { JsonLd, SiteFooter, SiteHeader } from "@/components/marketing";
 import { HomeView } from "@/views/home/home";
 import { homeCopy } from "@/content/home-copy";
 import { pageMeta } from "@/lib/seo";
-import { brandSameAs, getBaseUrl, specialistName } from "@/lib/site-data";
+import { brandSameAs, defaultPhoneDisplay, getBaseUrl, specialistName } from "@/lib/site-data";
 
 export const metadata: Metadata = pageMeta({
   title: homeCopy.metadataTitle,
@@ -20,7 +20,7 @@ export default function HomePage() {
         "@type": "Organization",
         name: specialistName,
         url: getBaseUrl("/"),
-        telephone: "+7 985 990 7601",
+        telephone: defaultPhoneDisplay,
         sameAs: brandSameAs,
       },
       {
@@ -34,7 +34,7 @@ export default function HomePage() {
         "@type": "HealthAndBeautyBusiness",
         name: specialistName,
         url: getBaseUrl("/"),
-        telephone: "+7 985 990 7601",
+        telephone: defaultPhoneDisplay,
         areaServed: ["Москва", "Алматы"],
         sameAs: brandSameAs,
       },
