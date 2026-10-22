@@ -31,7 +31,7 @@ export default function HomePage() {
         sameAs: brandSameAs,
       },
       {
-        "@type": "MedicalBusiness",
+        "@type": "HealthAndBeautyBusiness",
         name: specialistName,
         url: getBaseUrl("/"),
         telephone: "+7 985 990 7601",

@@ -71,7 +71,7 @@ export default async function CityPage({
         description: content.intro,
       },
       {
-        "@type": "MedicalBusiness",
+        "@type": "HealthAndBeautyBusiness",
         name: specialistName,
         areaServed: content.name,
         telephone: content.phoneDisplay,
