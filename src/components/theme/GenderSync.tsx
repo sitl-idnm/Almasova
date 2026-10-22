@@ -11,11 +11,12 @@ import { GENDER_EVENT, type Gender } from "./gender";
  */
 export function GenderSync({ theme }: { theme: Gender }) {
   useEffect(() => {
+    // Cookie — раньше события: подписчики (useGender) читают пол из cookie.
+    document.cookie = `gender=${theme}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
     if (document.documentElement.getAttribute("data-gender") !== theme) {
       document.documentElement.setAttribute("data-gender", theme);
       window.dispatchEvent(new CustomEvent<Gender>(GENDER_EVENT, { detail: theme }));
     }
-    document.cookie = `gender=${theme}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
   }, [theme]);
 
   return null;

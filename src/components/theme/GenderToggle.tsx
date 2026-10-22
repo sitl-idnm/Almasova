@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { GenderFemaleIcon, GenderMaleIcon } from "@phosphor-icons/react";
 
-import { currentGender, setGender, type Gender } from "./gender";
+import { setGender, type Gender } from "./gender";
+import { useGender } from "./useGender";
 import styles from "./gender.module.scss";
 
 const SLUG: Record<Gender, string> = { male: "muzhchinam", female: "zhenshchinam" };
@@ -15,21 +16,22 @@ const SLUG: Record<Gender, string> = { male: "muzhchinam", female: "zhenshchinam
  * it falls back to the cookie/theme toggle.
  */
 export function GenderToggle() {
-  const [g, setG] = useState<Gender>("male");
+  const stored = useGender();
+  // Оптимистичное значение, пока идёт переход на парный URL (только для текущего пути).
+  const [pending, setPending] = useState<{ path: string; gender: Gender } | null>(null);
   const pathname = usePathname() || "/";
   const router = useRouter();
 
   const match = pathname.match(/^\/(moskva|almaty)\/(muzhchinam|zhenshchinam)(\/.*)?$/);
   const urlGender: Gender | null = match ? (match[2] === "zhenshchinam" ? "female" : "male") : null;
 
-  useEffect(() => {
-    setG(urlGender ?? currentGender());
-  }, [urlGender]);
+  const g: Gender =
+    pending && pending.path === pathname ? pending.gender : (urlGender ?? stored);
 
   const toggle = () => {
     const next: Gender = g === "male" ? "female" : "male";
     setGender(next);
-    setG(next);
+    setPending({ path: pathname, gender: next });
     if (match) {
       router.push(`/${match[1]}/${SLUG[next]}${match[3] ?? ""}`);
     }

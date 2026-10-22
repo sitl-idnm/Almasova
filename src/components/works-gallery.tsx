@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ArrowsOutIcon,
   CaretLeftIcon,
@@ -16,17 +16,18 @@ import styles from "./works-gallery.module.scss";
 
 export function WorksGallery({ items }: { items: ProofItem[] }) {
   const gender = useGender();
-  const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   // Показываем кейсы под выбранный пол; если под пол ничего нет — весь набор.
   const genderItems = items.filter((i) => !i.gender || i.gender === "both" || i.gender === gender);
   const visibleItems = genderItems.length ? genderItems : items;
 
-  // При смене пола/набора сбрасываем позицию, чтобы индекс не выпал за границы.
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [gender, visibleItems.length]);
+  // При смене пола/набора позиция сбрасывается: индекс привязан к ключу набора.
+  const setKey = `${gender}:${visibleItems.length}`;
+  const [position, setPosition] = useState({ key: setKey, index: 0 });
+  const activeIndex = position.key === setKey ? position.index : 0;
+  const setActiveIndex = (next: number | ((current: number) => number)) =>
+    setPosition({ key: setKey, index: typeof next === "function" ? next(activeIndex) : next });
 
   const items_ = visibleItems;
   const activeItem = items_[activeIndex] ?? items_[0];
