@@ -18,6 +18,7 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
+import { withRub } from "@/components/rub";
 import { scarCopy } from "@/content/scar-copy";
 import { cityAlternates, pageMeta } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
@@ -232,7 +233,7 @@ export default async function ScarCamouflagePage({
             ].map((item) => (
               <div key={item.title} className="panel">
                 <p className="panel-title">{item.title}</p>
-                <p className="panel-price">{item.price}</p>
+                <p className="panel-price">{withRub(item.price)}</p>
                 <p className="panel-text">{item.text}</p>
               </div>
             ))}

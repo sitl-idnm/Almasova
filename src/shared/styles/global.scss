@@ -346,3 +346,8 @@ main {
     transition-duration: 0.01ms !important;
   }
 }
+
+// Знак ₽ системным шрифтом: в Inter Tight он лежит в latin-ext, лишний файл ради символа.
+.rub {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}

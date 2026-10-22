@@ -4,6 +4,7 @@ import { PhoneIcon, ScissorsIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { Button } from "@/ui/Button/Button";
 import { nbsp } from "@/shared/lib/typography";
+import { withRub } from "@/components/rub";
 import { defaultPhoneHref } from "@/lib/site-data";
 
 import styles from "./Zones.module.scss";
@@ -45,7 +46,7 @@ export const Zones: FC = () => {
               {rows.map((row) => (
                 <tr key={row[0]}>
                   {row.map((cell, i) => (
-                    <td key={i}>{cell}</td>
+                    <td key={i}>{withRub(cell)}</td>
                   ))}
                 </tr>
               ))}

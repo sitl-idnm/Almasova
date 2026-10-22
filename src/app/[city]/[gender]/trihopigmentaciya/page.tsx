@@ -18,6 +18,7 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
+import { withRub } from "@/components/rub";
 import { trichopigmentaciyaCopy } from "@/content/trichopigmentaciya-copy";
 import { leadFor } from "@/content/gender-copy";
 import { cityAlternates, pageMeta } from "@/lib/seo";
@@ -222,7 +223,7 @@ export default async function TrichopigmentationPage({
             {content.priceItems.map((item) => (
               <div key={item.title} className="panel">
                 <p className="panel-title">{item.title}</p>
-                <p className="panel-price">{item.price}</p>
+                <p className="panel-price">{withRub(item.price)}</p>
                 <p className="panel-text">{item.description}</p>
               </div>
             ))}

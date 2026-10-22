@@ -1,3 +1,4 @@
+import { withRub } from "@/components/rub";
 import styles from "./PriceTable.module.scss";
 
 export type PriceRow = { title: string; price: string; description: string };
@@ -19,7 +20,7 @@ export function PriceTable({ items, note }: { items: PriceRow[]; note?: string }
             <p className={styles.title}>{row.title}</p>
             <p className={styles.desc}>{row.description}</p>
           </div>
-          <p className={styles.price}>{row.price}</p>
+          <p className={styles.price}>{withRub(row.price)}</p>
         </div>
       ))}
       <p className={styles.perSession}>* Стоимость указана за один сеанс</p>
