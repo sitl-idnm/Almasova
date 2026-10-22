@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 
 import { Button } from "@/ui/Button/Button";
+import { GenderChoice } from "@/components/theme/GenderChoice";
 import { nbsp } from "@/shared/lib/typography";
 import { defaultPhoneHref } from "@/lib/site-data";
 
@@ -50,6 +51,8 @@ export const Hero: FC = () => {
                 <ArrowUpRightIcon size={16} />
               </Button>
             </div>
+
+            <GenderChoice />
           </div>
 
           <div className={styles.tags}>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter_Tight, Arsenal } from "next/font/google";
-import { GenderOverlay } from "@/components/theme/GenderOverlay";
 import { ClickGoals } from "@/components/analytics/ClickGoals";
 import { Metrika } from "@/components/analytics/Metrika";
 import { CookieBanner } from "@/components/cookie/CookieBanner";
@@ -79,7 +78,6 @@ export default function RootLayout({
         <Metrika />
         {children}
         <ClickGoals />
-        <GenderOverlay />
         <CookieBanner />
       </body>
     </html>
