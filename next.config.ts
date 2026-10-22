@@ -30,6 +30,46 @@ const OLD_SUBPATHS = [
   "trihopigmentaciya-dlya-zhenshchin",
 ];
 
+/**
+ * CSP пока только в режиме Report-Only: браузер ничего не блокирует, а лишь
+ * шлёт отчёты на /api/csp-report. Включать как Content-Security-Policy —
+ * после 2–4 недель без неожиданных нарушений в логах.
+ * 'unsafe-inline' для скриптов нужен: страницы статические (SSG), nonce на каждый
+ * запрос без перевода в динамический рендер не выдать; инлайн — код Next,
+ * анти-FOUC темы и загрузчик Метрики.
+ */
+const CSP_REPORT_ONLY = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://mc.yandex.com https://yastatic.net",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://mc.yandex.ru https://mc.yandex.com https://avatars.mds.yandex.net",
+  "font-src 'self' data:",
+  "connect-src 'self' https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru wss://mc.yandex.com",
+  // Виджеты карты и отзывов (yandex.ru) и служебные фреймы Метрики.
+  "frame-src https://yandex.ru https://*.yandex.ru https://mc.yandex.ru https://mc.yandex.com",
+  "child-src blob: https://mc.yandex.ru https://mc.yandex.com",
+  "worker-src 'self' blob:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  // Карта кликов и Вебвизор Метрики показывают сайт во фрейме своего интерфейса.
+  "frame-ancestors 'self' https://metrika.yandex.ru https://metrika.yandex.com https://metrika.yandex.by https://metrika.yandex.kz https://metrica.yandex.com https://*.webvisor.com https://*.webvisor.org",
+  "report-uri /api/csp-report",
+].join("; ");
+
+/**
+ * Защитные заголовки для всех ответов. X-Frame-Options намеренно не ставим:
+ * SAMEORIGIN запретил бы показ сайта в карте кликов/Вебвизоре Метрики.
+ * От встраивания на чужие сайты защитит frame-ancestors выше, когда CSP
+ * переведут из Report-Only в рабочий режим.
+ */
+const SECURITY_HEADERS = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  { key: "Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY },
+];
+
 /** Публичные картинки из /public/images. */
 const IMAGE_CACHE = [
   // Файлы /images без хеша в имени (alena.png) → 31 день. При замене фото
@@ -56,8 +96,9 @@ const nextConfig: NextConfig = {
     // Оптимизированные /_next/image кешируются браузером 31 день (по умолчанию 4 ч).
     minimumCacheTTL: 2678400,
   },
+  poweredByHeader: false,
   async headers() {
-    return [...IMAGE_CACHE];
+    return [{ source: "/:path*", headers: SECURITY_HEADERS }, ...IMAGE_CACHE];
   },
   sassOptions: {
     // `loadPaths` for the modern Dart Sass API, `includePaths` for legacy —
