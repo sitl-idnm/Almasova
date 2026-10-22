@@ -9,6 +9,7 @@ import {
   Phone,
 } from "@phosphor-icons/react/dist/ssr";
 
+import { YandexMap } from "@/components/yandex";
 import { aboutCopy } from "@/content/about-copy";
 import {
   type CityContent,
@@ -75,13 +76,7 @@ export function ContactCard({ city }: { city: CityContent }) {
     <div className={styles.contact}>
       <div className={styles.contactLeft}>
         <div className={styles.contactMap}>
-          <iframe
-            title={`Карта ${city.name}`}
-            src={city.mapEmbedUrl}
-            width="100%"
-            height="100%"
-            loading="lazy"
-          />
+          <YandexMap src={city.mapEmbedUrl} address={city.address} fill />
         </div>
       </div>
 

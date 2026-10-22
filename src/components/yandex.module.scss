@@ -13,6 +13,69 @@
   }
 }
 
+.mapFill {
+  height: 100%;
+  min-height: 340px;
+  border: 0;
+  border-radius: 0;
+
+  @include mobile {
+    height: 100%;
+  }
+}
+
+.mapStub {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  background:
+    radial-gradient(120% 90% at 50% 40%, var(--surface) 0%, var(--surface-2) 100%);
+}
+
+.mapStubIcon {
+  color: var(--accent);
+}
+
+.mapStubAddress {
+  max-width: 360px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.mapStubButton {
+  min-height: 44px;
+  padding: 10px 24px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 160ms ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.mapStubLink {
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--text);
+  }
+}
+
 .mapFrame {
   position: absolute;
   inset: 0;
@@ -30,6 +93,16 @@
 
   @include mobile {
     height: 640px;
+  }
+}
+
+.reviewsIdle {
+  height: 260px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+
+  @include mobile {
+    height: 240px;
   }
 }
 
