@@ -32,7 +32,7 @@ export function generateMetadata({
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
     return pageMeta({
-      title: `До и после в ${content.prepositionalName} - работы Алёны Алмасовой — ${g.forWhom}`,
+      title: `До и после трихопигментации в ${content.prepositionalName} ${g.forWhom}`,
       description: `До и после по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Кейсы Алёны Алмасовой по залысинам, макушке, рубцам и после пересадки волос.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/do-posle"),
     });

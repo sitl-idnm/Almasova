@@ -32,7 +32,7 @@ export function generateMetadata({
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
     return pageMeta({
-      title: `Цены в ${content.prepositionalName} - трихопигментация и камуфляж — ${g.forWhom}`,
+      title: `Цены на трихопигментацию в ${content.prepositionalName} ${g.forWhom}`,
       description: `Стоимость трихопигментации и камуфляжа рубцов в ${content.prepositionalName}. Ориентиры по зонам, логика расчета и консультация по телефону.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/ceny"),
     });

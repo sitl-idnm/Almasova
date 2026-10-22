@@ -38,7 +38,7 @@ export function generateMetadata({
     }
 
     return pageMeta({
-      title: `${cityHubCopy[content.slug].metadataTitle} — ${g.forWhom}`,
+      title: cityHubCopy[content.slug].metadataTitle.replace("{forWhom}", g.forWhom),
       description: cityHubCopy[content.slug].metadataDescription,
       alternates: cityAlternates(content.slug, gender as GenderSlug),
     });

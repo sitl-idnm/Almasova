@@ -15,7 +15,7 @@ import {
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
 import { cityAlternates, pageMeta } from "@/lib/seo";
-import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
+import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
   return cityGenderParams();
@@ -31,7 +31,7 @@ export function generateMetadata({
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
     return pageMeta({
-      title: `Контакты в ${content.prepositionalName} - ${specialistName} — ${g.forWhom}`,
+      title: `Контакты и запись в ${content.prepositionalName} ${g.forWhom}`,
       description: `Контакты и запись в ${content.prepositionalName}. Телефон, режим работы, консультация по трихопигментации и камуфляжу рубцов у Алёны Алмасовой.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/kontakty"),
     });

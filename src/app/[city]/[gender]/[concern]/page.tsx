@@ -69,6 +69,11 @@ export function generateStaticParams() {
   );
 }
 
+function withForWhom(title: string, forWhom: string) {
+  const [head, ...rest] = title.split(" — ");
+  return [`${head} ${forWhom}`, ...rest].join(" — ");
+}
+
 export function generateMetadata({
   params,
 }: {
@@ -84,7 +89,11 @@ export function generateMetadata({
     const copy = concernCopy[concern as ConcernSlug];
 
     return pageMeta({
-      title: `${copy.metadataTitleTemplate.replace("{city}", cityContent.prepositionalName)} — ${g.forWhom}`,
+      // «для мужчин/женщин» — сразу после города, до уточнения через тире.
+      title: withForWhom(
+        copy.metadataTitleTemplate.replace("{city}", cityContent.prepositionalName),
+        g.forWhom,
+      ),
       description: copy.metadataDescriptionTemplate.replace(
         "{city}",
         cityContent.prepositionalName,

@@ -16,7 +16,7 @@ import {
 import { YandexReviews } from "@/components/yandex";
 import { supportCopy } from "@/content/support-copy";
 import { cityAlternates, pageMeta } from "@/lib/seo";
-import { getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
+import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
   return cityGenderParams();
@@ -32,7 +32,7 @@ export function generateMetadata({
     const g = getGenderMeta(gender);
     if (!content || !g) return {};
     return pageMeta({
-      title: `Отзывы в ${content.prepositionalName} - ${specialistName} — ${g.forWhom}`,
+      title: `Отзывы о трихопигментации в ${content.prepositionalName} ${g.forWhom}`,
       description: `Отзывы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Залысины, макушка, рубцы на голове и случаи после пересадки волос.`,
       alternates: cityAlternates(content.slug, gender as GenderSlug, "/otzyvy"),
     });

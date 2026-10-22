@@ -30,9 +30,9 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "liniya-rosta-volos": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Трихопигментация линии роста волос в {city} — цена и фото",
+      "Трихопигментация линии роста волос в {city}",
     metadataDescriptionTemplate:
-      "Трихопигментация линии роста волос в {city} у специалиста Алёны Алмасовой: коррекция формы, смягчение отступившей линии, аккуратный контур у лба и висков. Фото, цена.",
+      "Трихопигментация линии роста волос в {city} у Алёны Алмасовой: коррекция формы, смягчение отступившей линии, аккуратный контур у лба и висков. Фото, цена.",
     heroTitleTemplate: "Трихопигментация линии роста волос в {city}",
     heroSubtitleTemplate:
       "Я работаю с линией роста волос в {city}, когда она отступила, стала неровной или потеряла форму, и хочется вернуть аккуратный, естественный контур у лба и висков.",
@@ -79,9 +79,9 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "posle-himioterapii": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Трихопигментация после химиотерапии в {city} — деликатно",
+      "Трихопигментация после химиотерапии в {city}",
     metadataDescriptionTemplate:
-      "Трихопигментация после химиотерапии в {city} у специалиста Алёны Алмасовой: деликатная визуальная плотность при неравномерном отрастании волос. Оценка показаний, фото, консультация.",
+      "Трихопигментация после химиотерапии в {city} у Алёны Алмасовой: деликатная визуальная плотность при неравномерном отрастании волос. Фото, консультация.",
     heroTitleTemplate: "Трихопигментация после химиотерапии в {city}",
     heroSubtitleTemplate:
       "Я деликатно работаю с последствиями химиотерапии в {city}, когда волосы отрастают неравномерно, отдельные зоны просвечивают и хочется вернуть более плотный, ухоженный вид.",
@@ -130,7 +130,7 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
     metadataTitleTemplate:
       "Трихопигментация для женщин в {city} — деликатное загущение",
     metadataDescriptionTemplate:
-      "Трихопигментация для женщин в {city} у специалиста Алёны Алмасовой: деликатная работа с пробором, макушкой и поредением. Естественная густота без резкого эффекта. Фото, цена.",
+      "Трихопигментация для женщин в {city} у Алёны Алмасовой: деликатная работа с пробором, макушкой и поредением. Естественная густота без резкого эффекта.",
     heroTitleTemplate: "Трихопигментация для женщин в {city}",
     heroSubtitleTemplate:
       "Я делаю трихопигментацию для женщин в {city} деликатно: уменьшаю просвет в проборе, визуально уплотняю макушку и добавляю густоту так, чтобы результат оставался мягким и незаметным.",
@@ -177,9 +177,9 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "effekt-brityh-volos": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Эффект бритых волос (трихопигментация) в {city} — цена и фото",
+      "Трихопигментация с эффектом бритых волос в {city}",
     metadataDescriptionTemplate:
-      "Трихопигментация с эффектом бритых волос в {city} у специалиста Алёны Алмасовой: аккуратная линия, плотная зона роста, вид коротко стриженной головы без залысин. Фото, цена, консультация.",
+      "Эффект бритых волос в {city} у Алёны Алмасовой: аккуратная линия, плотная зона роста, вид коротко стриженной головы без залысин. Фото, цена, консультация.",
     heroTitleTemplate: "Эффект бритых волос в {city}",
     heroSubtitleTemplate:
       "Я делаю трихопигментацию с эффектом бритых волос в {city}, когда хочется, чтобы коротко остриженная или бритая голова выглядела равномерно и плотно, без просветов кожи, залысин и неровной линии роста.",
@@ -226,7 +226,7 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "posle-peresadki-volos": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Трихопигментация после пересадки волос в {city} - консультация и фото",
+      "Трихопигментация после пересадки волос в {city}",
     metadataDescriptionTemplate:
       "Трихопигментация после пересадки волос в {city} у Алёны Алмасовой: нехватка плотности, рубцы, доработка результата, фото и консультация.",
     heroTitleTemplate: "Трихопигментация после пересадки волос в {city}",
@@ -275,7 +275,7 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "rubcy-posle-fue-fut": {
     service: "scar",
     metadataTitleTemplate:
-      "Камуфляж рубцов после FUE и FUT в {city} - консультация и фото",
+      "Камуфляж рубцов после FUE и FUT в {city}",
     metadataDescriptionTemplate:
       "Камуфляж рубцов после FUE и FUT в {city} у Алёны Алмасовой: линейные и точечные рубцы, фото до и после, консультация.",
     heroTitleTemplate: "Камуфляж рубцов после FUE и FUT в {city}",
@@ -324,7 +324,7 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "redkie-volosy-u-zhenshchin": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Редкие волосы у женщин в {city} - визуальное загущение и консультация",
+      "Редкие волосы у женщин в {city} — визуальное загущение",
     metadataDescriptionTemplate:
       "Редкие волосы у женщин в {city}: работа с пробором, макушкой и поредением у Алёны Алмасовой. Консультация и ориентир по результату.",
     heroTitleTemplate: "Редкие волосы у женщин в {city}",
@@ -373,7 +373,7 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "zagushchenie-makushki": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Визуальное загущение макушки в {city} - трихопигментация и консультация",
+      "Трихопигментация макушки в {city} — визуальное загущение",
     metadataDescriptionTemplate:
       "Визуальное загущение макушки в {city} у Алёны Алмасовой: трихопигментация при заметной макушке, фото, консультация, ориентир по стоимости.",
     heroTitleTemplate: "Визуальное загущение макушки в {city}",
@@ -422,7 +422,7 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "net-donorskoy-zony": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Если нет донорской зоны в {city} - что можно сделать визуально",
+      "Если нет донорской зоны: трихопигментация в {city}",
     metadataDescriptionTemplate:
       "Если нет донорской зоны в {city}: варианты визуальной коррекции при залысинах, макушке и после отказа в пересадке. Консультация у Алёны Алмасовой.",
     heroTitleTemplate: "Если нет донорской зоны в {city}",
@@ -471,7 +471,7 @@ export const concernCopy: Record<ConcernSlug, ConcernCopy> = {
   "neudachnaya-peresadka-volos": {
     service: "trihopigmentaciya",
     metadataTitleTemplate:
-      "Неудачная пересадка волос в {city} - как можно доработать результат",
+      "Неудачная пересадка волос в {city} — как доработать",
     metadataDescriptionTemplate:
       "Неудачная пересадка волос в {city}: нехватка плотности, рубцы, неровная линия и визуальная доработка результата у Алёны Алмасовой.",
     heroTitleTemplate: "Неудачная пересадка волос в {city}",

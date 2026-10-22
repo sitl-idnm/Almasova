@@ -35,6 +35,16 @@ export function cityAlternates(
   };
 }
 
+/** Суффикс из title.template корневого layout. */
+const BRAND_SUFFIX = " | Алёна Алмасова";
+/** Дальше Яндекс и Google обрезают title в выдаче. */
+const TITLE_MAX = 70;
+
+/** Добавлять « | Алёна Алмасова», только если title с ним влезает в 70 символов. */
+export function fitTitle(title: string): Metadata["title"] {
+  return title.length + BRAND_SUFFIX.length <= TITLE_MAX ? title : { absolute: title };
+}
+
 type PageMetaInput = {
   title: string;
   description: string;
@@ -50,7 +60,7 @@ type PageMetaInput = {
 export function pageMeta({ title, description, alternates }: PageMetaInput): Metadata {
   const url = typeof alternates.canonical === "string" ? alternates.canonical : undefined;
   return {
-    title,
+    title: fitTitle(title),
     description,
     alternates,
     openGraph: {
