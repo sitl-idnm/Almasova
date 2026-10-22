@@ -7,6 +7,5 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: "https://almasova.com/sitemap.xml",
-    host: "https://almasova.com",
   };
 }
