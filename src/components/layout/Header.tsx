@@ -49,7 +49,7 @@ export function SiteHeader({
   return (
     <header className={styles.root}>
       <div className={`container ${styles.inner}`}>
-        <Link href="/" className={styles.logo} aria-label={brandName}>
+        <Link href="/" className={styles.logo}>
           <span className={styles.logoName}>{nbsp(brandName)}</span>
           <span className={styles.logoSub}>{nbsp("Трихопигментация · камуфляж рубцов")}</span>
         </Link>
@@ -79,7 +79,7 @@ export function SiteHeader({
             >
               <TelegramLogoIcon size={18} weight="fill" />
             </a>
-            <span className={styles.social} aria-label="MAX" title="MAX">
+            <span className={styles.social} role="img" aria-label="MAX" title="MAX">
               <ChatCircleDotsIcon size={18} weight="fill" />
             </span>
           </div>

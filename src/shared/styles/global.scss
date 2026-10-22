@@ -45,9 +45,10 @@
   --muted: #8a7b7e;
   --line: rgba(33, 26, 28, 0.12);
   --line-strong: rgba(33, 26, 28, 0.2);
-  --accent: #a9707b;
-  --accent-strong: #925c67;
-  --accent-soft: rgba(169, 112, 123, 0.14);
+  // Затемнено по аудиту: #a9707b давал контраст 3,7–4,0, #8a5560 — 5,5–5,9 (WCAG AA).
+  --accent: #8a5560;
+  --accent-strong: #74454f;
+  --accent-soft: rgba(138, 85, 96, 0.14);
   --accent-contrast: #ffffff;
   --shadow: 0 24px 80px rgba(74, 40, 45, 0.12);
 }

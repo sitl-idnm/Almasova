@@ -54,7 +54,7 @@ export function SiteFooter({
             >
               <TelegramLogoIcon size={20} weight="fill" />
             </a>
-            <span className={styles.social} aria-label="MAX" title="MAX">
+            <span className={styles.social} role="img" aria-label="MAX" title="MAX">
               <ChatCircleDotsIcon size={20} weight="fill" />
             </span>
           </div>
