@@ -16,15 +16,16 @@ import {
 import { WorksGallery } from "@/components/works-gallery";
 import { ServiceCards } from "@/components/sections/blocks/Blocks";
 import { concernCopy, type ConcernSlug } from "@/content/concern-copy";
-import { genderSlugs, getGenderMeta, type GenderSlug } from "@/lib/gender";
-import { cityAlternates, pageMeta } from "@/lib/seo";
 import {
-  brandSameAs,
-  getBaseUrl,
-  getCityContent,
-  specialistName,
-  type ProofItem,
-} from "@/lib/site-data";
+  breadcrumbSchema,
+  businessSchema,
+  cityAlternates,
+  cityParams,
+  faqSchema,
+  pageMeta,
+  serviceSchema,
+} from "@/lib/seo";
+import { getCityContent, sharedFaqs, type ProofItem } from "@/lib/site-data";
 
 const concernSlugs = Object.keys(concernCopy) as ConcernSlug[];
 
@@ -32,16 +33,12 @@ function getConcernGalleryItems(slug: ConcernSlug, items: ProofItem[]) {
   const matches = items.filter((item) => {
     const value = `${item.title} ${item.details}`.toLowerCase();
 
-    if (slug === "posle-peresadki-volos" || slug === "neudachnaya-peresadka-volos") {
+    if (slug === "posle-peresadki-volos") {
       return value.includes("пересад") || value.includes("рубц");
     }
 
     if (slug === "rubcy-posle-fue-fut") {
       return value.includes("рубц");
-    }
-
-    if (slug === "redkie-volosy-u-zhenshchin") {
-      return value.includes("поред") || value.includes("макуш") || value.includes("густ");
     }
 
     if (slug === "zagushchenie-makushki") {
@@ -61,44 +58,32 @@ function getConcernGalleryItems(slug: ConcernSlug, items: ProofItem[]) {
   }));
 }
 
-export function generateStaticParams() {
-  return ["moskva", "almaty"].flatMap((city) =>
-    genderSlugs.flatMap((gender) =>
-      concernSlugs.map((concern) => ({ city, gender, concern })),
-    ),
-  );
-}
+export const dynamicParams = false;
 
-function withForWhom(title: string, forWhom: string) {
-  const [head, ...rest] = title.split(" — ");
-  return [`${head} ${forWhom}`, ...rest].join(" — ");
+export function generateStaticParams() {
+  return cityParams().flatMap(({ city }) => concernSlugs.map((concern) => ({ city, concern })));
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string; gender: string; concern: string }>;
+  params: Promise<{ city: string; concern: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city, gender, concern }) => {
+  return params.then(({ city, concern }) => {
     const cityContent = getCityContent(city);
-    const g = getGenderMeta(gender);
-    if (!cityContent || !g || !(concern in concernCopy)) {
+    if (!cityContent || !(concern in concernCopy)) {
       return {};
     }
 
     const copy = concernCopy[concern as ConcernSlug];
 
     return pageMeta({
-      // «для мужчин/женщин» — сразу после города, до уточнения через тире.
-      title: withForWhom(
-        copy.metadataTitleTemplate.replace("{city}", cityContent.prepositionalName),
-        g.forWhom,
-      ),
+      title: copy.metadataTitleTemplate.replace("{city}", cityContent.prepositionalName),
       description: copy.metadataDescriptionTemplate.replace(
         "{city}",
         cityContent.prepositionalName,
       ),
-      alternates: cityAlternates(cityContent.slug, gender as GenderSlug, `/${concern}`),
+      alternates: cityAlternates(cityContent.slug, `/${concern}`),
     });
   });
 }
@@ -106,75 +91,67 @@ export function generateMetadata({
 export default async function ConcernPage({
   params,
 }: {
-  params: Promise<{ city: string; gender: string; concern: string }>;
+  params: Promise<{ city: string; concern: string }>;
 }) {
-  const { city, gender, concern } = await params;
+  const { city, concern } = await params;
   const cityContent = getCityContent(city);
 
-  if (!cityContent || !getGenderMeta(gender) || !(concern in concernCopy)) {
+  if (!cityContent || !(concern in concernCopy)) {
     notFound();
   }
 
   const copy = concernCopy[concern as ConcernSlug];
   const cityIn = cityContent.prepositionalName;
-  const gm = getGenderMeta(gender)!;
   const galleryItems = getConcernGalleryItems(concern as ConcernSlug, cityContent.proofItems);
   const serviceHref =
     copy.service === "scar"
-      ? `/${cityContent.slug}/${gender}/kamuflyazh-rubcov-na-golove`
-      : `/${cityContent.slug}/${gender}/trihopigmentaciya`;
+      ? `/${cityContent.slug}/kamuflyazh-rubcov-na-golove`
+      : `/${cityContent.slug}`;
   const serviceLabel =
     copy.service === "scar" ? "Камуфляж рубцов на голове" : "Трихопигментация";
   const pageTitle = copy.heroTitleTemplate.replace("{city}", cityIn);
 
+  const path = `/${cityContent.slug}/${concern}`;
+  const faqItems = [...copy.faqItems, sharedFaqs[2]];
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "WebPage",
+      businessSchema(),
+      serviceSchema({
+        city: cityContent.slug,
+        cityName: cityContent.name,
         name: pageTitle,
-        url: getBaseUrl(`/${cityContent.slug}/${gender}/${concern}`),
-      },
-      {
-        "@type": "Service",
-        name: pageTitle,
-        areaServed: cityContent.name,
-        provider: {
-          "@type": "Person",
-          name: specialistName,
-          sameAs: brandSameAs,
-        },
         description: copy.metadataDescriptionTemplate.replace("{city}", cityIn),
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: copy.faqItems.map((faq) => ({
-          "@type": "Question",
-          name: faq.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.answer,
-          },
-        })),
-      },
+        path,
+        priceItems: cityContent.priceItems,
+      }),
+      breadcrumbSchema([
+        { name: "Главная", path: "/" },
+        { name: `Трихопигментация в ${cityIn}`, path: `/${cityContent.slug}` },
+        ...(copy.service === "scar"
+          ? [{ name: serviceLabel, path: serviceHref }]
+          : []),
+        { name: pageTitle, path },
+      ]),
+      faqSchema(faqItems),
     ],
   };
 
   return (
     <>
       <JsonLd data={schema} />
-      <SiteHeader city={cityContent} gender={gender} />
+      <SiteHeader city={cityContent} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${cityContent.slug}/${gender}`, label: cityContent.name },
-          { href: serviceHref, label: serviceLabel },
+          { href: `/${cityContent.slug}`, label: cityContent.name },
+          ...(copy.service === "scar" ? [{ href: serviceHref, label: serviceLabel }] : []),
           { label: pageTitle },
         ]}
       />
       <main className="pb-16">
         <PageHero
-          eyebrow={`${cityContent.name} · ${gm.forWhom}`}
+          eyebrow={cityContent.name}
           title={pageTitle}
           subtitle={copy.heroSubtitleTemplate.replace("{city}", cityIn)}
           support={copy.heroSupportTemplate.replace("{city}", cityIn)}
@@ -208,7 +185,7 @@ export default async function ConcernPage({
         </Section>
 
         <Section eyebrow="FAQ" title="Частые вопросы по этой ситуации">
-          <FaqList items={copy.faqItems} />
+          <FaqList items={faqItems} />
         </Section>
 
         <Section
@@ -231,7 +208,7 @@ export default async function ConcernPage({
           </div>
         </Section>
       </main>
-      <SiteFooter city={cityContent} gender={gender} />
+      <SiteFooter city={cityContent} />
     </>
   );
 }

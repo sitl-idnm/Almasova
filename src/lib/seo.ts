@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 
-import type { GenderSlug } from "./gender";
-import { getBaseUrl, type CitySlug } from "./site-data";
+import {
+  brandSameAs,
+  defaultPhoneDisplay,
+  getBaseUrl,
+  specialistName,
+  type CitySlug,
+  type FaqItem,
+  type PriceItem,
+} from "./site-data";
 
 // Одна услуга/раздел существует в двух странах на одном языке (RU).
 // hreflang разводит Москву (ru-RU) и Алматы (ru-KZ), чтобы Яндекс/Google
@@ -15,23 +22,165 @@ const cities = Object.keys(cityLang) as CitySlug[];
 
 /**
  * Canonical + взаимные hreflang для страницы, которая существует в каждом городе.
+ * Одна страница на город — без вариантов по полу (они склеивались как дубли).
  * @param city    текущий город
- * @param subPath путь после `/{city}` (напр. `/ceny`, `/trihopigmentaciya`); "" для хаба города
+ * @param subPath путь после `/{city}` (напр. `/ceny`); "" для главной страницы города
  */
 export function cityAlternates(
   city: CitySlug,
-  gender: GenderSlug,
   subPath = "",
 ): NonNullable<Metadata["alternates"]> {
   const languages: Record<string, string> = {};
   for (const c of cities) {
-    languages[cityLang[c]] = getBaseUrl(`/${c}/${gender}${subPath}`);
+    languages[cityLang[c]] = getBaseUrl(`/${c}${subPath}`);
   }
-  languages["x-default"] = getBaseUrl(`/moskva/${gender}${subPath}`);
+  languages["x-default"] = getBaseUrl(`/moskva${subPath}`);
 
   return {
-    canonical: getBaseUrl(`/${city}/${gender}${subPath}`),
+    canonical: getBaseUrl(`/${city}${subPath}`),
     languages,
+  };
+}
+
+/** generateStaticParams для страниц уровня /[city]/... */
+export function cityParams() {
+  return cities.map((city) => ({ city }));
+}
+
+/* ---------------- JSON-LD ---------------- */
+
+/**
+ * Как бренд ищут на самом деле: по Wordstat «алмазовой» (через з) — 34 запроса
+ * в месяц против 5 у правильного написания. alternateName помогает поисковикам
+ * связать оба написания с сайтом и карточками на Картах.
+ */
+export const brandAlternateNames = [
+  "Алёна Алмазова",
+  "Алмазова",
+  "Алмасова",
+  "Студия трихопигментации SMP Алмасовой",
+  "Студия трихопигментации SMP Алмазовой",
+];
+
+/** Единая сущность бизнеса (на неё ссылаются Service.provider и Article.publisher). */
+export function businessSchema(extra: Record<string, unknown> = {}) {
+  return {
+    "@type": "HealthAndBeautyBusiness",
+    "@id": `${getBaseUrl("/")}#business`,
+    name: specialistName,
+    alternateName: brandAlternateNames,
+    url: getBaseUrl("/"),
+    telephone: defaultPhoneDisplay,
+    image: getBaseUrl("/opengraph-image"),
+    priceRange: "₽₽",
+    areaServed: ["Москва", "Алматы"],
+    founder: { "@id": `${getBaseUrl("/")}#person` },
+    sameAs: brandSameAs,
+    ...extra,
+  };
+}
+
+export function personSchema() {
+  return {
+    "@type": "Person",
+    "@id": `${getBaseUrl("/")}#person`,
+    name: specialistName,
+    alternateName: "Алёна Алмазова",
+    url: getBaseUrl("/"),
+    jobTitle: "Специалист по трихопигментации кожи головы",
+    description:
+      "Специалист по трихопигментации и камуфляжу рубцов на голове с высшим медицинским образованием. Москва и Алматы.",
+    worksFor: { "@id": `${getBaseUrl("/")}#business` },
+    sameAs: brandSameAs,
+  };
+}
+
+export function faqSchema(items: readonly FaqItem[]) {
+  return {
+    "@type": "FAQPage",
+    mainEntity: items.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+}
+
+/** BreadcrumbList; последний пункт — текущая страница (url обязателен у всех). */
+export function breadcrumbSchema(items: { name: string; path: string }[]) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: getBaseUrl(item.path),
+    })),
+  };
+}
+
+const currencyByCity: Record<CitySlug, string> = { moskva: "RUB", almaty: "KZT" };
+
+/** «от 15 000 ₽» → 15000 */
+function priceNumber(price: string): number | null {
+  const digits = price.replace(/[^\d]/g, "");
+  return digits ? Number(digits) : null;
+}
+
+/**
+ * Service + OfferCatalog с ценами «от …» — чтобы цена была видна в сниппете.
+ * minPrice в UnitPriceSpecification = честное «от».
+ */
+export function serviceSchema({
+  city,
+  cityName,
+  name,
+  description,
+  path,
+  priceItems,
+}: {
+  city: CitySlug;
+  cityName: string;
+  name: string;
+  description: string;
+  path: string;
+  priceItems: readonly PriceItem[];
+}) {
+  const currency = currencyByCity[city];
+  return {
+    "@type": "Service",
+    name,
+    serviceType: "Трихопигментация кожи головы",
+    description,
+    url: getBaseUrl(path),
+    areaServed: { "@type": "City", name: cityName },
+    provider: { "@id": `${getBaseUrl("/")}#business` },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `Цены — ${cityName}`,
+      itemListElement: priceItems.map((item) => {
+        const value = priceNumber(item.price);
+        return {
+          "@type": "Offer",
+          name: item.title,
+          description: item.description,
+          priceCurrency: currency,
+          ...(value
+            ? {
+                price: value,
+                priceSpecification: {
+                  "@type": "UnitPriceSpecification",
+                  minPrice: value,
+                  priceCurrency: currency,
+                  unitText: "сеанс",
+                },
+              }
+            : {}),
+          availability: "https://schema.org/InStock",
+          url: getBaseUrl(`/${city}/ceny`),
+        };
+      }),
+    },
   };
 }
 

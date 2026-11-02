@@ -1,4 +1,4 @@
-import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
+import { GenderLead } from "@/components/theme/GenderLead";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -14,80 +14,77 @@ import {
   Section,
   SiteFooter,
   SiteHeader,
-  Steps,
   TileGrid,
 } from "@/components/marketing";
 import { WorksGallery } from "@/components/works-gallery";
 import { withRub } from "@/components/rub";
-import { trichopigmentaciyaCopy } from "@/content/trichopigmentaciya-copy";
-import { leadFor } from "@/content/gender-copy";
-import { cityAlternates, pageMeta } from "@/lib/seo";
+import { scarCopy } from "@/content/scar-copy";
+import { cityAlternates, cityParams, pageMeta } from "@/lib/seo";
 import { brandSameAs, getBaseUrl, getCityContent, specialistName } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return cityGenderParams();
+  return cityParams();
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city, gender }) => {
+  return params.then(({ city }) => {
     const content = getCityContent(city);
     if (!content) {
       return {};
     }
 
     return pageMeta({
-      title: trichopigmentaciyaCopy[content.slug].metadataTitle,
-      description: trichopigmentaciyaCopy[content.slug].metadataDescription,
-      alternates: cityAlternates(content.slug, gender as GenderSlug, "/trihopigmentaciya"),
+      title: scarCopy[content.slug].metadataTitle,
+      description: scarCopy[content.slug].metadataDescription,
+      alternates: cityAlternates(content.slug, "/kamuflyazh-rubcov-na-golove"),
     });
   });
 }
 
-export default async function TrichopigmentationPage({
+export default async function ScarCamouflagePage({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }) {
-  const { city, gender } = await params;
+  const { city } = await params;
   const content = getCityContent(city);
 
   if (!content) {
     notFound();
   }
 
-  const copy = trichopigmentaciyaCopy;
+  const copy = scarCopy;
   const cityIn = content.prepositionalName;
-  const gm = getGenderMeta(gender)!;
 
   const faqItems = [
     {
-      question: "Подойдет ли трихопигментация именно в моем случае?",
+      question: "Можно ли полностью скрыть рубец?",
       answer:
-        "Это зависит от зоны, степени поредения, состояния кожи, цвета волос и ожидаемого результата. Поэтому первый шаг - спокойная консультация и разбор вашей ситуации.",
+        "Обещать полное исчезновение рубца неправильно. Задача процедуры - сделать рубцовую зону менее заметной и уменьшить контраст с окружающей кожей.",
     },
     {
-      question: "Можно ли делать процедуру после пересадки волос?",
+      question: "Подходит ли камуфляж после пересадки волос?",
       answer:
-        "Да, в ряде случаев трихопигментация используется после пересадки волос, когда нужно добавить визуальную плотность или уменьшить заметность рубцов.",
+        "Да, это один из самых частых поводов обращения. Особенно если рубцы заметны при короткой стрижке или не устраивает общий визуальный результат.",
     },
     {
-      question: "Сколько держится результат?",
+      question: "Подходит ли процедура для любого рубца?",
       answer:
-        "Стойкость зависит от кожи, ухода, солнца, образа жизни и конкретной зоны работы. Коррекция обсуждается заранее как нормальная часть плана.",
+        "Нет. Все зависит от типа рубцовой ткани, кожи, цвета волос и окружающей зоны. Поэтому предварительная оценка обязательна.",
     },
     {
-      question: "Больно ли делать трихопигментацию?",
+      question: "Сколько нужно сеансов?",
       answer:
-        "Ощущения индивидуальны, но чаще речь идет о терпимом дискомфорте, а не о выраженной боли. Этот момент заранее обсуждается на консультации.",
+        "Количество этапов определяется индивидуально после оценки рубца, площади и сложности задачи.",
     },
     {
-      question: "Сколько сеансов потребуется?",
+      question: "Когда виден итоговый результат?",
       answer:
-        "Количество этапов зависит от зоны, исходной ситуации и желаемой визуальной плотности. Универсальной цифры для всех нет.",
+        "Промежуточный эффект заметен быстро, но финально результат оценивается после заживления.",
     },
   ];
 
@@ -95,13 +92,8 @@ export default async function TrichopigmentationPage({
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebPage",
-        name: `Трихопигментация в ${cityIn}`,
-        url: getBaseUrl(`/${content.slug}/${gender}/trihopigmentaciya`),
-      },
-      {
         "@type": "Service",
-        name: `Трихопигментация в ${cityIn}`,
+        name: `Камуфляж рубцов на голове в ${cityIn}`,
         provider: {
           "@type": "Person",
           name: specialistName,
@@ -109,7 +101,7 @@ export default async function TrichopigmentationPage({
         },
         areaServed: content.name,
         description:
-          "Визуальная коррекция при облысении, поредении волос, заметной макушке и в ряде случаев после пересадки волос.",
+          "Маскировка рубцов после пересадки волос, операций и травм на коже головы.",
       },
       {
         "@type": "BreadcrumbList",
@@ -124,13 +116,13 @@ export default async function TrichopigmentationPage({
             "@type": "ListItem",
             position: 2,
             name: content.name,
-            item: getBaseUrl(`/${content.slug}/${gender}`),
+            item: getBaseUrl(`/${content.slug}`),
           },
           {
             "@type": "ListItem",
             position: 3,
-            name: "Трихопигментация",
-            item: getBaseUrl(`/${content.slug}/${gender}/trihopigmentaciya`),
+            name: "Камуфляж рубцов на голове",
+            item: getBaseUrl(`/${content.slug}/kamuflyazh-rubcov-na-golove`),
           },
         ],
       },
@@ -148,26 +140,34 @@ export default async function TrichopigmentationPage({
     ],
   };
 
+  const proofItems = content.proofItems.map((item) => ({
+    ...item,
+    title:
+      item.title === "Мужское облысение" || item.title === "Залысины"
+        ? "Рубцы после пересадки"
+        : item.title,
+  }));
+
   return (
     <>
       <JsonLd data={schema} />
-      <SiteHeader city={content} gender={gender} />
+      <SiteHeader city={content} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}/${gender}`, label: content.name },
-          { label: "Трихопигментация" },
+          { href: `/${content.slug}`, label: content.name },
+          { label: "Камуфляж рубцов на голове" },
         ]}
       />
       <main className="pb-16">
         <PageHero
           eyebrow={content.name}
-          title={`${copy.hero.titlePrefix}${cityIn} — ${gm.dative}`}
+          title={`${copy.hero.titlePrefix}${cityIn}`}
           subtitle={copy.hero.subtitleTemplate.replace("{city}", cityIn)}
-          support={leadFor(gender as GenderSlug, "trihopigmentaciya")}
+          support={<GenderLead page="kamuflyazh-rubcov-na-golove" />}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/${gender}/do-posle`}
-          secondaryLabel="Посмотреть до и после"
+          secondaryHref={`/${content.slug}/do-posle`}
+          secondaryLabel="Смотреть реальные работы"
         />
 
         <Section
@@ -183,7 +183,7 @@ export default async function TrichopigmentationPage({
           title={copy.beforeAfterSection.title}
           description={copy.beforeAfterSection.description}
         >
-          <WorksGallery items={content.proofItems} />
+          <WorksGallery items={proofItems} />
         </Section>
 
         <Section
@@ -194,24 +194,16 @@ export default async function TrichopigmentationPage({
           <div className="two-col">
             <div className="panel">
               <h3 className="panel-title">{copy.resultSection.leftTitle}</h3>
-              <p className="panel-text">{copy.resultSection.leftText}</p>
+              <InlineFeatureList
+                variant="dense"
+                items={[...copy.resultSection.leftItems]}
+              />
             </div>
             <div className="panel">
               <h3 className="panel-title">{copy.resultSection.rightTitle}</h3>
-              <InlineFeatureList
-                variant="dense"
-                items={[...copy.resultSection.rightItems]}
-              />
+              <p className="panel-text">{copy.resultSection.rightText}</p>
             </div>
           </div>
-        </Section>
-
-        <Section
-          eyebrow={copy.processSection.eyebrow}
-          title={copy.processSection.title}
-          description={copy.processSection.description}
-        >
-          <Steps steps={[...copy.processSection.steps]} />
         </Section>
 
         <Section
@@ -220,17 +212,30 @@ export default async function TrichopigmentationPage({
           description={copy.priceSection.description}
         >
           <div className="card-grid">
-            {content.priceItems.map((item) => (
+            {[
+              {
+                title: copy.priceSection.cards.local.title,
+                price: content.slug === "moskva" ? "от 9 900 ₽" : "индивидуально",
+                text: copy.priceSection.cards.local.text,
+              },
+              {
+                title: copy.priceSection.cards.transplant.title,
+                price: content.slug === "moskva" ? "от 19 900 ₽" : "индивидуально",
+                text: copy.priceSection.cards.transplant.text,
+              },
+              {
+                title: copy.priceSection.cards.complex.title,
+                price: "после оценки",
+                text: copy.priceSection.cards.complex.text,
+              },
+            ].map((item) => (
               <div key={item.title} className="panel">
                 <p className="panel-title">{item.title}</p>
                 <p className="panel-price">{withRub(item.price)}</p>
-                <p className="panel-text">{item.description}</p>
+                <p className="panel-text">{item.text}</p>
               </div>
             ))}
           </div>
-          <p className="panel-text" style={{ marginTop: 16 }}>
-            * Стоимость указана за один сеанс
-          </p>
           <div style={{ marginTop: 24 }}>
             <a className="button-primary" href={`tel:${content.phoneHref}`}>
               {copy.priceSection.cta}
@@ -265,7 +270,7 @@ export default async function TrichopigmentationPage({
           <AboutSpecialist />
         </Section>
       </main>
-      <SiteFooter city={content} gender={gender} />
+      <SiteFooter city={content} />
     </>
   );
 }

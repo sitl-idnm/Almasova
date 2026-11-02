@@ -1,4 +1,4 @@
-import { ComponentType } from "react";
+import { ComponentType, ReactNode } from "react";
 import Link from "next/link";
 import { ArrowUpRight, MapPin, Phone, ShieldCheck } from "@phosphor-icons/react/dist/ssr";
 
@@ -18,7 +18,7 @@ type HeroProps = {
   eyebrow: string;
   title: string;
   subtitle: string;
-  support?: string;
+  support?: ReactNode;
   primaryHref: string;
   primaryLabel?: string;
   secondaryHref?: string;

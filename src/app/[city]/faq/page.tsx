@@ -1,4 +1,3 @@
-import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -13,26 +12,25 @@ import {
   SiteHeader,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
-import { cityAlternates, pageMeta } from "@/lib/seo";
+import { cityAlternates, cityParams, pageMeta } from "@/lib/seo";
 import { getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return cityGenderParams();
+  return cityParams();
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city, gender }) => {
+  return params.then(({ city }) => {
     const content = getCityContent(city);
-    const g = getGenderMeta(gender);
-    if (!content || !g) return {};
+    if (!content) return {};
     return pageMeta({
-      title: `Вопросы о трихопигментации в ${content.prepositionalName} ${g.forWhom}`,
+      title: `Вопросы о трихопигментации в ${content.prepositionalName}`,
       description: `Частые вопросы о трихопигментации и камуфляже рубцов в ${content.prepositionalName}: больно ли, сколько держится, нужна ли коррекция, можно ли после пересадки.`,
-      alternates: cityAlternates(content.slug, gender as GenderSlug, "/faq"),
+      alternates: cityAlternates(content.slug, "/faq"),
     });
   });
 }
@@ -40,9 +38,9 @@ export function generateMetadata({
 export default async function FaqPage({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }) {
-  const { city, gender } = await params;
+  const { city } = await params;
   const content = getCityContent(city);
   if (!content) notFound();
   const copy = supportCopy.faq;
@@ -64,11 +62,11 @@ export default async function FaqPage({
           })),
         }}
       />
-      <SiteHeader city={content} gender={gender} />
+      <SiteHeader city={content} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}/${gender}`, label: content.name },
+          { href: `/${content.slug}`, label: content.name },
           { label: "FAQ" },
         ]}
       />
@@ -78,7 +76,7 @@ export default async function FaqPage({
           title={`${copy.hero.titlePrefix}${cityIn}`}
           subtitle={copy.hero.subtitleTemplate}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/${gender}/trihopigmentaciya`}
+          secondaryHref={`/${content.slug}/trihopigmentaciya`}
           secondaryLabel="О процедуре"
         />
 
@@ -94,7 +92,7 @@ export default async function FaqPage({
           <ContactCard city={content} />
         </Section>
       </main>
-      <SiteFooter city={content} gender={gender} />
+      <SiteFooter city={content} />
     </>
   );
 }

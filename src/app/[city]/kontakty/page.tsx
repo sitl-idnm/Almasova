@@ -1,4 +1,3 @@
-import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -14,26 +13,25 @@ import {
   TileGrid,
 } from "@/components/marketing";
 import { supportCopy } from "@/content/support-copy";
-import { cityAlternates, pageMeta } from "@/lib/seo";
+import { cityAlternates, cityParams, pageMeta } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return cityGenderParams();
+  return cityParams();
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city, gender }) => {
+  return params.then(({ city }) => {
     const content = getCityContent(city);
-    const g = getGenderMeta(gender);
-    if (!content || !g) return {};
+    if (!content) return {};
     return pageMeta({
-      title: `Контакты и запись в ${content.prepositionalName} ${g.forWhom}`,
+      title: `Контакты и запись в ${content.prepositionalName}`,
       description: `Контакты и запись в ${content.prepositionalName}. Телефон, режим работы, консультация по трихопигментации и камуфляжу рубцов у Алёны Алмасовой.`,
-      alternates: cityAlternates(content.slug, gender as GenderSlug, "/kontakty"),
+      alternates: cityAlternates(content.slug, "/kontakty"),
     });
   });
 }
@@ -41,9 +39,9 @@ export function generateMetadata({
 export default async function ContactsPage({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }) {
-  const { city, gender } = await params;
+  const { city } = await params;
   const content = getCityContent(city);
   if (!content) notFound();
   const copy = supportCopy.contacts;
@@ -56,14 +54,14 @@ export default async function ContactsPage({
           "@context": "https://schema.org",
           "@type": "ContactPage",
           name: `Контакты в ${cityIn}`,
-          url: getBaseUrl(`/${content.slug}/${gender}/kontakty`),
+          url: getBaseUrl(`/${content.slug}/kontakty`),
         }}
       />
-      <SiteHeader city={content} gender={gender} />
+      <SiteHeader city={content} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}/${gender}`, label: content.name },
+          { href: `/${content.slug}`, label: content.name },
           { label: "Контакты" },
         ]}
       />
@@ -73,7 +71,7 @@ export default async function ContactsPage({
           title={`${copy.hero.titlePrefix}${cityIn}`}
           subtitle={copy.hero.subtitleTemplate}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/${gender}/faq`}
+          secondaryHref={`/${content.slug}/faq`}
           secondaryLabel="Частые вопросы"
         />
 
@@ -97,7 +95,7 @@ export default async function ContactsPage({
           <AboutSpecialist />
         </Section>
       </main>
-      <SiteFooter city={content} gender={gender} />
+      <SiteFooter city={content} />
     </>
   );
 }

@@ -1,4 +1,3 @@
-import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -14,27 +13,26 @@ import {
 import { Hero } from "@/components/sections/Hero/Hero";
 import { PriceTable } from "@/components/sections/PriceTable/PriceTable";
 import { supportCopy } from "@/content/support-copy";
-import { leadFor } from "@/content/gender-copy";
-import { cityAlternates, pageMeta } from "@/lib/seo";
+import { GenderLead } from "@/components/theme/GenderLead";
+import { cityAlternates, cityParams, pageMeta } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return cityGenderParams();
+  return cityParams();
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city, gender }) => {
+  return params.then(({ city }) => {
     const content = getCityContent(city);
-    const g = getGenderMeta(gender);
-    if (!content || !g) return {};
+    if (!content) return {};
     return pageMeta({
-      title: `Цены на трихопигментацию в ${content.prepositionalName} ${g.forWhom}`,
+      title: `Цены на трихопигментацию в ${content.prepositionalName} — ${content.priceItems[0].price} за сеанс`,
       description: `Стоимость трихопигментации и камуфляжа рубцов в ${content.prepositionalName}. Ориентиры по зонам, логика расчета и консультация по телефону.`,
-      alternates: cityAlternates(content.slug, gender as GenderSlug, "/ceny"),
+      alternates: cityAlternates(content.slug, "/ceny"),
     });
   });
 }
@@ -42,16 +40,15 @@ export function generateMetadata({
 export default async function PricesPage({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }) {
-  const { city, gender } = await params;
+  const { city } = await params;
   const content = getCityContent(city);
 
   if (!content) notFound();
 
   const copy = supportCopy.prices;
   const cityIn = content.prepositionalName;
-  const gm = getGenderMeta(gender)!;
 
   return (
     <>
@@ -60,25 +57,25 @@ export default async function PricesPage({
           "@context": "https://schema.org",
           "@type": "WebPage",
           name: `Цены в ${cityIn}`,
-          url: getBaseUrl(`/${content.slug}/${gender}/ceny`),
+          url: getBaseUrl(`/${content.slug}/ceny`),
         }}
       />
-      <SiteHeader city={content} gender={gender} />
+      <SiteHeader city={content} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}/${gender}`, label: content.name },
+          { href: `/${content.slug}`, label: content.name },
           { label: "Цены" },
         ]}
       />
       <main className="pb-16">
         <Hero
           eyebrow={content.name}
-          title={`${copy.hero.titlePrefix}${cityIn} — ${gm.dative}`}
+          title={`${copy.hero.titlePrefix}${cityIn}`}
           subtitle={copy.hero.subtitleTemplate}
-          support={leadFor(gender as GenderSlug, "ceny")}
+          support={<GenderLead page="ceny" />}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/${gender}/kontakty`}
+          secondaryHref={`/${content.slug}/kontakty`}
           secondaryLabel="Связаться"
         />
 
@@ -113,7 +110,7 @@ export default async function PricesPage({
           <ContactCard city={content} />
         </Section>
       </main>
-      <SiteFooter city={content} gender={gender} />
+      <SiteFooter city={content} />
     </>
   );
 }

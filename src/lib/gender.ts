@@ -1,6 +1,7 @@
-// Gender URL layer: /[city]/[gender]/... where gender ∈ muzhchinam | zhenshchinam.
-// Separate URLs let us target gendered keywords ("трихопигментация для мужчин/женщин")
-// and drive the visual theme (data-gender) from the URL instead of a cookie.
+// Пол — это два отдельных хаба /[city]/muzhchinam и /[city]/zhenshchinam со своими
+// текстами и запросами. Остальные страницы НЕ дублируются по полу (раньше было
+// /[city]/[gender]/..., поисковики склеивали пары), а тема оформления на них
+// берётся из cookie последнего выбора.
 
 export type GenderSlug = "muzhchinam" | "zhenshchinam";
 
@@ -40,13 +41,6 @@ export const genderMeta: Record<GenderSlug, GenderMeta> = {
 
 export function isGenderSlug(value: string): value is GenderSlug {
   return value === "muzhchinam" || value === "zhenshchinam";
-}
-
-/** city × gender static params for generateStaticParams. */
-export function cityGenderParams() {
-  return ["moskva", "almaty"].flatMap((city) =>
-    genderSlugs.map((gender) => ({ city, gender })),
-  );
 }
 
 export function getGenderMeta(slug: string): GenderMeta | null {

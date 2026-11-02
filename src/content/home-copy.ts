@@ -1,5 +1,5 @@
 export const homeCopy = {
-  metadataTitle: "Трихопигментация волос в Москве и Алматы — врач Алмасова",
+  metadataTitle: "Студия трихопигментации SMP Алёны Алмасовой — Москва и Алматы",
   metadataDescription:
     "Трихопигментация волос и головы у Алёны Алмасовой в Москве и Алматы: залысины, редкая макушка, поредение, рубцы. Фото до и после, цена, консультация.",
   hero: {
@@ -64,25 +64,25 @@ export const homeCopy = {
     services: [
       {
         title: "Трихопигментация",
-        href: "/moskva/muzhchinam/trihopigmentaciya",
+        href: "/moskva",
         description:
           "Подходит при залысинах, редеющей линии роста волос, заметной макушке и общем поредении волос.",
       },
       {
         title: "Камуфляж рубцов на голове",
-        href: "/moskva/muzhchinam/kamuflyazh-rubcov-na-golove",
+        href: "/moskva/kamuflyazh-rubcov-na-golove",
         description:
           "Помогает сделать менее заметными рубцы после пересадки волос, операций и травм.",
       },
       {
         title: "После пересадки волос",
-        href: "/moskva/muzhchinam/posle-peresadki-volos",
+        href: "/moskva/posle-peresadki-volos",
         description:
           "Используется, когда после пересадки все еще не хватает визуальной плотности или остались заметные рубцы.",
       },
       {
         title: "Женское поредение волос",
-        href: "/moskva/muzhchinam/trihopigmentaciya-dlya-zhenshchin",
+        href: "/moskva/zhenshchinam",
         description:
           "Деликатный формат работы при поредении волос и визуальном загущении пробора.",
       },
@@ -96,25 +96,25 @@ export const homeCopy = {
     services: [
       {
         title: "После пересадки волос",
-        href: "/moskva/muzhchinam/posle-peresadki-volos",
+        href: "/moskva/posle-peresadki-volos",
         description:
           "Когда пересадка уже была, но визуальной плотности по-прежнему не хватает или остались рубцовые зоны.",
       },
       {
         title: "Камуфляж рубцов",
-        href: "/moskva/muzhchinam/kamuflyazh-rubcov-na-golove",
+        href: "/moskva/kamuflyazh-rubcov-na-golove",
         description:
           "Если рубец на голове заметен после пересадки, операции или травмы и хочется сделать его менее заметным.",
       },
       {
         title: "Если нет донорской зоны",
-        href: "/almaty/muzhchinam/net-donorskoy-zony",
+        href: "/almaty/net-donorskoy-zony",
         description:
           "Когда пересадка не подходит или уже не рассматривается, а внешний вид хочется сделать аккуратнее.",
       },
       {
         title: "Редкие волосы у женщин",
-        href: "/almaty/muzhchinam/redkie-volosy-u-zhenshchin",
+        href: "/almaty/zhenshchinam",
         description:
           "Деликатный сценарий для пробора, редеющей макушки и визуального загущения без грубого эффекта.",
       },

@@ -1,4 +1,4 @@
-import { ComponentType } from "react";
+import { ComponentType, ReactNode } from "react";
 
 import { Hero } from "./sections/Hero/Hero";
 
@@ -58,7 +58,7 @@ export function PageHero({
   eyebrow: string;
   title: string;
   subtitle: string;
-  support?: string;
+  support?: ReactNode;
   primaryHref: string;
   secondaryHref?: string;
   secondaryLabel?: string;

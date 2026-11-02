@@ -258,28 +258,34 @@ export const cityContent: Record<CitySlug, CityContent> = {
     ],
     services: [
       {
-        title: "Трихопигментация",
-        href: "/moskva/muzhchinam/trihopigmentaciya",
-        description:
-          "Залысины, редкая макушка, поредение волос и более аккуратный внешний вид без пересадки.",
+        title: "Залысины и линия роста",
+        href: "/moskva/liniya-rosta-volos",
+        description: "Татуаж залысин и мягкий контур у лба и висков без нарисованного эффекта.",
+      },
+      {
+        title: "Макушка",
+        href: "/moskva/zagushchenie-makushki",
+        description: "Визуальное загущение, если на макушке просвечивает кожа головы.",
+      },
+      {
+        title: "После пересадки волос",
+        href: "/moskva/posle-peresadki-volos",
+        description: "Неудачная пересадка, мало плотности, рубцы в донорской зоне.",
       },
       {
         title: "Камуфляж рубцов на голове",
-        href: "/moskva/muzhchinam/kamuflyazh-rubcov-na-golove",
-        description:
-          "Рубцы после пересадки волос, операций и травм, которые хочется сделать менее заметными.",
+        href: "/moskva/kamuflyazh-rubcov-na-golove",
+        description: "Рубцы после пересадки волос, операций и травм.",
       },
       {
-        title: "Цены",
-        href: "/moskva/muzhchinam/ceny",
-        description:
-          "Ориентиры по стоимости, чтобы заранее понимать бюджет и объем работы.",
+        title: "Если нет донорской зоны",
+        href: "/moskva/net-donorskoy-zony",
+        description: "Когда пересадка невозможна или нецелесообразна.",
       },
       {
-        title: "До и после",
-        href: "/moskva/muzhchinam/do-posle",
-        description:
-          "Реальные работы по залысинам, макушке, пересадке волос и рубцам.",
+        title: "После химиотерапии",
+        href: "/moskva/posle-himioterapii",
+        description: "Деликатная работа после восстановления, по согласованию с врачом.",
       },
     ],
     proofItems: galleryWorks,
@@ -345,28 +351,34 @@ export const cityContent: Record<CitySlug, CityContent> = {
     ],
     services: [
       {
-        title: "Трихопигментация",
-        href: "/almaty/muzhchinam/trihopigmentaciya",
-        description:
-          "Залысины, поредение волос, заметная макушка и желание выглядеть аккуратнее.",
+        title: "Залысины и линия роста",
+        href: "/almaty/liniya-rosta-volos",
+        description: "Татуаж залысин и мягкий контур у лба и висков без нарисованного эффекта.",
+      },
+      {
+        title: "Макушка",
+        href: "/almaty/zagushchenie-makushki",
+        description: "Визуальное загущение, если на макушке просвечивает кожа головы.",
+      },
+      {
+        title: "После пересадки волос",
+        href: "/almaty/posle-peresadki-volos",
+        description: "Неудачная пересадка, мало плотности, рубцы в донорской зоне.",
       },
       {
         title: "Камуфляж рубцов на голове",
-        href: "/almaty/muzhchinam/kamuflyazh-rubcov-na-golove",
-        description:
-          "Работа с рубцами после пересадки волос, операций и травм на коже головы.",
+        href: "/almaty/kamuflyazh-rubcov-na-golove",
+        description: "Рубцы после пересадки волос, операций и травм.",
       },
       {
-        title: "Цены",
-        href: "/almaty/muzhchinam/ceny",
-        description:
-          "Ориентиры по стоимости и понимание бюджета еще до консультации.",
+        title: "Если нет донорской зоны",
+        href: "/almaty/net-donorskoy-zony",
+        description: "Когда пересадка невозможна или нецелесообразна.",
       },
       {
-        title: "До и после",
-        href: "/almaty/muzhchinam/do-posle",
-        description:
-          "Реальные работы, по которым проще оценить похожий случай.",
+        title: "После химиотерапии",
+        href: "/almaty/posle-himioterapii",
+        description: "Деликатная работа после восстановления, по согласованию с врачом.",
       },
     ],
     proofItems: galleryWorks,

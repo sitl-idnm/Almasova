@@ -19,28 +19,21 @@ import {
   defaultTelegramUrl,
   type CityContent,
 } from "@/lib/site-data";
-import { DEFAULT_GENDER } from "@/lib/gender";
 import { nbsp } from "@/shared/lib/typography";
 import styles from "./Header.module.scss";
 
-export function SiteHeader({
-  city,
-  gender = DEFAULT_GENDER,
-}: {
-  city?: CityContent | null;
-  gender?: string;
-}) {
+export function SiteHeader({ city }: { city?: CityContent | null }) {
   const [open, setOpen] = useState(false);
 
   const citySlug = city?.slug ?? "moskva";
-  const base = `/${citySlug}/${gender}`;
+  const base = `/${citySlug}`;
   const links = [
-    { href: `${base}/trihopigmentaciya`, label: "Трихопигментация" },
-    { href: `${base}/kamuflyazh-rubcov-na-golove`, label: "Камуфляж рубцов" },
+    { href: base, label: "Трихопигментация" },
+    { href: `${base}/kamuflyazh-rubcov-na-golove`, label: "Камуфляж" },
     { href: `${base}/ceny`, label: "Цены" },
     { href: `${base}/do-posle`, label: "До / после" },
     { href: `${base}/otzyvy`, label: "Отзывы" },
-    { href: `${base}/faq`, label: "FAQ" },
+    { href: "/blog", label: "Статьи" },
   ];
 
   const phoneHref = city?.phoneHref ?? defaultPhoneHref;

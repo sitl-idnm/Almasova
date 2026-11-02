@@ -1,0 +1,52 @@
+@use "mixins" as *;
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-block: 48px 24px;
+
+  @include mobile {
+    gap: 28px;
+    padding-block: 24px 8px;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 72ch;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  @include section-title;
+  font-size: 48px;
+
+  @include mobile {
+    font-size: 30px;
+  }
+}
+
+.lead {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--text);
+
+  @include mobile {
+    font-size: 17px;
+  }
+}
+
+.byline {
+  font-size: 14px;
+  color: var(--muted);
+}

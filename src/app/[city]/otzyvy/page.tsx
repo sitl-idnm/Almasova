@@ -1,4 +1,3 @@
-import { cityGenderParams, getGenderMeta, type GenderSlug } from "@/lib/gender";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -15,26 +14,25 @@ import {
 } from "@/components/marketing";
 import { YandexReviews } from "@/components/yandex";
 import { supportCopy } from "@/content/support-copy";
-import { cityAlternates, pageMeta } from "@/lib/seo";
+import { cityAlternates, cityParams, pageMeta } from "@/lib/seo";
 import { getBaseUrl, getCityContent } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return cityGenderParams();
+  return cityParams();
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }): Promise<Metadata> {
-  return params.then(({ city, gender }) => {
+  return params.then(({ city }) => {
     const content = getCityContent(city);
-    const g = getGenderMeta(gender);
-    if (!content || !g) return {};
+    if (!content) return {};
     return pageMeta({
-      title: `Отзывы о трихопигментации в ${content.prepositionalName} ${g.forWhom}`,
+      title: `Трихопигментация в ${content.prepositionalName}: отзывы клиентов`,
       description: `Отзывы по трихопигментации и камуфляжу рубцов в ${content.prepositionalName}. Залысины, макушка, рубцы на голове и случаи после пересадки волос.`,
-      alternates: cityAlternates(content.slug, gender as GenderSlug, "/otzyvy"),
+      alternates: cityAlternates(content.slug, "/otzyvy"),
     });
   });
 }
@@ -42,9 +40,9 @@ export function generateMetadata({
 export default async function ReviewsPage({
   params,
 }: {
-  params: Promise<{ city: string; gender: string }>;
+  params: Promise<{ city: string }>;
 }) {
-  const { city, gender } = await params;
+  const { city } = await params;
   const content = getCityContent(city);
   if (!content) notFound();
   const copy = supportCopy.reviews;
@@ -57,14 +55,14 @@ export default async function ReviewsPage({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: `Отзывы в ${cityIn}`,
-          url: getBaseUrl(`/${content.slug}/${gender}/otzyvy`),
+          url: getBaseUrl(`/${content.slug}/otzyvy`),
         }}
       />
-      <SiteHeader city={content} gender={gender} />
+      <SiteHeader city={content} />
       <Breadcrumbs
         items={[
           { href: "/", label: "Главная" },
-          { href: `/${content.slug}/${gender}`, label: content.name },
+          { href: `/${content.slug}`, label: content.name },
           { label: "Отзывы" },
         ]}
       />
@@ -75,7 +73,7 @@ export default async function ReviewsPage({
           subtitle={copy.hero.subtitleTemplate}
           support={copy.hero.support}
           primaryHref={`tel:${content.phoneHref}`}
-          secondaryHref={`/${content.slug}/${gender}/do-posle`}
+          secondaryHref={`/${content.slug}/do-posle`}
           secondaryLabel="Смотреть работы"
         />
 
@@ -109,7 +107,7 @@ export default async function ReviewsPage({
           <ContactCard city={content} />
         </Section>
       </main>
-      <SiteFooter city={content} gender={gender} />
+      <SiteFooter city={content} />
     </>
   );
 }

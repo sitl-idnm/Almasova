@@ -11,9 +11,9 @@ import styles from "./gender.module.scss";
 const SLUG: Record<Gender, string> = { male: "muzhchinam", female: "zhenshchinam" };
 
 /**
- * Toggle between the male/female URL variants (/[city]/[gender]/...).
- * On a gendered path it navigates (swaps the gender segment); off it (e.g. "/")
- * it falls back to the cookie/theme toggle.
+ * Переключатель «мужчинам / женщинам». На хабах /[city]/muzhchinam|zhenshchinam
+ * переходит на парный хаб; на остальных страницах (они общие для обоих полов)
+ * меняет только тему и видимые гендерные акценты — URL и контент те же.
  */
 export function GenderToggle() {
   const stored = useGender();
@@ -22,7 +22,7 @@ export function GenderToggle() {
   const pathname = usePathname() || "/";
   const router = useRouter();
 
-  const match = pathname.match(/^\/(moskva|almaty)\/(muzhchinam|zhenshchinam)(\/.*)?$/);
+  const match = pathname.match(/^\/(moskva|almaty)\/(muzhchinam|zhenshchinam)\/?$/);
   const urlGender: Gender | null = match ? (match[2] === "zhenshchinam" ? "female" : "male") : null;
 
   const g: Gender =
@@ -33,7 +33,7 @@ export function GenderToggle() {
     setGender(next);
     setPending({ path: pathname, gender: next });
     if (match) {
-      router.push(`/${match[1]}/${SLUG[next]}${match[3] ?? ""}`);
+      router.push(`/${match[1]}/${SLUG[next]}`);
     }
   };
 

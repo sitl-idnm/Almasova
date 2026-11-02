@@ -1,8 +1,8 @@
 import type { GenderSlug } from "@/lib/gender";
 
 /**
- * Гендерное разведение контента, чтобы /muzhchinam/ и /zhenshchinam/ не были
- * дублями: разный H1-хвост и разный вводный абзац под аудиторию.
+ * Вводный абзац героя под аудиторию. Страницы одни на оба пола, поэтому в HTML
+ * рендерятся ОБА варианта (GenderLead), видимый выбирает тема — без дублей URL.
  * Ключ верхнего уровня — пол, внутри — по типу страницы (fallback = default).
  */
 type GenderLead = {
@@ -46,7 +46,3 @@ export const genderLead: Record<GenderSlug, Record<string, GenderLead>> = {
     },
   },
 };
-
-export function leadFor(gender: GenderSlug, page: string): string {
-  return (genderLead[gender][page] ?? genderLead[gender].default).lead;
-}

@@ -90,7 +90,7 @@ export const Advantages: FC = () => {
 
         <Button
           as={Link}
-          href="/moskva/muzhchinam/trihopigmentaciya"
+          href="/moskva"
           variant="accent"
           className={styles.cta}
         >

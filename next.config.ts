@@ -3,32 +3,44 @@ import path from "node:path";
 
 const stylesDir = path.join(process.cwd(), "src/shared/styles");
 
+const CITY = ":city(moskva|almaty)";
+const GENDER = ":gender(muzhchinam|zhenshchinam)";
+
 /**
- * Старая (проиндексированная) структура была плоской: /[city]/<подстраница>.
- * Редизайн ввёл сегмент пола: /[city]/[gender]/<подстраница>. Чтобы не потерять
- * позиции и входящий трафик по старым адресам, отдаём 308-редиректы на дефолтный
- * пол (muzhchinam). Список = все прежние подстраницы города + concern-страницы.
+ * Страницы, которые живут по одной на город: /[city]/<slug>. Раньше каждая была
+ * в двух копиях /[city]/muzhchinam/<slug> и /[city]/zhenshchinam/<slug> с
+ * одинаковыми заголовками — поисковики склеивали пары (анализ конкурентов
+ * 02.11.2026). Теперь гендерные копии 301-ят на единственный адрес.
  */
-const OLD_SUBPATHS = [
-  "trihopigmentaciya",
+const CITY_PAGES = [
   "kamuflyazh-rubcov-na-golove",
   "ceny",
   "do-posle",
   "otzyvy",
   "faq",
   "kontakty",
-  // concern-страницы (были на /[city]/[concern])
   "posle-peresadki-volos",
   "rubcy-posle-fue-fut",
-  "redkie-volosy-u-zhenshchin",
   "zagushchenie-makushki",
   "net-donorskoy-zony",
-  "neudachnaya-peresadka-volos",
-  "effekt-brityh-volos",
   "liniya-rosta-volos",
   "posle-himioterapii",
-  "trihopigmentaciya-dlya-zhenshchin",
-];
+].join("|");
+
+/**
+ * Страницы, слитые с другими (каннибализировали один запрос). Ключ — старый
+ * slug (и с полом, и без — плоская структура до редизайна), значение — куда теперь.
+ */
+const MERGED: Record<string, string> = {
+  trihopigmentaciya: "",
+  "trihopigmentaciya-dlya-zhenshchin": "/zhenshchinam",
+  "redkie-volosy-u-zhenshchin": "/zhenshchinam",
+  "effekt-brityh-volos": "/muzhchinam",
+  "neudachnaya-peresadka-volos": "/posle-peresadki-volos",
+};
+
+/** Технические и альтернативные хосты → основной домен. */
+const ALT_HOSTS = ["almasova.vercel.app", "www.almasova.com"];
 
 /**
  * CSP пока только в режиме Report-Only: браузер ничего не блокирует, а лишь
@@ -108,17 +120,23 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Старый плоский адрес города → дефолтный пол.
+      // almasova.vercel.app попал в индекс Яндекса как дубль сайта.
+      ...ALT_HOSTS.map((host) => ({
+        source: "/:path*",
+        has: [{ type: "host" as const, value: host }],
+        destination: "https://almasova.com/:path*",
+        statusCode: 301 as const,
+      })),
+      // Слитые страницы — и из гендерной структуры, и из старой плоской.
+      ...Object.entries(MERGED).flatMap(([slug, target]) => [
+        { source: `/${CITY}/${GENDER}/${slug}`, destination: `/:city${target}`, statusCode: 301 as const },
+        { source: `/${CITY}/${slug}`, destination: `/:city${target}`, statusCode: 301 as const },
+      ]),
+      // Гендерные копии обычных страниц → одна страница на город.
       {
-        source: "/:city(moskva|almaty)",
-        destination: "/:city/muzhchinam",
-        permanent: true,
-      },
-      // Старые плоские подстраницы и concern-страницы → под /muzhchinam/.
-      {
-        source: `/:city(moskva|almaty)/:slug(${OLD_SUBPATHS.join("|")})`,
-        destination: "/:city/muzhchinam/:slug",
-        permanent: true,
+        source: `/${CITY}/${GENDER}/:slug(${CITY_PAGES})`,
+        destination: "/:city/:slug",
+        statusCode: 301,
       },
     ];
   },

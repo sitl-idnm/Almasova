@@ -13,22 +13,15 @@ import {
   specialistName,
   type CityContent,
 } from "@/lib/site-data";
-import { DEFAULT_GENDER } from "@/lib/gender";
 import { legalDocs, operator } from "@/content/legal";
 import { nbsp } from "@/shared/lib/typography";
 import styles from "./Footer.module.scss";
 
-export function SiteFooter({
-  city,
-  gender = DEFAULT_GENDER,
-}: {
-  city?: CityContent | null;
-  gender?: string;
-}) {
+export function SiteFooter({ city }: { city?: CityContent | null }) {
   const phoneHref = city?.phoneHref ?? defaultPhoneHref;
   const phoneDisplay = city?.phoneDisplay ?? defaultPhoneDisplay;
   const citySlug = city?.slug ?? "moskva";
-  const base = `/${citySlug}/${gender}`;
+  const base = `/${citySlug}`;
   const year = new Date().getFullYear();
 
   return (
@@ -62,15 +55,19 @@ export function SiteFooter({
 
         <div className={styles.col}>
           <p className={styles.colLabel}>Города</p>
-          <Link href={`/moskva/${gender}`}>{nbsp("Москва")}</Link>
-          <Link href={`/almaty/${gender}`}>{nbsp("Алматы")}</Link>
+          <Link href="/moskva">{nbsp("Москва")}</Link>
+          <Link href="/almaty">{nbsp("Алматы")}</Link>
+          <Link href={`${base}/muzhchinam`}>{nbsp("Мужчинам")}</Link>
+          <Link href={`${base}/zhenshchinam`}>{nbsp("Женщинам")}</Link>
         </div>
 
         <div className={styles.col}>
           <p className={styles.colLabel}>Разделы</p>
           <Link href={`${base}/do-posle`}>{nbsp("До и после")}</Link>
           <Link href={`${base}/ceny`}>{nbsp("Цены")}</Link>
+          <Link href={`${base}/otzyvy`}>{nbsp("Отзывы")}</Link>
           <Link href={`${base}/faq`}>{nbsp("Вопросы")}</Link>
+          <Link href="/blog">{nbsp("Статьи")}</Link>
           <Link href={`${base}/kontakty`}>{nbsp("Контакты")}</Link>
         </div>
 
