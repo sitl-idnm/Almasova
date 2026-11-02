@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import {
-  ChatCircleDotsIcon,
   ListIcon,
   PhoneIcon,
-  TelegramLogoIcon,
   XIcon,
 } from "@phosphor-icons/react";
 
@@ -16,7 +14,6 @@ import {
   brandName,
   defaultPhoneDisplay,
   defaultPhoneHref,
-  defaultTelegramUrl,
   type CityContent,
 } from "@/lib/site-data";
 import { nbsp } from "@/shared/lib/typography";
@@ -58,24 +55,6 @@ export function SiteHeader({ city }: { city?: CityContent | null }) {
         <div className={styles.actions}>
           <CitySwitcher current={city?.slug} />
           <GenderToggle />
-
-          <div className={styles.socials}>
-            <a href={`tel:${phoneHref}`} className={styles.social} aria-label="Позвонить">
-              <PhoneIcon size={18} weight="fill" />
-            </a>
-            <a
-              href={defaultTelegramUrl}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.social}
-              aria-label="Telegram"
-            >
-              <TelegramLogoIcon size={18} weight="fill" />
-            </a>
-            <span className={styles.social} role="img" aria-label="MAX" title="MAX">
-              <ChatCircleDotsIcon size={18} weight="fill" />
-            </span>
-          </div>
 
           <a className={styles.cta} href={`tel:${phoneHref}`}>
             <PhoneIcon size={18} weight="fill" />

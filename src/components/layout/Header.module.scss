@@ -120,38 +120,6 @@
   }
 }
 
-.socials {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  // Secondary contacts — hidden until there is genuine room (CTA + burger cover it).
-  @media (max-width: 1440px) {
-    display: none;
-  }
-}
-
-.social {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--r-pill);
-  border: 1px solid var(--line);
-  background: var(--surface-2);
-  color: var(--text);
-  transition:
-    border-color 160ms ease,
-    color 160ms ease,
-    background-color 160ms ease;
-
-  &:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-}
-
 .cta {
   display: inline-flex;
   align-items: center;
